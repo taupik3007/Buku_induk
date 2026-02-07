@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('cls_code');
             $table->string('cls_level');
             $table->unsignedBigInteger('cls_major_id');
-            $table->foreign('cls_major_id')->references('cls_id')->on('majors')->onDelete('cascade');
+            $table->foreign('cls_major_id')->references('mjr_id')->on('majors')->onDelete('cascade');
             $table->bigInteger('cls_number');
             $table->unsignedBigInteger('cls_homeroom_id');
             $table->foreign('cls_homeroom_id')->references('usr_id')->on('users')->onDelete('cascade');
