@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Administration;
 
 use App\Http\Controllers\Controller;
+use App\Models\Classes;
 use Illuminate\Http\Request;
 
 class ClassController extends Controller
@@ -12,7 +13,11 @@ class ClassController extends Controller
      */
     public function index()
     {
-        //
+        $class = Classes::with('major')->get();
+        $title = 'Hapus Kelas!';
+        $text = "Apakah Anda yakin ingin menghapus?";
+        confirmDelete($title, $text);
+        return view('administration.class.index', compact(['class']));
     }
 
     /**

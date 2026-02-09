@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Administration\AcademicYearController;
+use App\Http\Controllers\Administration\ClassController;
 use App\Http\Controllers\Administration\MajorController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +28,22 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::get('/{id}/edit', [MajorController::class, 'edit'])->name('edit');
         Route::post('/{id}/edit', [MajorController::class, 'update'])->name('update');
         Route::delete('/{id}/destroy', [MajorController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('academic_years')->name('academic_years.')->group(function () {
+        Route::get('/', [AcademicYearController::class, 'index'])->name('academic_years');
+        Route::get('/create', [AcademicYearController::class, 'create'])->name('academic_years.create');
+        Route::post('/create', [AcademicYearController::class, 'store'])->name('academic_years.store');
+        Route::get('/{id}/edit', [AcademicYearController::class, 'edit'])->name('academic_years.edit');
+        Route::post('/{id}/edit', [AcademicYearController::class, 'update'])->name('academic_years.update');
+        Route::delete('/{id}/destroy', [AcademicYearController::class, 'destroy'])->name('academic_years.destroy');
+    });
+    Route::prefix('classes')->name('classes.')->group(function () {
+        Route::get('/', [ClassController::class, 'index'])->name('classes');
+        Route::get('/create', [ClassController::class, 'create'])->name('classes.create');
+        Route::post('/create', [ClassController::class, 'store'])->name('classes.store');
+        Route::get('/{id}/edit', [ClassController::class, 'edit'])->name('classes.edit');
+        Route::post('/{id}/edit', [ClassController::class, 'update'])->name('classes.update');
+        Route::delete('/{id}/destroy', [ClassController::class, 'destroy'])->name('classes.destroy');
     });
 });
 

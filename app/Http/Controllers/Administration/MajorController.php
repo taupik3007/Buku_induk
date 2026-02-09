@@ -64,7 +64,13 @@ class MajorController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $update_major =Majors::findOrFail($id); 
+        $update_major->mjr_name = $request->mjr_name;
+        $update_major->mjr_abbr = $request->mjr_abbr;
+        $update_major->save();
+
+        Alert::success('Berhasil Mengedit', 'Berhasil mengubah data jurusan');
+        return redirect('/administration/major');
     }
 
     /**
@@ -72,6 +78,10 @@ class MajorController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $destroy_major = Majors::findOrFail($id);
+        //dd ($destroyScopeCategories);
+        $destroy_major->delete();
+        Alert::success('Berhasil Menghapus', 'Berhasil menghapus data jurusan');
+        return redirect('/administration/major');
     }
 }

@@ -6,7 +6,7 @@
 @endpush
 
 @section('title')
-    SITAW | Daftar Kelas
+    SiMAPUT | Daftar Tahun Ajaran
 @endsection
 
 @section('content')
@@ -15,14 +15,16 @@
             <div class="card-body px-4 py-3">
               <div class="row align-items-center">
                 <div class="col-9">
-                  <h4 class="fw-semibold mb-8">KELAS</h4>
+                  <h4 class="fw-semibold mb-8">TAHUN AJARAN</h4>
                   <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                    <li class="breadcrumb-item" aria-current="page">Daftar Kelas</li>
+                    <li class="breadcrumb-item" aria-current="page">Daftar Tahun Ajaran</li>
                       <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" href="/administration/classes/create">Tambah Kelas</a>
+                        <a class="text-muted text-decoration-none" href="/administration/academic_years/create">Tambah Tahun Ajaran</a>
                       </li>
-                      <li class="breadcrumb-item" aria-current="page">Edit Kelas</li>
+                      <li class="breadcrumb-item">
+                        <a class="text-muted text-decoration-none" href="/administration/academic_years/{id}/edit">Edit Tahun Ajaran</a>
+                      </li>
                     </ol>
                    
                   </nav>
@@ -35,12 +37,11 @@
               </div>
             </div>
           </div>
-       
         <div class="card">
             <div class="card-body">
                 <div class="mb-5 position-relative">
-                    <h4 class="card-title mb-0">Daftar Kelas</h4>
-                    <a href="/administration/classes/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Kategori</a>
+                    <h4 class="card-title mb-0">Daftar Kategori</h4>
+                    <a href="/administration/academic_years/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Kategori</a>
                 </div>
                 <p class="card-subtitle mb-3">
                     
@@ -51,9 +52,8 @@
                             <!-- start row -->
                             <tr>
                                 <th width="10%">No</th>
-                                <th>Tingkatan</th>
-                                <th>Jurusan</th>
-                                <th>Nomor</th>
+                                <th>Tahun Ajaran</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                                 
                             </tr>
@@ -61,23 +61,28 @@
                         </thead>
                         <tbody>
                           <!-- start row -->
-                          @foreach ( $class as $no=> $class)
-                            <tr>
-                                
-                                <td>{{$no+1}}</td>
-                                <td>{{ $class->cls_level}}</td>
-                                <td>{{ $class->major->mjr_abbr ?? '-' }}</td>
-                                <td>{{ $class->cls_number}}</td>
-                                <td>
-                                     <a href="/administration/classes/{{ $class->cls_id}}/edit" class="btn btn-primary">Edit</a>
-                                     <a href="/administration/classes/{{ $class->cls_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
-  
-                                </td>
-  
-  
-                                
-                            </tr>
-                            @endforeach
+                          @foreach ( $academic_year as $no=> $academic)
+                          <tr>
+                              
+                              <td>{{$no+1}}</td>
+                              <td>{{ $academic->academic_year }}</td>
+                              <td>
+                                @if($academic->acy_status == 1)
+                                    <span class="badge bg-success">Aktif</span>
+                                @else
+                                    <span class="badge bg-secondary">Nonaktif</span>
+                                @endif
+                            </td>
+                              <td>
+                                   <a href="/administration/academic_years/{{ $academic->acy_id}}/edit" class="btn btn-primary">Edit</a>
+                                   <a href="/administration/academic_years/{{ $academic->acy_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+
+                              </td>
+
+
+                              
+                          </tr>
+                          @endforeach
                           <!-- end row -->
                           
                       </tbody>
@@ -87,9 +92,8 @@
 
                             <tr>
                                 <th width="10%">No</th>
-                                <th>Tingkatan</th>
-                                <th>Jurusan</th>
-                                <th>Nomor</th>
+                                <th>Tahun Ajaran</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                             <!-- end row -->
