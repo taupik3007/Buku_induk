@@ -45,6 +45,14 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::post('/{id}/edit', [ClassController::class, 'update'])->name('classes.update');
         Route::delete('/{id}/destroy', [ClassController::class, 'destroy'])->name('classes.destroy');
     });
+     Route::prefix('gararetek')->name('gararetek.')->group(function () {
+        Route::get('/', [ClassController::class, 'index'])->name('classes');
+        Route::get('/create', [ClassController::class, 'create'])->name('classes.create');
+        Route::post('/create', [ClassController::class, 'store'])->name('classes.store');
+        Route::get('/{id}/edit', [ClassController::class, 'edit'])->name('classes.edit');
+        Route::post('/{id}/edit', [ClassController::class, 'update'])->name('classes.update');
+        Route::delete('/{id}/destroy', [ClassController::class, 'destroy'])->name('classes.destroy');
+    });
 });
 
 require __DIR__.'/auth.php';
