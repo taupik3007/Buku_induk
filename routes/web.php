@@ -3,6 +3,7 @@
 use App\Http\Controllers\Administration\AcademicYearController;
 use App\Http\Controllers\Administration\ClassController;
 use App\Http\Controllers\Administration\MajorController;
+use App\Http\Controllers\prospectiveStudentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,13 +46,21 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::post('/{id}/edit', [ClassController::class, 'update'])->name('classes.update');
         Route::delete('/{id}/destroy', [ClassController::class, 'destroy'])->name('classes.destroy');
     });
-     Route::prefix('gararetek')->name('gararetek.')->group(function () {
-        Route::get('/', [ClassController::class, 'index'])->name('classes');
-        Route::get('/create', [ClassController::class, 'create'])->name('classes.create');
-        Route::post('/create', [ClassController::class, 'store'])->name('classes.store');
-        Route::get('/{id}/edit', [ClassController::class, 'edit'])->name('classes.edit');
-        Route::post('/{id}/edit', [ClassController::class, 'update'])->name('classes.update');
-        Route::delete('/{id}/destroy', [ClassController::class, 'destroy'])->name('classes.destroy');
+    //  Route::prefix('gararetek')->name('gararetek.')->group(function () {
+    //     Route::get('/', [ClassController::class, 'index'])->name('classes');
+    //     Route::get('/create', [ClassController::class, 'create'])->name('classes.create');
+    //     Route::post('/create', [ClassController::class, 'store'])->name('classes.store');
+    //     Route::get('/{id}/edit', [ClassController::class, 'edit'])->name('classes.edit');
+    //     Route::post('/{id}/edit', [ClassController::class, 'update'])->name('classes.update');
+    //     Route::delete('/{id}/destroy', [ClassController::class, 'destroy'])->name('classes.destroy');
+    // });
+    Route::prefix('prospective-student')->name('prospectiveStudent.')->group(function () {
+        Route::get('/biodata', [prospectiveStudentController::class, 'biodata'])->name('biodata');
+        Route::get('/address', [prospectiveStudentController::class, 'address'])->name('address');
+        Route::get('/physical-condition', [prospectiveStudentController::class, 'physicalCondition'])->name('physicalCondition');
+        Route::get('/parent-father', [prospectiveStudentController::class, 'parentFather'])->name('parentFather');
+        Route::get('/parent-mother', [prospectiveStudentController::class, 'parentMother'])->name('parentMother');
+        Route::get('/parent-guardian', [prospectiveStudentController::class, 'parentGuardian'])->name('parentGuardian');
     });
 });
 
