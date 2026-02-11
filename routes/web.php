@@ -4,6 +4,8 @@ use App\Http\Controllers\Administration\AcademicYearController;
 use App\Http\Controllers\Administration\ClassController;
 use App\Http\Controllers\Administration\MajorController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Student\DashboardController;
+use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -52,6 +54,18 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::get('/{id}/edit', [ClassController::class, 'edit'])->name('classes.edit');
         Route::post('/{id}/edit', [ClassController::class, 'update'])->name('classes.update');
         Route::delete('/{id}/destroy', [ClassController::class, 'destroy'])->name('classes.destroy');
+    });
+});
+
+Route::prefix('student')->name('student.')->group(function () {
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('index');
+    });
+});
+
+Route::prefix('teacher')->name('teacher.')->group(function () {
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::get('/', [TeacherDashboardController::class, 'index'])->name('index');
     });
 });
 
