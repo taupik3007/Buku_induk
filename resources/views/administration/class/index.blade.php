@@ -6,7 +6,7 @@
 @endpush
 
 @section('title')
-    SITAW | Daftar Kelas
+    SiMAPUT | Daftar Kelas
 @endsection
 
 @section('content')
@@ -40,7 +40,7 @@
             <div class="card-body">
                 <div class="mb-5 position-relative">
                     <h4 class="card-title mb-0">Daftar Kelas</h4>
-                    <a href="/administration/classes/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Kategori</a>
+                    <a href="/administration/classes/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Kelas</a>
                 </div>
                 <p class="card-subtitle mb-3">
                     
@@ -51,9 +51,12 @@
                             <!-- start row -->
                             <tr>
                                 <th width="10%">No</th>
+                                <th>Kode Kelas</th>
                                 <th>Tingkatan</th>
                                 <th>Jurusan</th>
                                 <th>Nomor</th>
+                                <th>Wali Kelas</th>
+                                <th>Tahun Ajaran</th>
                                 <th>Aksi</th>
                                 
                             </tr>
@@ -65,9 +68,12 @@
                             <tr>
                                 
                                 <td>{{$no+1}}</td>
+                                <td>{{ $class->cls_code}}</td>
                                 <td>{{ $class->cls_level}}</td>
-                                <td>{{ $class->major->mjr_abbr ?? '-' }}</td>
+                                <td>{{ $class->cls_major->mjr_abbr ?? '-' }}</td>
                                 <td>{{ $class->cls_number}}</td>
+                                <td>{{ $class->cls_homeroom->usr_name ?? '-' }}</td>
+                                <td>{{ $class->cls_academic->acy_year ?? '-' }}</td>
                                 <td>
                                      <a href="/administration/classes/{{ $class->cls_id}}/edit" class="btn btn-primary">Edit</a>
                                      <a href="/administration/classes/{{ $class->cls_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
@@ -86,11 +92,14 @@
                             
 
                             <tr>
-                                <th width="10%">No</th>
-                                <th>Tingkatan</th>
-                                <th>Jurusan</th>
-                                <th>Nomor</th>
-                                <th>Aksi</th>
+                              <th width="10%">No</th>
+                              <th>Kode Kelas</th>
+                              <th>Tingkatan</th>
+                              <th>Jurusan</th>
+                              <th>Nomor</th>
+                              <th>Wali Kelas</th>
+                              <th>Tahun Ajaran</th>
+                              <th>Aksi</th>
                             </tr>
                             <!-- end row -->
                         </tfoot>
