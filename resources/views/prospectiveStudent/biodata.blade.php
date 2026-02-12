@@ -195,7 +195,14 @@
                                             <div class="bs-stepper-content">
 
                                                 <div id="step-1" class="content">
-                                                    <input name="nama" class="form-control mb-3">
+                                                    <div class="mb-3">
+                                                        <label for="nama" class="form-label fw-semibold">
+                                                            Jenis Kelamin
+                                                        </label>
+                                                        <input type="text" id="nama" name="nama"
+                                                            class="form-control" placeholder="Masukkan nama lengkap">
+                                                    </div>
+
                                                     <button type="button" class="btn btn-primary"
                                                         onclick="stepper.next()">
                                                         Lanjut
@@ -203,6 +210,9 @@
                                                 </div>
 
                                                 <div id="step-2" class="content">
+                                                    <label for="nama" class="form-label fw-semibold">
+                                                            Nama Lengkap
+                                                        </label>
                                                     <input name="alamat" class="form-control mb-3">
                                                     <button type="submit" class="btn btn-success">
                                                         Simpan
@@ -218,20 +228,20 @@
                     </div>
                 </div>
 
-              
+
             </div>
         </section>
         <!-- ------------------------------------- -->
         <!-- List End -->
         <!-- ------------------------------------- -->
 
-      
+
     </div>
 
     <!-- ------------------------------------- -->
     <!-- Footer Start -->
     <!-- ------------------------------------- -->
-    
+
     <!-- ------------------------------------- -->
     <!-- Footer End -->
     <!-- ------------------------------------- -->
