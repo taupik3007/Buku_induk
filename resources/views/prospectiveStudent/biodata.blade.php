@@ -198,9 +198,25 @@
                                             <div class="step" data-target="#step-4">
                                                 <button class="step-trigger">
                                                     <span class="bs-stepper-circle">4</span>
-                                                    <span class="bs-stepper-label">Alamat</span>
+                                                    <span class="bs-stepper-label">Data Ayah</span>
                                                 </button>
                                             </div>
+                                            <div class="line"></div>
+                                            <div class="step" data-target="#step-5">
+                                                <button class="step-trigger">
+                                                    <span class="bs-stepper-circle">5</span>
+                                                    <span class="bs-stepper-label">Data Ibu</span>
+                                                </button>
+                                            </div>
+                                            <div class="line"></div>
+
+                                            <div class="step" data-target="#step-6">
+                                                <button class="step-trigger">
+                                                    <span class="bs-stepper-circle">6</span>
+                                                    <span class="bs-stepper-label">Data Wali</span>
+                                                </button>
+                                            </div>
+
                                         </div>
 
                                         <form method="POST" action="/register">
@@ -221,15 +237,18 @@
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Tempat Lahir</label>
+                                                        <label class="mr-sm-2 mb-3"
+                                                            for="inlineFormCustomSelect">Tempat Lahir</label>
                                                         <input type="text" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Tenggal lahir</label>
+                                                        <label class="mr-sm-2 mb-3"
+                                                            for="inlineFormCustomSelect">Tenggal lahir</label>
                                                         <input type="date" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Agama</label>
+                                                        <label class="mr-sm-2 mb-3"
+                                                            for="inlineFormCustomSelect">Agama</label>
                                                         <select class="form-select mr-sm-2"
                                                             id="inlineFormCustomSelect">
                                                             <option selected>Pilih ..</option>
@@ -239,23 +258,28 @@
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Anak ke</label>
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Anak
+                                                            ke</label>
                                                         <input type="number" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Dari berapa bersaudara</label>
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Dari
+                                                            berapa bersaudara</label>
                                                         <input type="number" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Jumlah Saudara tiri</label>
+                                                        <label class="mr-sm-2 mb-3"
+                                                            for="inlineFormCustomSelect">Jumlah Saudara tiri</label>
                                                         <input type="number" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Jumlah Saudara Angkat</label>
+                                                        <label class="mr-sm-2 mb-3"
+                                                            for="inlineFormCustomSelect">Jumlah Saudara Angkat</label>
                                                         <input type="number" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Status Keluarga</label>
+                                                        <label class="mr-sm-2 mb-3"
+                                                            for="inlineFormCustomSelect">Status Keluarga</label>
                                                         <select class="form-select mr-sm-2"
                                                             id="inlineFormCustomSelect">
                                                             <option selected>Pilih ..</option>
@@ -264,15 +288,19 @@
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Bahasa Sehari hari</label>
+                                                        <label class="mr-sm-2 mb-3"
+                                                            for="inlineFormCustomSelect">Bahasa Sehari hari</label>
                                                         <input type="text" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">telp</label>
-                                                        <input type="tel" class="form-control" value="1-(444)-444-4445">
+                                                        <label class="mr-sm-2 mb-3"
+                                                            for="inlineFormCustomSelect">telp</label>
+                                                        <input type="tel" class="form-control"
+                                                            value="1-(444)-444-4445">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Tinggal</label>
+                                                        <label class="mr-sm-2 mb-3"
+                                                            for="inlineFormCustomSelect">Tinggal</label>
                                                         <select class="form-select mr-sm-2"
                                                             id="inlineFormCustomSelect">
                                                             <option selected>Pilih ..</option>
@@ -280,7 +308,7 @@
                                                             <option value="2">Tidak Dengan orang tua</option>
                                                         </select>
                                                     </div>
-                                                    
+                                                   
 
                                                     <button type="button" class="btn btn-primary"
                                                         onclick="stepper.next()">
@@ -289,12 +317,13 @@
                                                 </div>
 
 
-                                            {{-- step 2 --}}
+                                                {{-- step 2 --}}
 
 
                                                 <div id="step-2" class="content">
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Provinsi</label>
+                                                        <label class="mr-sm-2 mb-3"
+                                                            for="inlineFormCustomSelect">Provinsi</label>
                                                         <select class="form-select mr-sm-2"
                                                             id="inlineFormCustomSelect">
                                                             <option selected>Pilih ..</option>
@@ -304,7 +333,8 @@
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">kabupaten/Kota</label>
+                                                        <label class="mr-sm-2 mb-3"
+                                                            for="inlineFormCustomSelect">kabupaten/Kota</label>
                                                         <select class="form-select mr-sm-2"
                                                             id="inlineFormCustomSelect">
                                                             <option selected>Pilih ..</option>
@@ -314,7 +344,8 @@
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">kecamatan</label>
+                                                        <label class="mr-sm-2 mb-3"
+                                                            for="inlineFormCustomSelect">kecamatan</label>
                                                         <select class="form-select mr-sm-2"
                                                             id="inlineFormCustomSelect">
                                                             <option selected>Pilih ..</option>
@@ -324,7 +355,8 @@
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Desa</label>
+                                                        <label class="mr-sm-2 mb-3"
+                                                            for="inlineFormCustomSelect">Desa</label>
                                                         <select class="form-select mr-sm-2"
                                                             id="inlineFormCustomSelect">
                                                             <option selected>Pilih ..</option>
@@ -334,7 +366,8 @@
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Kode pos</label>
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Kode
+                                                            pos</label>
                                                         <select class="form-select mr-sm-2"
                                                             id="inlineFormCustomSelect">
                                                             <option selected>Pilih ..</option>
@@ -344,14 +377,20 @@
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Jarak Rumah ke Sekolah</label>
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Jarak
+                                                            Rumah ke Sekolah</label>
                                                         <input type="text" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Jarak Rumah ke Sekolah</label>
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Jarak
+                                                            Rumah ke Sekolah</label>
                                                         <textarea class="form-control" rows="3"></textarea>
                                                     </div>
-                                                    
+                                                    <button type="button" class="btn btn-secondary"
+                                                        onclick="stepper.previous()">
+                                                        Kembali
+                                                    </button>
+
                                                     <button type="button" class="btn btn-primary"
                                                         onclick="stepper.next()">
                                                         Lanjut
@@ -361,26 +400,35 @@
                                                 {{-- step 3  --}}
 
                                                 <div id="step-3" class="content">
-                                                   <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Golongan Darah</label>
+                                                    <div class="mb-3">
+                                                        <label class="mr-sm-2 mb-3"
+                                                            for="inlineFormCustomSelect">Golongan Darah</label>
                                                         <input type="text" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Penyakit Bawaan</label>
+                                                        <label class="mr-sm-2 mb-3"
+                                                            for="inlineFormCustomSelect">Penyakit Bawaan</label>
                                                         <input type="text" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">kelainan Jasmani</label>
+                                                        <label class="mr-sm-2 mb-3"
+                                                            for="inlineFormCustomSelect">kelainan Jasmani</label>
                                                         <input type="text" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Tinggi Badan</label>
+                                                        <label class="mr-sm-2 mb-3"
+                                                            for="inlineFormCustomSelect">Tinggi Badan</label>
                                                         <input type="number" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Berat badan</label>
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Berat
+                                                            badan</label>
                                                         <input type="number" class="form-control">
                                                     </div>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        onclick="stepper.previous()">
+                                                        Kembali
+                                                    </button>
                                                     <button type="button" class="btn btn-primary"
                                                         onclick="stepper.next()">
                                                         Lanjut
@@ -389,16 +437,205 @@
 
 
 
-
+                                                {{-- step 4 --}}
                                                 <div id="step-4" class="content">
-                                                    <label for="nama" class="form-label fw-semibold">
-                                                        Tempat Lahir
-                                                    </label>
-                                                    <input name="alamat" class="form-control mb-3">
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Nama Ayah</label>
+                                                        <input type="text" name="nama" class="form-control"
+                                                            placeholder="Nama lengkap">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Kewarganegaraan</label>
+                                                        <input type="text" name="kewarganegaraan"
+                                                            class="form-control" placeholder="Contoh: Indonesia">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Pendidikan</label>
+                                                        <input type="text" name="pendidikan" class="form-control"
+                                                            placeholder="Pendidikan terakhir">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Pekerjaan</label>
+                                                        <input type="text" name="pekerjaan" class="form-control"
+                                                            placeholder="Pekerjaan saat ini">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Penghasilan</label>
+                                                        <input type="number" name="penghasilan" class="form-control"
+                                                            placeholder="Penghasilan per bulan">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Alamat</label>
+                                                        <textarea name="alamat" class="form-control" rows="3" placeholder="Alamat lengkap"></textarea>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Nomor Telepon</label>
+                                                        <input type="number" name="telepon" class="form-control"
+                                                            placeholder="08xxxxxxxxxx">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Status</label>
+                                                        <input type="text" name="status" class="form-control"
+                                                            placeholder="Contoh: Menikah / Belum Menikah">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Keadaan</label>
+                                                        <input type="text" name="keadaan" class="form-control"
+                                                            placeholder="Keterangan kondisi saat ini">
+                                                    </div>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        onclick="stepper.previous()">
+                                                        Kembali
+                                                    </button>
+
+                                                    <button type="button" class="btn btn-primary"
+                                                        onclick="stepper.next()">
+                                                        Lanjut
+                                                    </button>
+                                                </div>
+
+
+                                                {{-- step 5 --}}
+                                                <div id="step-5" class="content">
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Nama Ibu</label>
+                                                        <input type="text" name="ibu_nama" class="form-control"
+                                                            placeholder="Nama lengkap ibu">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Kewarganegaraan</label>
+                                                        <input type="text" name="ibu_kewarganegaraan"
+                                                            class="form-control" placeholder="Contoh: Indonesia">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Pendidikan</label>
+                                                        <input type="text" name="ibu_pendidikan"
+                                                            class="form-control" placeholder="Pendidikan terakhir">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Pekerjaan</label>
+                                                        <input type="text" name="ibu_pekerjaan"
+                                                            class="form-control" placeholder="Pekerjaan saat ini">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Penghasilan</label>
+                                                        <input type="number" name="ibu_penghasilan"
+                                                            class="form-control" placeholder="Penghasilan per bulan">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Alamat</label>
+                                                        <textarea name="ibu_alamat" class="form-control" rows="3" placeholder="Alamat lengkap"></textarea>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Nomor Telepon</label>
+                                                        <input type="text" name="ibu_telepon" class="form-control"
+                                                            placeholder="08xxxxxxxxxx">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Status</label>
+                                                        <input type="text" name="ibu_status" class="form-control"
+                                                            placeholder="Contoh: Menikah / Janda">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Keadaan</label>
+                                                        <input type="text" name="ibu_keadaan" class="form-control"
+                                                            placeholder="Keterangan kondisi saat ini">
+                                                    </div>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        onclick="stepper.previous()">
+                                                        Kembali
+                                                    </button>
+
+                                                    <button type="button" class="btn btn-primary"
+                                                        onclick="stepper.next()">
+                                                        Lanjut
+                                                    </button>
+                                                </div>
+
+
+                                                {{-- step 6 --}}
+                                                <div id="step-6" class="content">
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Nama Wali</label>
+                                                        <input type="text" name="wali_nama" class="form-control"
+                                                            placeholder="Nama lengkap wali">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Kewarganegaraan</label>
+                                                        <input type="text" name="wali_kewarganegaraan"
+                                                            class="form-control" placeholder="Contoh: Indonesia">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Pendidikan</label>
+                                                        <input type="text" name="wali_pendidikan"
+                                                            class="form-control" placeholder="Pendidikan terakhir">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Pekerjaan</label>
+                                                        <input type="text" name="wali_pekerjaan"
+                                                            class="form-control" placeholder="Pekerjaan saat ini">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Penghasilan</label>
+                                                        <input type="number" name="wali_penghasilan"
+                                                            class="form-control" placeholder="Penghasilan per bulan">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Alamat</label>
+                                                        <textarea name="wali_alamat" class="form-control" rows="3" placeholder="Alamat lengkap"></textarea>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Nomor Telepon</label>
+                                                        <input type="text" name="wali_telepon"
+                                                            class="form-control" placeholder="08xxxxxxxxxx">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Status</label>
+                                                        <input type="text" name="wali_status" class="form-control"
+                                                            placeholder="Contoh: Paman / Bibi / Saudara">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2">Keadaan</label>
+                                                        <input type="text" name="wali_keadaan"
+                                                            class="form-control"
+                                                            placeholder="Keterangan kondisi saat ini">
+                                                    </div>
+
+                                                    <button type="button" class="btn btn-secondary"
+                                                        onclick="stepper.previous()">
+                                                        Kembali
+                                                    </button>
+
                                                     <button type="submit" class="btn btn-success">
                                                         Simpan
                                                     </button>
                                                 </div>
+
+
 
                                             </div>
                                         </form>
