@@ -187,6 +187,20 @@
                                                     <span class="bs-stepper-label">Alamat</span>
                                                 </button>
                                             </div>
+                                            <div class="line"></div>
+                                            <div class="step" data-target="#step-3">
+                                                <button class="step-trigger">
+                                                    <span class="bs-stepper-circle">3</span>
+                                                    <span class="bs-stepper-label">Data Ayah</span>
+                                                </button>
+                                            </div>
+                                            <div class="line"></div>
+                                            <div class="step" data-target="#step-4">
+                                                <button class="step-trigger">
+                                                    <span class="bs-stepper-circle">4</span>
+                                                    <span class="bs-stepper-label">Alamat</span>
+                                                </button>
+                                            </div>
                                         </div>
 
                                         <form method="POST" action="/register">
@@ -196,12 +210,77 @@
 
                                                 <div id="step-1" class="content">
                                                     <div class="mb-3">
-                                                        <label for="nama" class="form-label fw-semibold">
-                                                            Jenis Kelamin
-                                                        </label>
-                                                        <input type="text" id="nama" name="nama"
-                                                            class="form-control" placeholder="Masukkan nama lengkap">
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Jenis
+                                                            Kelamin</label>
+                                                        <select class="form-select mr-sm-2"
+                                                            id="inlineFormCustomSelect">
+                                                            <option selected>Pilih ..</option>
+                                                            <option value="1">Laki - laki</option>
+                                                            <option value="2">perempuan</option>
+
+                                                        </select>
                                                     </div>
+                                                    <div class="mb-3">
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Tempat Lahir</label>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Tenggal lahir</label>
+                                                        <input type="date" class="form-control">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Agama</label>
+                                                        <select class="form-select mr-sm-2"
+                                                            id="inlineFormCustomSelect">
+                                                            <option selected>Pilih ..</option>
+                                                            <option value="1">Islam</option>
+                                                            <option value="2">Lain lain</option>
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Anak ke</label>
+                                                        <input type="number" class="form-control">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Dari berapa bersaudara</label>
+                                                        <input type="number" class="form-control">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Jumlah Saudara tiri</label>
+                                                        <input type="number" class="form-control">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Jumlah Saudara Angkat</label>
+                                                        <input type="number" class="form-control">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Status Keluarga</label>
+                                                        <select class="form-select mr-sm-2"
+                                                            id="inlineFormCustomSelect">
+                                                            <option selected>Pilih ..</option>
+                                                            <option value="1">Islam</option>
+                                                            <option value="2">Lain lain</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Bahasa Sehari hari</label>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">telp</label>
+                                                        <input type="tel" class="form-control" value="1-(444)-444-4445">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Tinggal</label>
+                                                        <select class="form-select mr-sm-2"
+                                                            id="inlineFormCustomSelect">
+                                                            <option selected>Pilih ..</option>
+                                                            <option value="1">Bersama Orangtua</option>
+                                                            <option value="2">Tidak Dengan orang tua</option>
+                                                        </select>
+                                                    </div>
+                                                    
 
                                                     <button type="button" class="btn btn-primary"
                                                         onclick="stepper.next()">
@@ -209,10 +288,88 @@
                                                     </button>
                                                 </div>
 
+
+                                            {{-- step 2 --}}
+
+
                                                 <div id="step-2" class="content">
+                                                    <div class="mb-3">
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Provinsi</label>
+                                                        <select class="form-select mr-sm-2"
+                                                            id="inlineFormCustomSelect">
+                                                            <option selected>Pilih ..</option>
+                                                            <option value="1">Laki - laki</option>
+                                                            <option value="2">perempuan</option>
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">kabupaten/Kota</label>
+                                                        <select class="form-select mr-sm-2"
+                                                            id="inlineFormCustomSelect">
+                                                            <option selected>Pilih ..</option>
+                                                            <option value="1">Laki - laki</option>
+                                                            <option value="2">perempuan</option>
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">kecamatan</label>
+                                                        <select class="form-select mr-sm-2"
+                                                            id="inlineFormCustomSelect">
+                                                            <option selected>Pilih ..</option>
+                                                            <option value="1">Laki - laki</option>
+                                                            <option value="2">perempuan</option>
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Desa</label>
+                                                        <select class="form-select mr-sm-2"
+                                                            id="inlineFormCustomSelect">
+                                                            <option selected>Pilih ..</option>
+                                                            <option value="1">Laki - laki</option>
+                                                            <option value="2">perempuan</option>
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Kode pos</label>
+                                                        <select class="form-select mr-sm-2"
+                                                            id="inlineFormCustomSelect">
+                                                            <option selected>Pilih ..</option>
+                                                            <option value="1">Laki - laki</option>
+                                                            <option value="2">perempuan</option>
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Jarak Rumah ke Sekolah</label>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Jarak Rumah ke Sekolah</label>
+                                                        <textarea class="form-control" rows="3"></textarea>
+                                                    </div>
+                                                    
+                                                    <button type="button" class="btn btn-primary"
+                                                        onclick="stepper.next()">
+                                                        Lanjut
+                                                    </button>
+                                                </div>
+                                                <div id="step-3" class="content">
                                                     <label for="nama" class="form-label fw-semibold">
-                                                            Nama Lengkap
-                                                        </label>
+                                                        Tempat Lahir
+                                                    </label>
+                                                    <input name="alamat" class="form-control mb-3">
+                                                    <button type="submit" class="btn btn-success">
+                                                        Simpan
+                                                    </button>
+                                                </div>
+                                                <div id="step-4" class="content">
+                                                    <label for="nama" class="form-label fw-semibold">
+                                                        Tempat Lahir
+                                                    </label>
                                                     <input name="alamat" class="form-control mb-3">
                                                     <button type="submit" class="btn btn-success">
                                                         Simpan
