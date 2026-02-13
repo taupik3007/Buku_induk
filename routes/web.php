@@ -7,6 +7,7 @@ use App\Http\Controllers\prospectiveStudentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Student\DashboardController;
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
+use App\Http\Controllers\Administration\prospectiveTeacherController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -64,6 +65,14 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::get('/parent-mother', [prospectiveStudentController::class, 'parentMother'])->name('parentMother');
         Route::get('/parent-guardian', [prospectiveStudentController::class, 'parentGuardian'])->name('parentGuardian');
     });
+    Route::prefix('prospective-teacher')->name('prospectiveTeacher.')->group(function () {
+        Route::get('/biodata', [prospectiveTeacherController::class, 'biodata'])->name('biodata');
+        Route::get('/address', [prospectiveTeacherController::class, 'address'])->name('address');
+        Route::get('/physical-condition', [prospectiveTeacherController::class, 'physicalCondition'])->name('physicalCondition');
+        Route::get('/parent-father', [prospectiveTeacherController::class, 'parentFather'])->name('parentFather');
+        Route::get('/parent-mother', [prospectiveTeacherController::class, 'parentMother'])->name('parentMother');
+        Route::get('/parent-guardian', [prospectiveTeacherController::class, 'parentGuardian'])->name('parentGuardian');
+    });
 });
 
 Route::prefix('student')->name('student.')->group(function () {
@@ -76,6 +85,7 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::get('/', [TeacherDashboardController::class, 'index'])->name('index');
     });
+
 });
 
 require __DIR__.'/auth.php';

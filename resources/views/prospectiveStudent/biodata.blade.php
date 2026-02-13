@@ -187,6 +187,27 @@
                                                     <span class="bs-stepper-label">Alamat</span>
                                                 </button>
                                             </div>
+                                            <div class="line"></div>
+                                            <div class="step" data-target="#step-3">
+                                                <button class="step-trigger">
+                                                    <span class="bs-stepper-circle">3</span>
+                                                    <span class="bs-stepper-label">Pasangan</span>
+                                                </button>
+                                            </div>
+                                            <div class="line"></div>
+                                            <div class="step" data-target="#step-4">
+                                                <button class="step-trigger">
+                                                    <span class="bs-stepper-circle">4</span>
+                                                    <span class="bs-stepper-label">Riwayat Mengajar</span>
+                                                </button>
+                                            </div>
+                                            <div class="line"></div>
+                                            <div class="step" data-target="#step-5">
+                                                <button class="step-trigger">
+                                                    <span class="bs-stepper-circle">5</span>
+                                                    <span class="bs-stepper-label">Riwayat Pendidikan</span>
+                                                </button>
+                                            </div>
                                         </div>
 
                                         <form method="POST" action="/register">
@@ -201,8 +222,29 @@
                                                         Lanjut
                                                     </button>
                                                 </div>
-
                                                 <div id="step-2" class="content">
+                                                    <input name="alamat" class="form-control mb-3">
+                                                    <button type="button" class="btn btn-primary"
+                                                        onclick="stepper.next()">
+                                                        Lanjut
+                                                    </button>
+                                                </div>
+                                                <div id="step-3" class="content">
+                                                    <input name="alamat" class="form-control mb-3">
+                                                    <button type="button" class="btn btn-primary"
+                                                        onclick="stepper.next()">
+                                                        Lanjut
+                                                    </button>
+                                                </div>
+                                                <div id="step-4" class="content">
+                                                    <input name="alamat" class="form-control mb-3">
+                                                    <button type="button" class="btn btn-primary"
+                                                        onclick="stepper.next()">
+                                                        Lanjut
+                                                    </button>
+                                                </div>
+
+                                                <div id="step-5" class="content">
                                                     <input name="alamat" class="form-control mb-3">
                                                     <button type="submit" class="btn btn-success">
                                                         Simpan
