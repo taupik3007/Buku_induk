@@ -49,39 +49,7 @@
                     data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                     <i class="ti ti-menu-2 fs-8"></i>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mx-auto mb-2 gap-xl-7 gap-8 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link fs-4 fw-bold text-dark link-primary"
-                                href="../main/frontend-aboutpage.html">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active fs-4 fw-bold text-dark link-primary"
-                                href="../main/frontend-blogpage.html">Blog</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link fs-4 fw-bold text-dark link-primary d-flex gap-2"
-                                href="../main/frontend-portfoliopage.html">Portfolio
-                                <span class="badge text-primary bg-primary-subtle fs-2 fw-bolder hstack">New</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link fs-4 fw-bold text-dark link-primary"
-                                href="../main/index.html">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link fs-4 fw-bold text-dark link-primary"
-                                href="../main/frontend-pricingpage.html">Pricing</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link fs-4 fw-bold text-dark link-primary"
-                                href="../main/frontend-contactpage.html">Contact</a>
-                        </li>
-                    </ul>
-                    <div>
-                        <a href="../main/authentication-login.html" class="btn btn-primary py-8 px-9">Log In</a>
-                    </div>
-                </div>
+                
             </div>
         </nav>
     </header>
