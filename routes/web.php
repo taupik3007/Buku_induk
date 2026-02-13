@@ -3,6 +3,7 @@
 use App\Http\Controllers\Administration\AcademicYearController;
 use App\Http\Controllers\Administration\ClassController;
 use App\Http\Controllers\Administration\MajorController;
+use App\Http\Controllers\Administration\prospectiveStaffController;
 use App\Http\Controllers\prospectiveStudentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Student\DashboardController;
@@ -72,6 +73,14 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::get('/parent-father', [prospectiveTeacherController::class, 'parentFather'])->name('parentFather');
         Route::get('/parent-mother', [prospectiveTeacherController::class, 'parentMother'])->name('parentMother');
         Route::get('/parent-guardian', [prospectiveTeacherController::class, 'parentGuardian'])->name('parentGuardian');
+    });
+    Route::prefix('prospective-staff')->name('prospectiveStaff.')->group(function () {
+        Route::get('/biodata', [prospectiveStaffController::class, 'biodata'])->name('biodata');
+        Route::get('/address', [prospectiveStaffController::class, 'address'])->name('address');
+        Route::get('/physical-condition', [prospectiveStaffController::class, 'physicalCondition'])->name('physicalCondition');
+        Route::get('/parent-father', [prospectiveStaffController::class, 'parentFather'])->name('parentFather');
+        Route::get('/parent-mother', [prospectiveStaffController::class, 'parentMother'])->name('parentMother');
+        Route::get('/parent-guardian', [prospectiveStaffController::class, 'parentGuardian'])->name('parentGuardian');
     });
 });
 
