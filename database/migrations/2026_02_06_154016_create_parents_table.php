@@ -15,6 +15,10 @@ return new class extends Migration
             $table->bigIncrements('prt_id');
             $table->unsignedBigInteger('prt_user_id');
             $table->foreign('prt_user_id')->references('usr_id')->on('users')->onDelete('cascade');
+            $table->bigInteger('prn_sibling');
+            $table->bigInteger('prn_step_sibling');
+            $table->bigInteger('prn_adoptive_sibling');
+            $table->bigInteger('prt_status');
             $table->string('prt_father_name');
             $table->string('prt_father_nationality');
             $table->string('prt_father_education');

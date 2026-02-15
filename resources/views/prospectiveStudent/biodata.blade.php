@@ -49,7 +49,7 @@
                     data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                     <i class="ti ti-menu-2 fs-8"></i>
                 </button>
-                
+
             </div>
         </nav>
     </header>
@@ -188,6 +188,8 @@
                                         </div>
 
                                         <form method="POST" action="/register">
+                                            <input type="hidden" id="registration_id" value="">
+
                                             @csrf
 
                                             <div class="bs-stepper-content">
@@ -220,8 +222,9 @@
                                                         <select class="form-select mr-sm-2"
                                                             id="inlineFormCustomSelect">
                                                             <option selected>Pilih ..</option>
-                                                            <option value="1">Islam</option>
-                                                            <option value="2">Lain lain</option>
+                                                             @foreach ($religion as $rlg)
+                                                            <option value="{{$rlg->rlg_id}}">{{$rlg->rlg_name}}</option>
+                                                            @endforeach
 
                                                         </select>
                                                     </div>
@@ -251,8 +254,7 @@
                                                         <select class="form-select mr-sm-2"
                                                             id="inlineFormCustomSelect">
                                                             <option selected>Pilih ..</option>
-                                                            <option value="1">Islam</option>
-                                                            <option value="2">Lain lain</option>
+                                                           
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
@@ -276,12 +278,13 @@
                                                             <option value="2">Tidak Dengan orang tua</option>
                                                         </select>
                                                     </div>
-                                                   
+
 
                                                     <button type="button" class="btn btn-primary"
-                                                        onclick="stepper.next()">
+                                                        onclick="saveStep(1)">
                                                         Lanjut
                                                     </button>
+
                                                 </div>
 
 
@@ -638,6 +641,25 @@
         <i class="ti ti-arrow-up fs-7"></i>
     </a>
 
+    <script>
+        function saveStep(step) {
+            let formData = new FormData(document.querySelector('form'));
+            formData.append('_token', '{{ csrf_token() }}');
+            formData.append('registration_id', document.getElementById('registration_id').value);
+
+            fetch(`prospective-student/register/step/${step}`, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.success) {
+                        document.getElementById('registration_id').value = res.id;
+                        stepper.next();
+                    }
+                });
+        }
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

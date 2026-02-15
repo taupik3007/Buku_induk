@@ -54,14 +54,19 @@ Route::prefix('administration')->name('administration.')->group(function () {
     //     Route::post('/{id}/edit', [ClassController::class, 'update'])->name('classes.update');
     //     Route::delete('/{id}/destroy', [ClassController::class, 'destroy'])->name('classes.destroy');
     // });
+    
+});
+
     Route::prefix('prospective-student')->name('prospectiveStudent.')->group(function () {
         Route::get('/biodata', [prospectiveStudentController::class, 'biodata'])->name('biodata');
-        Route::get('/address', [prospectiveStudentController::class, 'address'])->name('address');
-        Route::get('/physical-condition', [prospectiveStudentController::class, 'physicalCondition'])->name('physicalCondition');
-        Route::get('/parent-father', [prospectiveStudentController::class, 'parentFather'])->name('parentFather');
-        Route::get('/parent-mother', [prospectiveStudentController::class, 'parentMother'])->name('parentMother');
-        Route::get('/parent-guardian', [prospectiveStudentController::class, 'parentGuardian'])->name('parentGuardian');
+        Route::post('/register/step/{step}', [prospectiveStudentController::class, 'saveStep']);
+
+        
     });
-});
+
+
+
+
+
 
 require __DIR__.'/auth.php';

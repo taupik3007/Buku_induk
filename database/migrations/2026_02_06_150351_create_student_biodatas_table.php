@@ -22,10 +22,7 @@ return new class extends Migration
             $table->foreign('stb_religion_id')->references('rlg_id')->on('religions')->onDelete('cascade');
             $table->string('stb_nationality');
             $table->bigInteger('stb_birth_order');
-            $table->bigInteger('stb_sibling');
-            $table->bigInteger('stb_step_sibling');
-            $table->bigInteger('stb_adoptive_sibling');
-            $table->bigInteger('stb_parent_status');
+            
             $table->string('stb_language');
             $table->bigInteger('stb_telp');
             $table->bigInteger('stb_living_with');
