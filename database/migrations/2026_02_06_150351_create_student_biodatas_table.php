@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('student__biodatas', function (Blueprint $table) {
+        Schema::create('student_biodatas', function (Blueprint $table) {
             $table->bigIncrements('stb_id');
             $table->unsignedBigInteger('stb_usr_id');
             $table->foreign('stb_usr_id')->references('usr_id')->on('users')->onDelete('cascade');
@@ -21,7 +21,6 @@ return new class extends Migration
             $table->unsignedBigInteger('stb_religion_id');
             $table->foreign('stb_religion_id')->references('rlg_id')->on('religions')->onDelete('cascade');
             $table->string('stb_nationality');
-            $table->bigInteger('stb_birth_order');
             
             $table->string('stb_language');
             $table->bigInteger('stb_telp');

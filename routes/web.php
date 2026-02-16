@@ -59,7 +59,7 @@ Route::prefix('administration')->name('administration.')->group(function () {
 
     Route::prefix('prospective-student')->name('prospectiveStudent.')->group(function () {
         Route::get('/biodata', [prospectiveStudentController::class, 'biodata'])->name('biodata');
-        Route::post('/register/step/{step}', [prospectiveStudentController::class, 'saveStep']);
+        Route::post('/register/stepOne', [prospectiveStudentController::class, 'stepOne'])->name('register.stepOne');
 
         
     });

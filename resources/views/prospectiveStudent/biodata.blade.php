@@ -194,417 +194,25 @@
 
                                             <div class="bs-stepper-content">
 
-                                                <div id="step-1" class="content">
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Jenis
-                                                            Kelamin</label>
-                                                        <select class="form-select mr-sm-2"
-                                                            id="inlineFormCustomSelect">
-                                                            <option selected>Pilih ..</option>
-                                                            <option value="1">Laki - laki</option>
-                                                            <option value="2">perempuan</option>
-
-                                                        </select>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3"
-                                                            for="inlineFormCustomSelect">Tempat Lahir</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3"
-                                                            for="inlineFormCustomSelect">Tenggal lahir</label>
-                                                        <input type="date" class="form-control">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3"
-                                                            for="inlineFormCustomSelect">Agama</label>
-                                                        <select class="form-select mr-sm-2"
-                                                            id="inlineFormCustomSelect">
-                                                            <option selected>Pilih ..</option>
-                                                             @foreach ($religion as $rlg)
-                                                            <option value="{{$rlg->rlg_id}}">{{$rlg->rlg_name}}</option>
-                                                            @endforeach
-
-                                                        </select>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Anak
-                                                            ke</label>
-                                                        <input type="number" class="form-control">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Dari
-                                                            berapa bersaudara</label>
-                                                        <input type="number" class="form-control">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3"
-                                                            for="inlineFormCustomSelect">Jumlah Saudara tiri</label>
-                                                        <input type="number" class="form-control">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3"
-                                                            for="inlineFormCustomSelect">Jumlah Saudara Angkat</label>
-                                                        <input type="number" class="form-control">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3"
-                                                            for="inlineFormCustomSelect">Status Keluarga</label>
-                                                        <select class="form-select mr-sm-2"
-                                                            id="inlineFormCustomSelect">
-                                                            <option selected>Pilih ..</option>
-                                                           
-                                                        </select>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3"
-                                                            for="inlineFormCustomSelect">Bahasa Sehari hari</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3"
-                                                            for="inlineFormCustomSelect">telp</label>
-                                                        <input type="tel" class="form-control"
-                                                            value="1-(444)-444-4445">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3"
-                                                            for="inlineFormCustomSelect">Tinggal</label>
-                                                        <select class="form-select mr-sm-2"
-                                                            id="inlineFormCustomSelect">
-                                                            <option selected>Pilih ..</option>
-                                                            <option value="1">Bersama Orangtua</option>
-                                                            <option value="2">Tidak Dengan orang tua</option>
-                                                        </select>
-                                                    </div>
-
-
-                                                    <button type="button" class="btn btn-primary"
-                                                        onclick="saveStep(1)">
-                                                        Lanjut
-                                                    </button>
-
-                                                </div>
-
+                                                {{-- step 1 --}}
+                                                @include('prospectiveStudent.step-one')
 
                                                 {{-- step 2 --}}
 
-
-                                                <div id="step-2" class="content">
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3"
-                                                            for="inlineFormCustomSelect">Provinsi</label>
-                                                        <select class="form-select mr-sm-2"
-                                                            id="inlineFormCustomSelect">
-                                                            <option selected>Pilih ..</option>
-                                                            <option value="1">Laki - laki</option>
-                                                            <option value="2">perempuan</option>
-
-                                                        </select>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3"
-                                                            for="inlineFormCustomSelect">kabupaten/Kota</label>
-                                                        <select class="form-select mr-sm-2"
-                                                            id="inlineFormCustomSelect">
-                                                            <option selected>Pilih ..</option>
-                                                            <option value="1">Laki - laki</option>
-                                                            <option value="2">perempuan</option>
-
-                                                        </select>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3"
-                                                            for="inlineFormCustomSelect">kecamatan</label>
-                                                        <select class="form-select mr-sm-2"
-                                                            id="inlineFormCustomSelect">
-                                                            <option selected>Pilih ..</option>
-                                                            <option value="1">Laki - laki</option>
-                                                            <option value="2">perempuan</option>
-
-                                                        </select>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3"
-                                                            for="inlineFormCustomSelect">Desa</label>
-                                                        <select class="form-select mr-sm-2"
-                                                            id="inlineFormCustomSelect">
-                                                            <option selected>Pilih ..</option>
-                                                            <option value="1">Laki - laki</option>
-                                                            <option value="2">perempuan</option>
-
-                                                        </select>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Kode
-                                                            pos</label>
-                                                        <select class="form-select mr-sm-2"
-                                                            id="inlineFormCustomSelect">
-                                                            <option selected>Pilih ..</option>
-                                                            <option value="1">Laki - laki</option>
-                                                            <option value="2">perempuan</option>
-
-                                                        </select>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Jarak
-                                                            Rumah ke Sekolah</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Jarak
-                                                            Rumah ke Sekolah</label>
-                                                        <textarea class="form-control" rows="3"></textarea>
-                                                    </div>
-                                                    <button type="button" class="btn btn-secondary"
-                                                        onclick="stepper.previous()">
-                                                        Kembali
-                                                    </button>
-
-                                                    <button type="button" class="btn btn-primary"
-                                                        onclick="stepper.next()">
-                                                        Lanjut
-                                                    </button>
-                                                </div>
+                                                @include('prospectiveStudent.step-two')
 
                                                 {{-- step 3  --}}
-
-                                                <div id="step-3" class="content">
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3"
-                                                            for="inlineFormCustomSelect">Golongan Darah</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3"
-                                                            for="inlineFormCustomSelect">Penyakit Bawaan</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3"
-                                                            for="inlineFormCustomSelect">kelainan Jasmani</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3"
-                                                            for="inlineFormCustomSelect">Tinggi Badan</label>
-                                                        <input type="number" class="form-control">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mr-sm-2 mb-3" for="inlineFormCustomSelect">Berat
-                                                            badan</label>
-                                                        <input type="number" class="form-control">
-                                                    </div>
-                                                    <button type="button" class="btn btn-secondary"
-                                                        onclick="stepper.previous()">
-                                                        Kembali
-                                                    </button>
-                                                    <button type="button" class="btn btn-primary"
-                                                        onclick="stepper.next()">
-                                                        Lanjut
-                                                    </button>
-                                                </div>
-
-
+                                                @include('prospectiveStudent.step-three')
 
                                                 {{-- step 4 --}}
-                                                <div id="step-4" class="content">
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Nama Ayah</label>
-                                                        <input type="text" name="nama" class="form-control"
-                                                            placeholder="Nama lengkap">
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Kewarganegaraan</label>
-                                                        <input type="text" name="kewarganegaraan"
-                                                            class="form-control" placeholder="Contoh: Indonesia">
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Pendidikan</label>
-                                                        <input type="text" name="pendidikan" class="form-control"
-                                                            placeholder="Pendidikan terakhir">
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Pekerjaan</label>
-                                                        <input type="text" name="pekerjaan" class="form-control"
-                                                            placeholder="Pekerjaan saat ini">
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Penghasilan</label>
-                                                        <input type="number" name="penghasilan" class="form-control"
-                                                            placeholder="Penghasilan per bulan">
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Alamat</label>
-                                                        <textarea name="alamat" class="form-control" rows="3" placeholder="Alamat lengkap"></textarea>
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Nomor Telepon</label>
-                                                        <input type="number" name="telepon" class="form-control"
-                                                            placeholder="08xxxxxxxxxx">
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Status</label>
-                                                        <input type="text" name="status" class="form-control"
-                                                            placeholder="Contoh: Menikah / Belum Menikah">
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Keadaan</label>
-                                                        <input type="text" name="keadaan" class="form-control"
-                                                            placeholder="Keterangan kondisi saat ini">
-                                                    </div>
-                                                    <button type="button" class="btn btn-secondary"
-                                                        onclick="stepper.previous()">
-                                                        Kembali
-                                                    </button>
-
-                                                    <button type="button" class="btn btn-primary"
-                                                        onclick="stepper.next()">
-                                                        Lanjut
-                                                    </button>
-                                                </div>
-
+                                                @include('prospectiveStudent.step-four')
 
                                                 {{-- step 5 --}}
-                                                <div id="step-5" class="content">
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Nama Ibu</label>
-                                                        <input type="text" name="ibu_nama" class="form-control"
-                                                            placeholder="Nama lengkap ibu">
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Kewarganegaraan</label>
-                                                        <input type="text" name="ibu_kewarganegaraan"
-                                                            class="form-control" placeholder="Contoh: Indonesia">
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Pendidikan</label>
-                                                        <input type="text" name="ibu_pendidikan"
-                                                            class="form-control" placeholder="Pendidikan terakhir">
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Pekerjaan</label>
-                                                        <input type="text" name="ibu_pekerjaan"
-                                                            class="form-control" placeholder="Pekerjaan saat ini">
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Penghasilan</label>
-                                                        <input type="number" name="ibu_penghasilan"
-                                                            class="form-control" placeholder="Penghasilan per bulan">
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Alamat</label>
-                                                        <textarea name="ibu_alamat" class="form-control" rows="3" placeholder="Alamat lengkap"></textarea>
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Nomor Telepon</label>
-                                                        <input type="text" name="ibu_telepon" class="form-control"
-                                                            placeholder="08xxxxxxxxxx">
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Status</label>
-                                                        <input type="text" name="ibu_status" class="form-control"
-                                                            placeholder="Contoh: Menikah / Janda">
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Keadaan</label>
-                                                        <input type="text" name="ibu_keadaan" class="form-control"
-                                                            placeholder="Keterangan kondisi saat ini">
-                                                    </div>
-                                                    <button type="button" class="btn btn-secondary"
-                                                        onclick="stepper.previous()">
-                                                        Kembali
-                                                    </button>
-
-                                                    <button type="button" class="btn btn-primary"
-                                                        onclick="stepper.next()">
-                                                        Lanjut
-                                                    </button>
-                                                </div>
-
+                                                @include('prospectiveStudent.step-five')
 
                                                 {{-- step 6 --}}
-                                                <div id="step-6" class="content">
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Nama Wali</label>
-                                                        <input type="text" name="wali_nama" class="form-control"
-                                                            placeholder="Nama lengkap wali">
-                                                    </div>
+                                                @include('prospectiveStudent.step-six')
 
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Kewarganegaraan</label>
-                                                        <input type="text" name="wali_kewarganegaraan"
-                                                            class="form-control" placeholder="Contoh: Indonesia">
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Pendidikan</label>
-                                                        <input type="text" name="wali_pendidikan"
-                                                            class="form-control" placeholder="Pendidikan terakhir">
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Pekerjaan</label>
-                                                        <input type="text" name="wali_pekerjaan"
-                                                            class="form-control" placeholder="Pekerjaan saat ini">
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Penghasilan</label>
-                                                        <input type="number" name="wali_penghasilan"
-                                                            class="form-control" placeholder="Penghasilan per bulan">
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Alamat</label>
-                                                        <textarea name="wali_alamat" class="form-control" rows="3" placeholder="Alamat lengkap"></textarea>
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Nomor Telepon</label>
-                                                        <input type="text" name="wali_telepon"
-                                                            class="form-control" placeholder="08xxxxxxxxxx">
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Status</label>
-                                                        <input type="text" name="wali_status" class="form-control"
-                                                            placeholder="Contoh: Paman / Bibi / Saudara">
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Keadaan</label>
-                                                        <input type="text" name="wali_keadaan"
-                                                            class="form-control"
-                                                            placeholder="Keterangan kondisi saat ini">
-                                                    </div>
-
-                                                    <button type="button" class="btn btn-secondary"
-                                                        onclick="stepper.previous()">
-                                                        Kembali
-                                                    </button>
-
-                                                    <button type="submit" class="btn btn-success">
-                                                        Simpan
-                                                    </button>
-                                                </div>
 
 
 
@@ -657,6 +265,32 @@
                         document.getElementById('registration_id').value = res.id;
                         stepper.next();
                     }
+                });
+        }
+    </script>
+    <script>
+        function stepOne() {
+            let form = document.querySelector('#step-1').closest('form');
+            let formData = new FormData(form);
+
+            fetch("{{ route('prospectiveStudent.register.stepOne') }}", {
+                    method: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.success) {
+                        stepper.next();
+                    } else {
+                        alert(res.message);
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Terjadi kesalahan');
                 });
         }
     </script>
