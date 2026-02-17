@@ -67,7 +67,16 @@ Route::prefix('administration')->name('administration.')->group(function () {
     });
     Route::prefix('prospective-teacher')->name('prospectiveTeacher.')->group(function () {
         Route::get('/biodata', [prospectiveTeacherController::class, 'biodata'])->name('biodata');
+        Route::post('/biodata', [prospectiveTeacherController::class,'store_biodata'])->name('store_biodata');
         Route::get('/address', [prospectiveTeacherController::class, 'address'])->name('address');
+        Route::post('/address', [prospectiveTeacherController::class,'store_address'])->name('store_address'); 
+        Route::get('/partners', [prospectiveTeacherController::class, 'partner'])->name('partner');
+        Route::post('/partners', [prospectiveTeacherController::class,'store_partner'])->name('store_partner');
+        Route::get('/teach_history', [prospectiveTeacherController::class, 'history'])->name('history');
+        Route::post('/teach_history', [prospectiveTeacherController::class,'store_history'])->name('store_history');
+        Route::get('/education', [prospectiveTeacherController::class, 'education'])->name('education');
+        Route::post('/education', [prospectiveTeacherController::class,'store_education'])->name('store_education');        
+              
         Route::get('/physical-condition', [prospectiveTeacherController::class, 'physicalCondition'])->name('physicalCondition');
         Route::get('/parent-father', [prospectiveTeacherController::class, 'parentFather'])->name('parentFather');
         Route::get('/parent-mother', [prospectiveTeacherController::class, 'parentMother'])->name('parentMother');

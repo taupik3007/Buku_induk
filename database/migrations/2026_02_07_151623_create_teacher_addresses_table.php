@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use phpDocumentor\Reflection\Types\Nullable;
 
 return new class extends Migration
 {
@@ -13,13 +14,18 @@ return new class extends Migration
     {
         Schema::create('teacher_addresses', function (Blueprint $table) {
             $table->bigIncrements('tca_id');
+            $table->unsignedBigInteger('tca_bio_id');
+            $table->foreign('tca_bio_id')->references('tcb_id')->on('teacher_bios')->onDelete('cascade');
+            $table->string('tca_detail');
             $table->string('tca_province');
             $table->string('tca_regency');
             $table->string('tca_district');
             $table->string('tca_village');
-            $table->string('tca_rt');
-            $table->string('tca_rw');
-            $table->string('tca_detail');
+            $table->bigInteger('tca_postalcode');
+            $table->bigInteger('tca_distance');
+            $table->string('tca_rt')->nullable();
+            $table->string('tca_rw')->nullable();
+           
             $table->timestamps();
             $table->renameColumn('updated_at', 'tca_updated_at');
             $table->renameColumn('created_at', 'tca_created_at');

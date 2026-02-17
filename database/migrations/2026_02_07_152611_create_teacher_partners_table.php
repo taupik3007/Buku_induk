@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('teacher_partners', function (Blueprint $table) {
             $table->bigIncrements('tcp_id');
+            $table->unsignedBigInteger('tcp_bio_id');
+            $table->foreign('tcp_bio_id')->references('tcb_id')->on('teacher_bios')->onDelete('cascade');
             $table->string('tcp_name');
             $table->bigInteger('tcp_nik');
             $table->string('tcp_work');
