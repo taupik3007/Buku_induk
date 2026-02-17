@@ -15,12 +15,14 @@ class prospectiveStudentController extends Controller
 {
  
     public function biodata(){
-        // dd(StudentBiodata::all());
-            // $userId = auth()->user()->usr_id;
+        $studentId = auth()->user()->student->std_id;
+        $biodata = StudentBiodata::where('stb_student_id',$studentId)->first();
+        $family = Family::where('fml_student_id',$studentId)->first();
+        // dd($studentId);
             // dd($userId);
 
         $religion = Religion::all();
-        return view('prospectiveStudent.biodata',compact(['religion']));
+        return view('prospectiveStudent.biodata',compact(['religion','biodata','family']));
     }
        public function StepOne(Request $request)
     {
@@ -46,14 +48,15 @@ class prospectiveStudentController extends Controller
         // DB::beginTransaction();
 
         try {
-
             $userId = auth()->user()->usr_id;
+
+            $studentId = auth()->user()->student->std_id;
 
             // // =====================
             // // student__biodatas
             // // =====================
             StudentBiodata::updateOrCreate(
-                ['stb_usr_id' => $userId],
+                ['stb_student_id' => $studentId],
                 [
                     'stb_gender'        => $request->stb_gender,
                     'stb_birth_place'   => $request->stb_birth_place,
@@ -72,7 +75,7 @@ class prospectiveStudentController extends Controller
             // // families
             // // =====================
             Family::updateOrCreate(
-                ['fml_user_id' => $userId],
+                ['fml_student_id' => $studentId],
                 [
                     'fml_birth_order'      => $request->fml_birth_order,
                     'fml_sibling'          => $request->fml_sibling,

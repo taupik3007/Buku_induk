@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('student_biodatas', function (Blueprint $table) {
             $table->bigIncrements('stb_id');
-            $table->unsignedBigInteger('stb_usr_id');
-            $table->foreign('stb_usr_id')->references('usr_id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('stb_student_id');
+            $table->foreign('stb_student_id')->references('std_id')->on('students')->onDelete('cascade');
             $table->bigInteger('stb_gender');
             $table->string('stb_birth_place');
             $table->date('stb_birth_date');

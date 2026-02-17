@@ -15,10 +15,10 @@ return new class extends Migration
             $table->bigIncrements('std_id');
             $table->unsignedBigInteger('std_usr_id');
             $table->foreign('std_usr_id')->references('usr_id')->on('users')->onDelete('cascade');
-            $table->bigInteger('std_nis');
-            $table->bigInteger('std_nisn');
-            $table->string('std_name');
-            $table->string('std_nickname');
+            $table->bigInteger('std_nis')->nullable();
+            $table->bigInteger('std_nisn')->nullable();
+            // $table->string('std_name');
+            $table->string('std_nickname')->nullable();
             $table->timestamps();
             $table->renameColumn('updated_at', 'std_updated_at');
             $table->renameColumn('created_at', 'std_created_at');

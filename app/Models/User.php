@@ -47,4 +47,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function student()
+{
+    return $this->hasOne(
+        Student::class,
+        'std_usr_id', // FK di students
+        'usr_id'      // PK di users
+    );
+}
 }

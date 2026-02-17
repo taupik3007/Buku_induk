@@ -14,10 +14,10 @@ return new class extends Migration
        Schema::create('families', function (Blueprint $table) {
     $table->bigIncrements('fml_id');
 
-    $table->unsignedBigInteger('fml_user_id');
-    $table->foreign('fml_user_id')
-        ->references('usr_id')
-        ->on('users')
+    $table->unsignedBigInteger('fml_student_id');
+    $table->foreign('fml_student_id')
+        ->references('std_id')
+        ->on('students')
         ->onDelete('cascade');
 
     $table->bigInteger('fml_birth_order');
