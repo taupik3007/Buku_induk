@@ -147,11 +147,34 @@
     {{-- Tinggal --}}
     <div class="mb-3">
         <label class="form-label">Tinggal</label>
-        <select name="stb_living_with" class="form-select" required>
-            <option value="">Pilih ..</option>
-            <option value="1">Bersama Orangtua</option>
-            <option value="2">Tidak Dengan Orangtua</option>
-        </select>
+        @php
+        $living = old('stb_living_with', $biodata->stb_living_with ?? '');
+    @endphp
+
+    <select name="stb_living_with" class="form-select" required>
+        <option value="">Pilih ..</option>
+
+        <option value="1" {{ (string)$living === '1' ? 'selected' : '' }}>
+            Bersama Orangtua
+        </option>
+
+        <option value="2" {{ (string)$living === '2' ? 'selected' : '' }}>
+            Tinggal bersama Ayah
+        </option>
+
+        <option value="3" {{ (string)$living === '3' ? 'selected' : '' }}>
+            Tinggal bersama Ibu
+        </option>
+
+        <option value="4" {{ (string)$living === '4' ? 'selected' : '' }}>
+            Tinggal bersama Wali
+        </option>
+
+        <option value="5" {{ (string)$living === '5' ? 'selected' : '' }}>
+            Tinggal Sendiri
+        </option>
+
+    </select>
     </div>
 
     <button type="button" class="btn btn-primary" onclick="stepOne()">
