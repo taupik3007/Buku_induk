@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Religion;
+use App\Models\Address;
 use App\Models\Family;
 use App\Models\StudentBiodata;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,8 @@ class prospectiveStudentController extends Controller
         $studentId = auth()->user()->student->std_id;
         $biodata = StudentBiodata::where('stb_student_id',$studentId)->first();
         $family = Family::where('fml_student_id',$studentId)->first();
+        $address = Address::where('adr_user_id',auth()->user()->usr_id)->first();
+        // dd($address);
         // dd($studentId);
             // dd($userId);
 
@@ -28,7 +31,7 @@ class prospectiveStudentController extends Controller
             
 
         $religion = Religion::all();
-        return view('prospectiveStudent.biodata',compact(['religion','biodata','family']));
+        return view('prospectiveStudent.biodata',compact(['religion','biodata','family','address']));
     }
        public function StepOne(Request $request)
     {
@@ -110,5 +113,59 @@ class prospectiveStudentController extends Controller
             ], 500);
         }
           
+    }
+
+
+
+
+    public function stepTwo(Request $request){
+        $userId = auth()->user()->usr_id;
+
+         $validated = $request->validate([
+        'adr_province'     => 'required|string',
+        'adr_regency'      => 'required|string',
+        'adr_district'     => 'required|string',
+        'adr_village'      => 'required|string',
+        'adr_postal_code'  => 'nullable|digits:5',
+        'adr_distance'     => 'nullable|numeric',
+        'adr_detail'       => 'required|string|max:500',
+    ]);
+
+    DB::beginTransaction();
+
+    try {
+
+        $student = Address::updateOrCreate(
+    ['adr_user_id' => $userId],
+    [
+        'adr_province'     => $request->adr_province,
+        'adr_regency'      => $request->adr_regency,
+        'adr_district'     => $request->adr_district,
+        'adr_village'      => $request->adr_village,
+        'adr_postal_code'  => $request->adr_postal_code,
+        'adr_distance'     => $request->adr_distance,
+        'adr_detail'       => $request->adr_detail,
+    ]
+);
+
+
+        DB::commit();
+
+        return response()->json([
+            'status'  => true,
+            'message' => 'Data alamat berhasil disimpan.',
+            // 'data'    => $student
+        ]);
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        return response()->json([
+            'status'  => false,
+            'message' => 'Terjadi kesalahan saat menyimpan data.',
+            'error'   => $e->getMessage()
+        ], 500);
+    }
     }
 }

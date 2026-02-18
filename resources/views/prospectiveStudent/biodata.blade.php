@@ -10,6 +10,7 @@
     <!-- Favicon icon-->
     <link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" />
 
+    <link rel="stylesheet" href="{{ asset('assets/libs/select2/dist/css/select2.min.css') }}">
     <!-- Core Css -->
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
@@ -20,7 +21,6 @@
     <link rel="stylesheet" href="{{ asset('assets/libs/owl.carousel/dist/assets/owl.carousel.min.css') }}" />
 
     {{-- selec2 --}}
-    <link rel="stylesheet" href="{{ asset('assets/libs/select2/dist/css/select2.min.css') }}">
 </head>
 
 <body>

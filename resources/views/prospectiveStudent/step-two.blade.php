@@ -15,8 +15,6 @@
         <label class="form-label">Kabupaten / Kota</label>
         <select name="adr_regency" id="regency" class="select2 form-control">
             <option value="">Pilih..</option>
-            <option value="AK">Alaska</option>
-            <option value="HI">Hawaii</option>
         </select>
     </div>
 
@@ -25,8 +23,6 @@
         <label class="form-label">Kecamatan</label>
         <select name="adr_district" id="district" class="select2 form-control">
             <option value="">Pilih..</option>
-            <option value="AK">Alaska</option>
-            <option value="HI">Hawaii</option>
         </select>
     </div>
 
@@ -35,8 +31,6 @@
         <label class="form-label">Desa</label>
         <select name="adr_village" id="village" class="select2 form-control">
             <option value="">Pilih..</option>
-            <option value="AK">Alaska</option>
-            <option value="HI">Hawaii</option>
         </select>
     </div>
 
@@ -44,23 +38,20 @@
     <div class="mb-3">
         <label class="form-label">Kode Pos</label>
      
-        <select name="adr_postal_code" id="postal-code" class="select2 form-control">
-            <option value="">Pilih..</option>
-            <option value="AK">Alaska</option>
-            <option value="HI">Hawaii</option>
-        </select>
+        <input type="text" name="adr_postal_code"  value="{{ $address->adr_postal_code ?? '' }}" class="form-control">
+
     </div>
 
     {{-- Jarak Rumah ke Sekolah --}}
     <div class="mb-3">
         <label class="form-label">Jarak Rumah ke Sekolah (km)</label>
-        <input type="text" name="adr_distance" class="form-control">
+        <input type="number" name="adr_distance"  value="{{ $address->adr_distance?? '' }}" class="form-control">
     </div>
 
     {{-- Alamat Lengkap --}}
     <div class="mb-3">
         <label class="form-label">Alamat Lengkap</label>
-        <textarea name="adr_detail" class="form-control" rows="3"></textarea>
+        <textarea name="adr_detail" class="form-control" rows="3">{{ $address->adr_detail?? '' }}</textarea>
     </div>
 
     <button type="button" class="btn btn-secondary" onclick="stepper.previous()">
@@ -76,6 +67,13 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+let oldProvince = "{{ $address->adr_province ?? '' }}";
+let oldRegency  = "{{ $address->adr_regency ?? '' }}";
+let oldDistrict = "{{ $address->adr_district ?? '' }}";
+let oldVillage  = "{{ $address->adr_village ?? '' }}";
+</script>
 
 <script>
 $(document).ready(function () {
@@ -122,13 +120,18 @@ function reset(selector) {
 }
 
 function loadProvinces() {
+    // console.log(oldProvince);
     $.get('/prospective-student/api/provinces', function (res) {
         let el = $('#province');
         el.empty().append('<option value="">Pilih Provinsi..</option>');
 
         res.data.forEach(item => {
-            el.append(`<option value="${item.code}">${item.name}</option>`);
+            let selected = item.code == oldProvince ? 'selected' : '';
+            el.append(`<option value="${item.code}" ${selected}>${item.name}</option>`);
         });
+        if (oldProvince) {
+            loadRegencies(oldProvince);
+        }
 
         el.trigger('change');
     });
@@ -140,8 +143,10 @@ function loadRegencies(provinceId) {
         el.empty().append('<option value="">Pilih Kabupaten..</option>');
 
         res.data.forEach(item => {
-            el.append(`<option value="${item.code}">${item.name}</option>`);
+            let selected = item.code == oldRegency ? 'selected' : '';
+            el.append(`<option value="${item.code}"${selected}>${item.name}</option>`);
         });
+        
 
         el.trigger('change');
     });
@@ -153,7 +158,9 @@ function loadDistricts(regencyId) {
         el.empty().append('<option value="">Pilih Kecamatan..</option>');
 
         res.data.forEach(item => {
-            el.append(`<option value="${item.code}">${item.name}</option>`);
+            let selected = item.code == oldDistrict ? 'selected' : '';
+
+            el.append(`<option value="${item.code}"${selected}>${item.name}</option>`);
         });
 
         el.trigger('change');
@@ -166,10 +173,52 @@ function loadVillages(districtId) {
         el.empty().append('<option value="">Pilih Desa..</option>');
 
         res.data.forEach(item => {
-            el.append(`<option value="${item.code}">${item.name}</option>`);
+            let selected = item.code == oldVillage ? 'selected' : '';
+
+            el.append(`<option value="${item.code}"${selected}>${item.name}</option>`);
         });
 
         el.trigger('change');
+    });
+}
+</script>
+
+
+<script>
+function stepTwo() {
+
+    let formData = {
+        adr_province: $('#province').val(),
+        adr_regency: $('#regency').val(),
+        adr_district: $('#district').val(),
+        adr_village: $('#village').val(),
+        adr_postal_code: $('input[name="adr_postal_code"]').val(),
+        adr_distance: $('input[name="adr_distance"]').val(),
+        adr_detail: $('textarea[name="adr_detail"]').val(),
+        _token: '{{ csrf_token() }}'
+    };
+
+    $.ajax({
+        url: "{{ route('prospectiveStudent.register.stepTwo') }}",
+        type: "POST",
+        data: formData,
+        success: function(response) {
+
+            if(response.status){
+                alert(response.message);
+
+                // lanjut ke step berikutnya
+                stepper.next();
+            }
+        },
+        error: function(xhr){
+
+            if(xhr.status === 422){
+                alert('Validasi gagal. Cek kembali inputan.');
+            } else {
+                alert('Terjadi kesalahan server.');
+            }
+        }
     });
 }
 </script>
