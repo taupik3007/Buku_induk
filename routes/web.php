@@ -5,6 +5,8 @@ use App\Http\Controllers\Administration\ClassController;
 use App\Http\Controllers\Administration\MajorController;
 use App\Http\Controllers\prospectiveStudentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegionController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -60,6 +62,15 @@ Route::prefix('administration')->name('administration.')->group(function () {
     Route::prefix('prospective-student')->name('prospectiveStudent.')->group(function () {
         Route::get('/biodata', [prospectiveStudentController::class, 'biodata'])->name('biodata');
         Route::post('/register/stepOne', [prospectiveStudentController::class, 'stepOne'])->name('register.stepOne');
+        Route::get('/api/provinces', [regionController::class, 'provinces']);
+        Route::get('/api/regencies/{province}', [regionController::class, 'regencies']);
+        Route::get('/api/districts/{province}', [regionController::class, 'districts']);
+        Route::get('/api/villages/{province}', [regionController::class, 'villages']);
+        
+
+
+
+
 
         
     });

@@ -18,6 +18,9 @@
     <title>Modernize Bootstrap Admin</title>
     <!-- Owl Carousel  -->
     <link rel="stylesheet" href="{{ asset('assets/libs/owl.carousel/dist/assets/owl.carousel.min.css') }}" />
+
+    {{-- selec2 --}}
+    <link rel="stylesheet" href="{{ asset('assets/libs/select2/dist/css/select2.min.css') }}">
 </head>
 
 <body>
@@ -268,32 +271,7 @@
                 });
         }
     </script>
-    <script>
-        function stepOne() {
-            let form = document.querySelector('#step-1').closest('form');
-            let formData = new FormData(form);
 
-            fetch("{{ route('prospectiveStudent.register.stepOne') }}", {
-                    method: "POST",
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: formData
-                })
-                .then(res => res.json())
-                .then(res => {
-                    if (res.success) {
-                        stepper.next();
-                    } else {
-                        alert(res.message);
-                    }
-                })
-                .catch(err => {
-                    console.error(err);
-                    alert('Terjadi kesalahan');
-                });
-        }
-    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -316,6 +294,9 @@
     <script src="{{ asset('assets/js/frontend-landingpage/homepage.js') }}"></script>
     {{-- bs stapper --}}
     <script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
+    <script src="{{ asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/forms/select2.init.js') }}"></script>
 
 </body>
 

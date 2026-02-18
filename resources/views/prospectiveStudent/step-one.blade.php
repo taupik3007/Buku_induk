@@ -182,3 +182,30 @@
     </button>
 
 </div>
+
+<script>
+        function stepOne() {
+            let form = document.querySelector('#step-1').closest('form');
+            let formData = new FormData(form);
+
+            fetch("{{ route('prospectiveStudent.register.stepOne') }}", {
+                    method: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.success) {
+                        stepper.next();
+                    } else {
+                        alert(res.message);
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Terjadi kesalahan');
+                });
+        }
+    </script>

@@ -21,6 +21,12 @@ class prospectiveStudentController extends Controller
         // dd($studentId);
             // dd($userId);
 
+
+        /*
+            Step 2
+        */
+            
+
         $religion = Religion::all();
         return view('prospectiveStudent.biodata',compact(['religion','biodata','family']));
     }
