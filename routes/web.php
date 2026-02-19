@@ -63,6 +63,7 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::get('/biodata', [prospectiveStudentController::class, 'biodata'])->name('biodata');
         Route::post('/register/stepOne', [prospectiveStudentController::class, 'stepOne'])->name('register.stepOne');
         Route::post('/register/stepTwo', [prospectiveStudentController::class, 'stepTwo'])->name('register.stepTwo');
+        Route::post('/register/stepThree', [prospectiveStudentController::class, 'stepThree'])->name('register.stepThree');
         Route::get('/api/provinces', [regionController::class, 'provinces']);
         Route::get('/api/regencies/{province}', [regionController::class, 'regencies']);
         Route::get('/api/districts/{province}', [regionController::class, 'districts']);

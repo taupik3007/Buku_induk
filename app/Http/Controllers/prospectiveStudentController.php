@@ -8,6 +8,7 @@ use App\Models\Religion;
 use App\Models\Address;
 use App\Models\Family;
 use App\Models\StudentBiodata;
+use App\Models\PhysicalCondition;
 use Illuminate\Support\Facades\DB;
 
 
@@ -20,7 +21,10 @@ class prospectiveStudentController extends Controller
         $biodata = StudentBiodata::where('stb_student_id',$studentId)->first();
         $family = Family::where('fml_student_id',$studentId)->first();
         $address = Address::where('adr_user_id',auth()->user()->usr_id)->first();
+        $physicalCondition = PhysicalCondition::where('phy_student_id',$studentId)->first();
         // dd($address);
+        // dd($physicalCondition);
+
         // dd($studentId);
             // dd($userId);
 
@@ -31,7 +35,7 @@ class prospectiveStudentController extends Controller
             
 
         $religion = Religion::all();
-        return view('prospectiveStudent.biodata',compact(['religion','biodata','family','address']));
+        return view('prospectiveStudent.biodata',compact(['religion','biodata','family','address','physicalCondition']));
     }
        public function StepOne(Request $request)
     {
@@ -155,6 +159,53 @@ class prospectiveStudentController extends Controller
             'status'  => true,
             'message' => 'Data alamat berhasil disimpan.',
             // 'data'    => $student
+        ]);
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        return response()->json([
+            'status'  => false,
+            'message' => 'Terjadi kesalahan saat menyimpan data.',
+            'error'   => $e->getMessage()
+        ], 500);
+    }
+    }
+
+    public function stepThree(Request $request){
+          $userId = auth()->user()->usr_id;
+        $studentId = auth()->user()->student->std_id;
+
+
+    $validated = $request->validate([
+        'phy_blood_type' => 'required|string|max:3',
+        'phy_illness'    => 'nullable|string|max:255',
+        'phy_disability' => 'nullable|string|max:255',
+        'phy_height'     => 'required|numeric|min:0|max:300',
+        'phy_weight'     => 'required|numeric|min:0|max:300',
+    ]);
+
+    DB::beginTransaction();
+
+    try {
+
+        $physical = PhysicalCondition::updateOrCreate(
+            ['phy_student_id' => $studentId],
+            [
+                'phy_blood_type' => $request->phy_blood_type,
+                'phy_illness'    => $request->phy_illness,
+                'phy_disability' => $request->phy_disability,
+                'phy_height'     => $request->phy_height,
+                'phy_weight'     => $request->phy_weight,
+            ]
+        );
+
+        DB::commit();
+
+        return response()->json([
+            'status'  => true,
+            'message' => 'Data fisik berhasil disimpan.',
         ]);
 
     } catch (\Exception $e) {

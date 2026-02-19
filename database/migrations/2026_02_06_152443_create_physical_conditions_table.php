@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('physical_conditions', function (Blueprint $table) {
             $table->bigIncrements('phy_id');
-            $table->unsignedBigInteger('phy_user_id');
-            $table->foreign('phy_user_id')->references('usr_id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('phy_student_id');
+            $table->foreign('phy_student_id')->references('std_id')->on('students')->onDelete('cascade');
             $table->string('phy_blood_type');
-            $table->string('phy_illnes');
+            $table->string('phy_illness');
             $table->string('phy_disability');
             $table->bigInteger('phy_height');
             $table->bigInteger('phy_weight');
