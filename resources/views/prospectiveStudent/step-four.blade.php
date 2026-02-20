@@ -1,63 +1,99 @@
- <div id="step-4" class="content">
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Nama Ayah</label>
-                                                        <input type="text" name="nama" class="form-control"
-                                                            placeholder="Nama lengkap">
-                                                    </div>
+<div id="step-4" class="content">
 
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Kewarganegaraan</label>
-                                                        <input type="text" name="kewarganegaraan"
-                                                            class="form-control" placeholder="Contoh: Indonesia">
-                                                    </div>
+    <div class="mb-3">
+        <label class="form-label">Nama Ayah</label>
+        <input type="text" name="fml_father_name" class="form-control" placeholder="Nama lengkap ayah">
+    </div>
 
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Pendidikan</label>
-                                                        <input type="text" name="pendidikan" class="form-control"
-                                                            placeholder="Pendidikan terakhir">
-                                                    </div>
+    <div class="mb-3">
+        <label class="form-label">Kewarganegaraan</label>
+        <input type="text" name="fml_father_nationality" class="form-control" placeholder="Contoh: Indonesia">
+    </div>
 
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Pekerjaan</label>
-                                                        <input type="text" name="pekerjaan" class="form-control"
-                                                            placeholder="Pekerjaan saat ini">
-                                                    </div>
+    <div class="mb-3">
+        <label class="form-label">Pekerjaan </label>
+        <input type="text" name="fml_father_occupation" class="form-control" placeholder="Pekerjaan">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Pendidikan Terakhir</label>
+        <input type="text" name="fml_father_education" class="form-control" placeholder="Pendidikan terakhir">
+    </div>
+    <div class="mb-3">
+    <label class="form-label">Penghasilan per Bulan (Rp)</label>
+    <select name="fml_father_income" class="form-select" required>
+        <option value="">-- Pilih Rentang Penghasilan --</option>
+        <option value="1">< Rp 1.000.000</option>
+        <option value="2">Rp 1.000.000 - Rp 3.000.000</option>
+        <option value="3">Rp 3.000.000 - Rp 5.000.000</option>
+        <option value="4">Rp 5.000.000 - Rp 10.000.000</option>
+        <option value="5">> Rp 10.000.000</option>
+    </select>
+</div>
 
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Penghasilan</label>
-                                                        <input type="number" name="penghasilan" class="form-control"
-                                                            placeholder="Penghasilan per bulan">
-                                                    </div>
+    <div class="mb-3">
+        <label class="form-label">Alamat</label>
+        <textarea name="fml_father_address" class="form-control" rows="3" placeholder="Alamat lengkap"></textarea>
+    </div>
 
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Alamat</label>
-                                                        <textarea name="alamat" class="form-control" rows="3" placeholder="Alamat lengkap"></textarea>
-                                                    </div>
+    <div class="mb-3">
+        <label class="form-label">Nomor Telepon</label>
+        <input type="number" name="fml_father_phone" class="form-control" placeholder="08xxxxxxxxxx">
+    </div>
 
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Nomor Telepon</label>
-                                                        <input type="number" name="telepon" class="form-control"
-                                                            placeholder="08xxxxxxxxxx">
-                                                    </div>
+    <div class="mb-3">
+        <label class="form-label">Status</label>
+        <input type="text" name="fml_father_status" class="form-control" placeholder="Contoh: Menikah">
+    </div>
 
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Status</label>
-                                                        <input type="text" name="status" class="form-control"
-                                                            placeholder="Contoh: Menikah / Belum Menikah">
-                                                    </div>
+    <div class="d-flex justify-content-between mt-4">
+        <button type="button" class="btn btn-secondary" onclick="stepper.previous()">
+            Kembali
+        </button>
 
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2">Keadaan</label>
-                                                        <input type="text" name="keadaan" class="form-control"
-                                                            placeholder="Keterangan kondisi saat ini">
-                                                    </div>
-                                                    <button type="button" class="btn btn-secondary"
-                                                        onclick="stepper.previous()">
-                                                        Kembali
-                                                    </button>
+        <button type="button" class="btn btn-primary" onclick="stepFour()">
+            Lanjut
+        </button>
+    </div>
 
-                                                    <button type="button" class="btn btn-primary"
-                                                        onclick="stepper.next()">
-                                                        Lanjut
-                                                    </button>
-                                                </div>
+</div>
+
+
+<script>
+    function stepFour() {
+        console.log($('select[name="fml_father_income"]').val());
+        let formData = {
+            fml_father_name: $('input[name="fml_father_name"]').val(),
+            fml_father_nationality: $('input[name="fml_father_nationality"]').val(),
+            fml_father_education: $('input[name="fml_father_education"]').val(),
+            fml_father_occupation: $('input[name="fml_father_occupation"]').val(),
+            fml_father_income: $('select[name="fml_father_income"]').val(),
+            fml_father_address: $('textarea[name="fml_father_address"]').val(),
+            fml_father_phone: $('input[name="fml_father_phone"]').val(),
+            fml_father_status: $('input[name="fml_father_status"]').val(),
+            _token: '{{ csrf_token() }}'
+        };
+
+        $.ajax({
+            url: "{{ route('prospectiveStudent.register.stepFour') }}",
+            type: "POST",
+            data: formData,
+            success: function(response) {
+
+                if (response.status) {
+                    alert(response.message);
+
+                    // lanjut ke step berikutnya
+                    stepper.next();
+                }
+            },
+            error: function(xhr) {
+
+                if (xhr.status === 422) {
+                    alert('Validasi gagal. Cek kembali inputan.');
+                } else {
+                    alert('Terjadi kesalahan server.');
+                }
+            }
+        });
+    }
+</script>

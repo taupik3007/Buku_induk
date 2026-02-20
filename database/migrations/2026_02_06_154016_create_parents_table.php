@@ -25,26 +25,26 @@ return new class extends Migration
     $table->bigInteger('fml_step_sibling');
     $table->bigInteger('fml_adoptive_sibling');
     $table->bigInteger('fml_status');
-
     $table->string('fml_father_name')->nullable();
     $table->string('fml_father_nationality')->nullable();
     $table->string('fml_father_education')->nullable();
+    $table->string('fml_father_occupation')->nullable();
     $table->bigInteger('fml_father_income')->nullable();
     $table->string('fml_father_address')->nullable();
     $table->string('fml_father_phone')->nullable();
     $table->string('fml_father_status')->nullable();
-
     $table->string('fml_mother_name')->nullable();
     $table->string('fml_mother_nationality')->nullable();
     $table->string('fml_mother_education')->nullable();
+    $table->string('fml_mother_occupation')->nullable();
     $table->bigInteger('fml_mother_income')->nullable();
     $table->string('fml_mother_address')->nullable();
     $table->string('fml_mother_phone')->nullable();
     $table->string('fml_mother_status')->nullable();
-
     $table->string('fml_guardian_name')->nullable();
     $table->string('fml_guardian_nationality')->nullable();
     $table->string('fml_guardian_education')->nullable();
+    $table->string('fml_guardian_occupation')->nullable();
     $table->bigInteger('fml_guardian_income')->nullable();
     $table->string('fml_guardian_address')->nullable();
     $table->string('fml_guardian_phone')->nullable();

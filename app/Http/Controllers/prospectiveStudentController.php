@@ -219,4 +219,49 @@ class prospectiveStudentController extends Controller
         ], 500);
     }
     }
+
+    public function stepFour(Request $request)
+{
+    $userId    = auth()->user()->usr_id;
+    $studentId = auth()->user()->student->std_id;
+
+    $validated = $request->validate([
+        'fml_father_name'        => 'required|string|max:255',
+        'fml_father_nationality' => 'required|string|max:255',
+        'fml_father_education'   => 'required|string|max:255',
+        'fml_father_occupation'   => 'required|string|max:255',
+        'fml_father_income'      => 'required|numeric|min:0',
+        'fml_father_address'     => 'required|string|max:1000',
+        'fml_father_phone'       => 'required|string|max:20',
+        'fml_father_status'      => 'required|numeric|max:100',
+    ]);
+
+    DB::beginTransaction();
+
+    try {
+
+        // $family = Family::updateOrCreate(
+        //     ['fml_student_id' => $studentId],
+        //     $validated
+        // );
+
+        DB::commit();
+
+        return response()->json([
+            'status'  => true,
+            'message' => 'Data ayah berhasil disimpan.',
+        ]);
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        return response()->json([
+            'status'  => false,
+            'message' => 'Terjadi kesalahan saat menyimpan data.',
+            'error'   => $e->getMessage()
+        ], 500);
+    }
+}
+
 }
