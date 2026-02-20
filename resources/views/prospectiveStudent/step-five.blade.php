@@ -102,19 +102,53 @@ function stepFive() {
         url: "{{ route('prospectiveStudent.register.stepFive') }}",
         type: "POST",
         data: formData,
+
         success: function(response) {
 
             if (response.status) {
-                alert(response.message);
-                stepper.next();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: response.message,
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+
+                setTimeout(() => {
+                    stepper.next();
+                }, 1500);
             }
         },
+
         error: function(xhr) {
 
             if (xhr.status === 422) {
-                alert('Validasi gagal. Cek kembali inputan.');
+
+                let errors = xhr.responseJSON.errors;
+                let message = '';
+
+                $.each(errors, function(key, value){
+                    message += value[0] + '<br>';
+                });
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validasi Gagal',
+                    html: message,
+                    timer: 2500,
+                    showConfirmButton: false
+                });
+
             } else {
-                alert('Terjadi kesalahan server.');
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Terjadi kesalahan server.',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
             }
         }
     });

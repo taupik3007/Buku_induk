@@ -79,41 +79,65 @@
 
 <script>
     function stepFour() {
-        // console.log($('select[name="fml_father_income"]').val());
-        let formData = {
-            fml_father_name: $('input[name="fml_father_name"]').val(),
-            fml_father_religion_id: $('select[name="fml_father_religion_id"]').val(),
-            fml_father_nationality: $('input[name="fml_father_nationality"]').val(),
-            fml_father_education: $('input[name="fml_father_education"]').val(),
-            fml_father_occupation: $('input[name="fml_father_occupation"]').val(),
-            fml_father_income: $('select[name="fml_father_income"]').val(),
-            fml_father_address: $('textarea[name="fml_father_address"]').val(),
-            fml_father_phone: $('input[name="fml_father_phone"]').val(),
-            // fml_father_status: $('input[name="fml_father_status"]').val(),
-            _token: '{{ csrf_token() }}'
-        };
 
-        $.ajax({
-            url: "{{ route('prospectiveStudent.register.stepFour') }}",
-            type: "POST",
-            data: formData,
-            success: function(response) {
+    let formData = {
+        fml_father_name: $('input[name="fml_father_name"]').val(),
+        fml_father_religion_id: $('select[name="fml_father_religion_id"]').val(),
+        fml_father_nationality: $('input[name="fml_father_nationality"]').val(),
+        fml_father_education: $('input[name="fml_father_education"]').val(),
+        fml_father_occupation: $('input[name="fml_father_occupation"]').val(),
+        fml_father_income: $('select[name="fml_father_income"]').val(),
+        fml_father_address: $('textarea[name="fml_father_address"]').val(),
+        fml_father_phone: $('input[name="fml_father_phone"]').val(),
+        _token: '{{ csrf_token() }}'
+    };
 
-                if (response.status) {
-                    alert(response.message);
+    $.ajax({
+        url: "{{ route('prospectiveStudent.register.stepFour') }}",
+        type: "POST",
+        data: formData,
 
-                    // lanjut ke step berikutnya
-                    stepper.next();
-                }
-            },
-            error: function(xhr) {
+        success: function(response) {
 
-                if (xhr.status === 422) {
-                    alert('Validasi gagal. Cek kembali inputan.');
-                } else {
-                    alert('Terjadi kesalahan server.');
-                }
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: response.message,
+                timer: 1500,
+                showConfirmButton: false
+            }).then(() => {
+                stepper.next();
+            });
+
+        },
+
+        error: function(xhr) {
+
+            if (xhr.status === 422) {
+
+                let errors = xhr.responseJSON.errors;
+                let message = '';
+
+                $.each(errors, function(key, value){
+                    message += value[0] + '<br>';
+                });
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validasi Gagal',
+                    html: message,
+                });
+
+            } else {
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Terjadi kesalahan server.',
+                });
+
             }
-        });
-    }
+        }
+    });
+}
 </script>

@@ -184,28 +184,69 @@
 </div>
 
 <script>
-        function stepOne() {
-            let form = document.querySelector('#step-1').closest('form');
-            let formData = new FormData(form);
+function stepOne() {
+    let form = document.querySelector('#step-1').closest('form');
+    let formData = new FormData(form);
 
-            fetch("{{ route('prospectiveStudent.register.stepOne') }}", {
-                    method: "POST",
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: formData
-                })
-                .then(res => res.json())
-                .then(res => {
-                    if (res.success) {
-                        stepper.next();
-                    } else {
-                        alert(res.message);
-                    }
-                })
-                .catch(err => {
-                    console.error(err);
-                    alert('Terjadi kesalahan');
-                });
+    fetch("{{ route('prospectiveStudent.register.stepOne') }}", {
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json'
+        },
+        body: formData
+    })
+    .then(async response => {
+
+        let data = await response.json();
+
+        if (response.status === 422) {
+
+            // VALIDATION ERROR
+            let messages = '';
+            Object.values(data.errors).forEach(function (error) {
+                messages += error[0] + '<br>';
+            });
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Validasi Gagal',
+                html: messages
+            });
+
+        } else if (data.success || data.status) {
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: data.message || 'Data berhasil disimpan',
+                timer: 1500,
+                showConfirmButton: false
+            });
+
+            setTimeout(() => {
+                stepper.next();
+            }, 1500);
+
+        } else {
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: data.message || 'Terjadi kesalahan'
+            });
+
         }
-    </script>
+    })
+    .catch(error => {
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Terjadi kesalahan pada server'
+        });
+
+        console.error(error);
+    });
+}
+</script>

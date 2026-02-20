@@ -202,21 +202,59 @@ function stepTwo() {
         url: "{{ route('prospectiveStudent.register.stepTwo') }}",
         type: "POST",
         data: formData,
+
         success: function(response) {
 
-            if(response.status){
-                alert(response.message);
+            if (response.status) {
 
-                // lanjut ke step berikutnya
-                stepper.next();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: response.message || 'Data alamat berhasil disimpan.',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+
+                setTimeout(() => {
+                    stepper.next();
+                }, 1500);
+
+            } else {
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: response.message || 'Terjadi kesalahan.'
+                });
+
             }
         },
-        error: function(xhr){
 
-            if(xhr.status === 422){
-                alert('Validasi gagal. Cek kembali inputan.');
+        error: function(xhr) {
+
+            if (xhr.status === 422) {
+
+                let errors = xhr.responseJSON.errors;
+                let messages = '';
+
+                Object.values(errors).forEach(function(error){
+                    messages += error[0] + '<br>';
+                });
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validasi Gagal',
+                    html: messages
+                });
+
             } else {
-                alert('Terjadi kesalahan server.');
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Terjadi kesalahan pada server.'
+                });
+
             }
         }
     });

@@ -50,27 +50,59 @@ function stepThree() {
     };
 
     $.ajax({
-        url: "{{ route('prospectiveStudent.register.stepThree') }}",
-        type: "POST",
-        data: formData,
-        success: function(response) {
+    url: "{{ route('prospectiveStudent.register.stepThree') }}",
+    type: "POST",
+    data: formData,
 
-            if (response.status) {
-                alert(response.message);
+    success: function(response) {
 
-                // lanjut ke step berikutnya
+        if (response.status) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: response.message,
+                timer: 1500,
+                showConfirmButton: false
+            });
+
+            setTimeout(() => {
                 stepper.next();
-            }
-        },
-        error: function(xhr){
-
-            if (xhr.status === 422) {
-                alert('Validasi gagal. Cek kembali inputan.');
-            } else {
-                alert('Terjadi kesalahan server.');
-            }
+            }, 1500);
         }
-    });
+    },
+
+    error: function(xhr){
+
+        if (xhr.status === 422) {
+
+            let errors = xhr.responseJSON.errors;
+            let message = '';
+
+            $.each(errors, function(key, value){
+                message += value[0] + '<br>';
+            });
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Validasi Gagal',
+                html: message,
+                timer: 2000,
+                showConfirmButton: false
+            });
+
+        } else {
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Terjadi kesalahan server.',
+                timer: 2000,
+                showConfirmButton: false
+            });
+
+        }
+    }
+});
 }
 </script>
 
