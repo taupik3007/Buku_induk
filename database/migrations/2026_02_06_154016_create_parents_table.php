@@ -26,6 +26,8 @@ return new class extends Migration
     $table->bigInteger('fml_adoptive_sibling');
     $table->bigInteger('fml_status');
     $table->string('fml_father_name')->nullable();
+    $table->unsignedBigInteger('fml_father_religion_id')->nullable();
+    $table->foreign('fml_father_religion_id')->references('rlg_id')->on('religions')->onDelete('cascade');
     $table->string('fml_father_nationality')->nullable();
     $table->string('fml_father_education')->nullable();
     $table->string('fml_father_occupation')->nullable();
@@ -34,6 +36,8 @@ return new class extends Migration
     $table->string('fml_father_phone')->nullable();
     $table->string('fml_father_status')->nullable();
     $table->string('fml_mother_name')->nullable();
+    $table->unsignedBigInteger('fml_mother_religion_id')->nullable();
+    $table->foreign('fml_mother_religion_id')->references('rlg_id')->on('religions')->onDelete('cascade');
     $table->string('fml_mother_nationality')->nullable();
     $table->string('fml_mother_education')->nullable();
     $table->string('fml_mother_occupation')->nullable();
@@ -42,6 +46,8 @@ return new class extends Migration
     $table->string('fml_mother_phone')->nullable();
     $table->string('fml_mother_status')->nullable();
     $table->string('fml_guardian_name')->nullable();
+    $table->unsignedBigInteger('fml_guardian_religion_id')->nullable();
+    $table->foreign('fml_guardian_religion_id')->references('rlg_id')->on('religions')->onDelete('cascade');
     $table->string('fml_guardian_nationality')->nullable();
     $table->string('fml_guardian_education')->nullable();
     $table->string('fml_guardian_occupation')->nullable();

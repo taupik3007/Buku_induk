@@ -65,6 +65,8 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::post('/register/stepTwo', [prospectiveStudentController::class, 'stepTwo'])->name('register.stepTwo');
         Route::post('/register/stepThree', [prospectiveStudentController::class, 'stepThree'])->name('register.stepThree');
         Route::post('/register/stepFour', [prospectiveStudentController::class, 'stepFour'])->name('register.stepFour');
+        Route::post('/register/stepFive', [prospectiveStudentController::class, 'stepFive'])->name('register.stepFive');
+        Route::post('/register/stepSix', [prospectiveStudentController::class, 'stepSix'])->name('register.stepSix');
         Route::get('/api/provinces', [regionController::class, 'provinces']);
         Route::get('/api/regencies/{province}', [regionController::class, 'regencies']);
         Route::get('/api/districts/{province}', [regionController::class, 'districts']);

@@ -227,23 +227,24 @@ class prospectiveStudentController extends Controller
 
     $validated = $request->validate([
         'fml_father_name'        => 'required|string|max:255',
+        'fml_father_religion_id' => 'required|numeric',
         'fml_father_nationality' => 'required|string|max:255',
         'fml_father_education'   => 'required|string|max:255',
-        'fml_father_occupation'   => 'required|string|max:255',
+        'fml_father_occupation'  => 'required|string|max:255',
         'fml_father_income'      => 'required|numeric|min:0',
         'fml_father_address'     => 'required|string|max:1000',
         'fml_father_phone'       => 'required|string|max:20',
-        'fml_father_status'      => 'required|numeric|max:100',
+        // 'fml_father_status'      => 'required|numeric|max:100',
     ]);
 
     DB::beginTransaction();
 
     try {
 
-        // $family = Family::updateOrCreate(
-        //     ['fml_student_id' => $studentId],
-        //     $validated
-        // );
+        $family = Family::updateOrCreate(
+            ['fml_student_id' => $studentId],
+            $validated
+        );
 
         DB::commit();
 
@@ -263,5 +264,93 @@ class prospectiveStudentController extends Controller
         ], 500);
     }
 }
+public function stepFive(Request $request)
+{
+   $userId    = auth()->user()->usr_id;
+$studentId = auth()->user()->student->std_id;
+
+$validated = $request->validate([
+    'fml_mother_name'        => 'required|string|max:255',
+    'fml_mother_religion_id' => 'required|numeric',
+    'fml_mother_nationality' => 'required|string|max:255',
+    'fml_mother_education'   => 'required|string|max:255',
+    'fml_mother_occupation'  => 'required|string|max:255',
+    'fml_mother_income'      => 'required|numeric|min:0',
+    'fml_mother_address'     => 'required|string|max:1000',
+    'fml_mother_phone'       => 'required|string|max:20',
+]);
+
+DB::beginTransaction();
+
+try {
+
+    $family = Family::updateOrCreate(
+        ['fml_student_id' => $studentId],
+        $validated
+    );
+
+    DB::commit();
+
+    return response()->json([
+        'status'  => true,
+        'message' => 'Data ibu berhasil disimpan.',
+    ]);
+
+} catch (\Exception $e) {
+
+    DB::rollBack();
+
+    return response()->json([
+        'status'  => false,
+        'message' => 'Terjadi kesalahan saat menyimpan data.',
+        'error'   => $e->getMessage()
+    ], 500);
+}
+}
+public function stepSix(Request $request)
+{
+   $userId    = auth()->user()->usr_id;
+$studentId = auth()->user()->student->std_id;
+
+$validated = $request->validate([
+    'fml_guardian_name'        => 'nullable|string|max:255',
+    'fml_guardian_religion_id' => 'nullable|numeric',
+    'fml_guardian_nationality' => 'nullable|string|max:255',
+    'fml_guardian_education'   => 'nullable|string|max:255',
+    'fml_guardian_occupation'  => 'nullable|string|max:255',
+    'fml_guardian_income'      => 'nullable|numeric|min:0',
+    'fml_guardian_address'     => 'nullable|string|max:1000',
+    'fml_guardian_phone'       => 'nullable|string|max:20',
+]);
+
+DB::beginTransaction();
+
+try {
+
+    $family = Family::updateOrCreate(
+        ['fml_student_id' => $studentId],
+        $validated
+    );
+
+    DB::commit();
+
+    return response()->json([
+        'status'  => true,
+        'message' => 'Data wali berhasil disimpan.',
+    ]);
+
+} catch (\Exception $e) {
+
+    DB::rollBack();
+
+    return response()->json([
+        'status'  => false,
+        'message' => 'Terjadi kesalahan saat menyimpan data.',
+        'error'   => $e->getMessage()
+    ], 500);
+}
+}
+
+
 
 }
