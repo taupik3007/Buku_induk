@@ -31,7 +31,7 @@ return new class extends Migration
             $table->renameColumn('deleted_at', 'tce_deleted_at');
             $table->string('tce_sys_note')->nullable();
         });
-    }
+    } 
 
     /**
      * Reverse the migrations.

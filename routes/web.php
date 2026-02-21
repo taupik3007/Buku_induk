@@ -75,7 +75,8 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::get('/teach_history', [prospectiveTeacherController::class, 'history'])->name('history');
         Route::post('/teach_history', [prospectiveTeacherController::class,'store_history'])->name('store_history');
         Route::get('/education', [prospectiveTeacherController::class, 'education'])->name('education');
-        Route::post('/education', [prospectiveTeacherController::class,'store_education'])->name('store_education');        
+        Route::post('/education', [prospectiveTeacherController::class,'store_education'])->name('store_education'); 
+        Route::post('/finish', [prospectiveTeacherController::class,'finish'])->name('finish');            
               
         Route::get('/physical-condition', [prospectiveTeacherController::class, 'physicalCondition'])->name('physicalCondition');
         Route::get('/parent-father', [prospectiveTeacherController::class, 'parentFather'])->name('parentFather');

@@ -16,9 +16,36 @@ class prospectiveTeacherController extends Controller
      * Display a listing of the resource.
      */
     public function biodata()
-    {
+{
+    $tcb_id = session('tcb_id');
+
+    // kalau session kosong, biar ga error
+    if (!$tcb_id) {
         return view('teacher.prospectiveTeacher.biodata');
     }
+
+    $biodata = Teacher_Bio::find($tcb_id);
+
+    $address = Teacher_Address::where('tca_bio_id', $tcb_id)->first();
+
+    $partner = Teacher_Partner::where('tcp_bio_id', $tcb_id)->first();
+
+    $history = Teach_History::where('tcs_bio_id', $tcb_id)->first();
+
+    $education = TeacherEducation::where('tce_bio_id', $tcb_id)->first();
+
+    return view(
+        'teacher.prospectiveTeacher.biodata',
+        compact(
+            'biodata',
+            'address',
+            'partner',
+            'history',
+            'education'
+        )
+    );
+}
+
 
     public function store_biodata(Request $request)
     {
@@ -31,17 +58,22 @@ class prospectiveTeacherController extends Controller
                 'tcb_mary_status'=> 'required',
                 'tcb_telp'       => 'required'
             ]);
-            $teacher = Teacher_Bio::updateOrCreate([
-                'tcb_id' => $request->tcb_id],
+            $tcb_id = session('tcb_id');
+
+            $teacher = Teacher_Bio::updateOrCreate(
+                ['tcb_id' => $tcb_id],
                 [
-                'tcb_user_name'   => $request->tcb_user_name,
-                'tcb_birth_place' => $request->tcb_birth_place,
-                'tcb_birth_date' => $request->tcb_birth_date,
-                'tcb_religion'   => $request->tcb_religion,
-                'tcb_mary_status'=> $request->tcb_mary_status,
-                'tcb_telp'       => $request->tcb_telp,
-            ]);
+                    'tcb_user_name'   => $request->tcb_user_name,
+                    'tcb_birth_place' => $request->tcb_birth_place,
+                    'tcb_birth_date'  => $request->tcb_birth_date,
+                    'tcb_religion'    => $request->tcb_religion,
+                    'tcb_mary_status' => $request->tcb_mary_status,
+                    'tcb_telp'        => $request->tcb_telp,
+                ]
+            );
+
             session(['tcb_id' => $teacher->tcb_id]);
+
             return response()->json([
                 'success' => true,
                 'message' => 'Biodata berhasil disimpan'
@@ -75,6 +107,8 @@ class prospectiveTeacherController extends Controller
                     'message' => 'Session biodata tidak ditemukan'
                 ], 400);
             }
+
+            // Teacher_Address::where('tca_bio_id', $tcb_id)->delete();
     
             $address = Teacher_Address::updateOrCreate(
                 ['tca_bio_id' => $tcb_id], // kondisi
@@ -106,51 +140,73 @@ class prospectiveTeacherController extends Controller
     
 
     public function store_partner(Request $request)
-    {
-        try {
-    
-            $request->validate([
-                'tcp_name' => 'required',
-                'tcp_nik'     => 'required',
-                'tcp_work' => 'required',
-                'tcp_nip'  => 'required',
-            ]);
-    
-            // ambil id biodata dari session step 1
-            $tcb_id = session('tcb_id');
-    
-            if(!$tcb_id){
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Session biodata tidak ditemukan'
-                ], 400);
-            }
-    
-            $address = Teacher_Partner::updateOrCreate(
-                ['tcp_bio_id' => $tcb_id], // kondisi
-                [
-                    'tcp_name' => $request->tcp_name,
-                    'tcp_nik' => $request->tcp_nik,
-                    'tcp_work'     => $request->tcp_work,
-                    'tcp_nip' => $request->tcp_nip,
-                ]
-            );
-    
-            return response()->json([
-                'success' => true,
-                'message' => 'Data Pasangan berhasil disimpan'
-            ]);
-    
-        } catch (\Throwable $e) {
-    
+{
+    try {
+
+        $tcb_id = session('tcb_id');
+
+        if (!$tcb_id) {
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage()
-            ], 500);
-    
+                'message' => 'Session biodata tidak ditemukan'
+            ], 400);
         }
+
+        $biodata = Teacher_Bio::find($tcb_id);
+
+        if (!$biodata) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data biodata tidak ditemukan'
+            ], 400);
+        }
+
+        if ($biodata->tcb_mary_status == 1) {
+
+            $request->validate([
+                'tcp_name' => 'required|string',
+                'tcp_nik'  => 'required',
+                'tcp_work' => 'required|string',
+                'tcp_nip'  => 'nullable'
+            ]);
+
+            Teacher_Partner::updateOrCreate(
+                ['tcp_bio_id' => $tcb_id],
+                [
+                    'tcp_name' => $request->tcp_name,
+                    'tcp_nik'  => $request->tcp_nik,
+                    'tcp_work' => $request->tcp_work,
+                    'tcp_nip'  => $request->tcp_nip,
+                ]
+            );
+
+        } else {
+
+            // tetap create / update tapi isinya null
+            Teacher_Partner::updateOrCreate(
+                ['tcp_bio_id' => $tcb_id],
+                [
+                    'tcp_name' => null,
+                    'tcp_nik'  => null,
+                    'tcp_work' => null,
+                    'tcp_nip'  => null,
+                ]
+            );
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Pasangan berhasil disimpan'
+        ]);
+
+    } catch (\Throwable $e) {
+
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage()
+        ], 500);
     }
-    
+}
     public function store_history(Request $request)
     {
         try {
@@ -173,6 +229,7 @@ class prospectiveTeacherController extends Controller
                     'message' => 'Session biodata tidak ditemukan'
                 ], 400);
             }
+            // Teach_History::where('tcs_bio_id', $tcb_id)->delete();
     
             $address = Teach_History::updateOrCreate(
                 ['tcs_bio_id' => $tcb_id], // kondisi
@@ -203,10 +260,8 @@ class prospectiveTeacherController extends Controller
     
     public function store_education(Request $request)
     {
-        try {
-    
-            foreach ($request->education as $edu) {
-                $tcb_id = session('tcb_id');
+        try {    
+            $tcb_id = session('tcb_id');
     
                 if(!$tcb_id){
                     return response()->json([
@@ -214,15 +269,19 @@ class prospectiveTeacherController extends Controller
                         'message' => 'Session biodata tidak ditemukan'
                     ], 400);
                 }
-                TeacherEducation::create([
-                    'tce_bio_id' => $tcb_id,
-                    'tce_level' => $edu['level'] ?? null,
-                    'tce_institution' => $edu['institution'] ?? null,
-                    'tce_graduation_year' => $edu['graduation_year'] ?? null,
-                    'tce_major' => $edu['major'] ?? null,
-                    'tce_degree' => $edu['degree'] ?? null,
-                ]);
-            }
+                // TeacherEducation::where('tce_bio_id', $tcb_id)->delete();
+
+                foreach ($request->education as $edu) {
+                    TeacherEducation::updateOrCreate([
+                        'tce_bio_id' => $tcb_id,
+                        'tce_level' => $edu['level'] ?? null,
+                        'tce_institution' => $edu['institution'] ?? null,
+                        'tce_graduation_year' => $edu['graduation_year'] ?? null,
+                        'tce_major' => $edu['major'] ?? null,
+                        'tce_degree' => $edu['degree'] ?? null,
+                    ]);
+                }
+
             return response()->json([
                 'success' => true,
                 'message' => 'Riwayat pendidikan berhasil disimpan'
@@ -238,6 +297,15 @@ class prospectiveTeacherController extends Controller
         }
     }
     
+    public function finish()
+{
+    session()->forget('tcb_id');
+
+    return response()->json([
+        'success' => true,
+        'redirect' => route('administration.prospectiveTeacher.biodata')
+    ]);
+}
 
 
 
