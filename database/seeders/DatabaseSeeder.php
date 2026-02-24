@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Religion;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,16 +16,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        Religion::insert([
+            ['rlg_name' => 'Islam'],
+            ['rlg_name' => 'Kristen'],
+            ['rlg_name' => 'Katolik'],
+            ['rlg_name' => 'Hindu'],
+            ['rlg_name' => 'Buddha'],
+            ['rlg_name' => 'Konghucu'],
+        ]);
 
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-        $this->call([
-            RoleSeeder::class,
-            UserSeeder::class,
-            MajorSeeder::class
-    ]);
+        
+        
+        $this->call([RoleSeeder::class]);
     }
 }

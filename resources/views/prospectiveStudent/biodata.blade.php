@@ -10,6 +10,7 @@
     <!-- Favicon icon-->
     <link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" />
 
+    <link rel="stylesheet" href="{{ asset('assets/libs/select2/dist/css/select2.min.css') }}">
     <!-- Core Css -->
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
@@ -18,6 +19,8 @@
     <title>Modernize Bootstrap Admin</title>
     <!-- Owl Carousel  -->
     <link rel="stylesheet" href="{{ asset('assets/libs/owl.carousel/dist/assets/owl.carousel.min.css') }}" />
+
+    {{-- selec2 --}}
 </head>
 
 <body>
@@ -49,39 +52,7 @@
                     data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                     <i class="ti ti-menu-2 fs-8"></i>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mx-auto mb-2 gap-xl-7 gap-8 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link fs-4 fw-bold text-dark link-primary"
-                                href="../main/frontend-aboutpage.html">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active fs-4 fw-bold text-dark link-primary"
-                                href="../main/frontend-blogpage.html">Blog</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link fs-4 fw-bold text-dark link-primary d-flex gap-2"
-                                href="../main/frontend-portfoliopage.html">Portfolio
-                                <span class="badge text-primary bg-primary-subtle fs-2 fw-bolder hstack">New</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link fs-4 fw-bold text-dark link-primary"
-                                href="../main/index.html">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link fs-4 fw-bold text-dark link-primary"
-                                href="../main/frontend-pricingpage.html">Pricing</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link fs-4 fw-bold text-dark link-primary"
-                                href="../main/frontend-contactpage.html">Contact</a>
-                        </li>
-                    </ul>
-                    <div>
-                        <a href="../main/authentication-login.html" class="btn btn-primary py-8 px-9">Log In</a>
-                    </div>
-                </div>
+
             </div>
         </nav>
     </header>
@@ -191,65 +162,58 @@
                                             <div class="step" data-target="#step-3">
                                                 <button class="step-trigger">
                                                     <span class="bs-stepper-circle">3</span>
-                                                    <span class="bs-stepper-label">Pasangan</span>
+                                                    <span class="bs-stepper-label">Kondisi Fisik</span>
                                                 </button>
                                             </div>
                                             <div class="line"></div>
                                             <div class="step" data-target="#step-4">
                                                 <button class="step-trigger">
                                                     <span class="bs-stepper-circle">4</span>
-                                                    <span class="bs-stepper-label">Riwayat Mengajar</span>
+                                                    <span class="bs-stepper-label">Data Ayah</span>
                                                 </button>
                                             </div>
                                             <div class="line"></div>
                                             <div class="step" data-target="#step-5">
                                                 <button class="step-trigger">
                                                     <span class="bs-stepper-circle">5</span>
-                                                    <span class="bs-stepper-label">Riwayat Pendidikan</span>
+
+                                                    <span class="bs-stepper-label">Data Ibu</span>
+                                                </button>
+                                            </div>
+                                            <div class="line"></div>
+
+                                            <div class="step" data-target="#step-6">
+                                                <button class="step-trigger">
+                                                    <span class="bs-stepper-circle">6</span>
+                                                    <span class="bs-stepper-label">Data Wali</span>
                                                 </button>
                                             </div>
                                         </div>
 
                                         <form method="POST" action="/register">
+                                            <input type="hidden" id="registration_id" value="">
+
                                             @csrf
 
                                             <div class="bs-stepper-content">
+                                                {{-- step 1 --}}
+                                                @include('prospectiveStudent.step-one')
 
-                                                <div id="step-1" class="content">
-                                                    <input name="nama" class="form-control mb-3">
-                                                    <button type="button" class="btn btn-primary"
-                                                        onclick="stepper.next()">
-                                                        Lanjut
-                                                    </button>
-                                                </div>
-                                                <div id="step-2" class="content">
-                                                    <input name="alamat" class="form-control mb-3">
-                                                    <button type="button" class="btn btn-primary"
-                                                        onclick="stepper.next()">
-                                                        Lanjut
-                                                    </button>
-                                                </div>
-                                                <div id="step-3" class="content">
-                                                    <input name="alamat" class="form-control mb-3">
-                                                    <button type="button" class="btn btn-primary"
-                                                        onclick="stepper.next()">
-                                                        Lanjut
-                                                    </button>
-                                                </div>
-                                                <div id="step-4" class="content">
-                                                    <input name="alamat" class="form-control mb-3">
-                                                    <button type="button" class="btn btn-primary"
-                                                        onclick="stepper.next()">
-                                                        Lanjut
-                                                    </button>
-                                                </div>
+                                                {{-- step 2 --}}
 
-                                                <div id="step-5" class="content">
-                                                    <input name="alamat" class="form-control mb-3">
-                                                    <button type="submit" class="btn btn-success">
-                                                        Simpan
-                                                    </button>
-                                                </div>
+                                                @include('prospectiveStudent.step-two')
+
+                                                {{-- step 3  --}}
+                                                @include('prospectiveStudent.step-three')
+
+                                                {{-- step 4 --}}
+                                                @include('prospectiveStudent.step-four')
+
+                                                {{-- step 5 --}}
+                                                @include('prospectiveStudent.step-five')
+
+                                                {{-- step 6 --}}
+                                                @include('prospectiveStudent.step-six')
 
                                             </div>
                                         </form>
@@ -260,20 +224,20 @@
                     </div>
                 </div>
 
-              
+
             </div>
         </section>
         <!-- ------------------------------------- -->
         <!-- List End -->
         <!-- ------------------------------------- -->
 
-      
+
     </div>
 
     <!-- ------------------------------------- -->
     <!-- Footer Start -->
     <!-- ------------------------------------- -->
-    
+
     <!-- ------------------------------------- -->
     <!-- Footer End -->
     <!-- ------------------------------------- -->
@@ -283,6 +247,26 @@
         class="top-btn btn btn-primary d-flex align-items-center justify-content-center round-54 p-0 rounded-circle">
         <i class="ti ti-arrow-up fs-7"></i>
     </a>
+
+    <script>
+        function saveStep(step) {
+            let formData = new FormData(document.querySelector('form'));
+            formData.append('_token', '{{ csrf_token() }}');
+            formData.append('registration_id', document.getElementById('registration_id').value);
+
+            fetch(`prospective-student/register/step/${step}`, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.success) {
+                        document.getElementById('registration_id').value = res.id;
+                        stepper.next();
+                    }
+                });
+        }
+    </script>
 
 
     <script>
@@ -306,6 +290,9 @@
     <script src="{{ asset('assets/js/frontend-landingpage/homepage.js') }}"></script>
     {{-- bs stapper --}}
     <script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
+    <script src="{{ asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/forms/select2.init.js') }}"></script>
 
 </body>
 

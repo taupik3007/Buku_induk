@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('usr_id');
             $table->string('usr_name');
-            $table->string('usr_email')->unique();
-            $table->timestamp('usr_email_verified_at')->nullable();
-            $table->string('usr_password');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
