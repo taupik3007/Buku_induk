@@ -12,8 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('discounts', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('dsc_id');
+            $table->string('dsc_name');
+            $table->bigInteger('dsc_amount');
+
             $table->timestamps();
+            $table->renameColumn('updated_at', 'dsc_updated_at');
+            $table->renameColumn('created_at', 'dsc_created_at');
+            $table->unsignedBigInteger('dsc_created_by')->nullable();
+            $table->unsignedBigInteger('dsc_deleted_by')->nullable();
+            $table->unsignedBigInteger('dsc_updated_by')->nullable();
+            $table->softDeletes(); // gunakan deleted_at
+            $table->renameColumn('deleted_at', 'dsc_deleted_at');
+            $table->string('dsc_sys_note')->nullable();
         });
     }
 
