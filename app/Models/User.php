@@ -15,13 +15,14 @@ class User extends Authenticatable
     use HasFactory, Notifiable, HasRoles, SoftDeletes;
     protected $primaryKey = 'usr_id';
 
+    protected $primaryKey ='usr_id';
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'usr_name',
         'email',
         'password',
     ];
@@ -48,4 +49,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function student()
+{
+    return $this->hasOne(
+        Student::class,
+        'std_usr_id', // FK di students
+        'usr_id'      // PK di users
+    );
+}
 }

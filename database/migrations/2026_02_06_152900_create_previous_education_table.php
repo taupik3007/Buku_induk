@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('previous_education', function (Blueprint $table) {
             $table->bigIncrements('prv_id');
-            $table->unsignedBigInteger('prv_user_id');
-            $table->foreign('prv_user_id')->references('usr_id')->on('users')->onDelete('cascade');
-            $table->string('prv_previous_school');
-            $table->date('prv_certificate_date');
-            $table->bigInteger('prv_certificate_number');
-            $table->string('prv_length');
-            $table->string('prv_transfer');
-            $table->string('prv_reason');
+            $table->unsignedBigInteger('prv_student_id');
+            $table->foreign('prv_student_id')->references('std_id')->on('students')->onDelete('cascade');
+            $table->string('prv_school_name');
+            $table->date('prv_certificate_date')->nullable();
+            $table->bigInteger('prv_certificate_number')->nullable();
+            $table->string('prv_length')->nullable();
+            $table->string('prv_transfer')->nullable();
+            $table->string('prv_reason')->nullable();
             $table->timestamps();
             $table->renameColumn('updated_at', 'prv_updated_at');
             $table->renameColumn('created_at', 'prv_created_at');

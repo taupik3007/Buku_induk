@@ -5,9 +5,13 @@ use App\Http\Controllers\Administration\ClassController;
 use App\Http\Controllers\Administration\MajorController;
 use App\Http\Controllers\prospectiveStudentController;
 use App\Http\Controllers\ProfileController;
+
 use App\Http\Controllers\Student\DashboardController;
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
 use App\Http\Controllers\Administration\prospectiveTeacherController;
+
+use App\Http\Controllers\RegionController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -57,14 +61,6 @@ Route::prefix('administration')->name('administration.')->group(function () {
     //     Route::post('/{id}/edit', [ClassController::class, 'update'])->name('classes.update');
     //     Route::delete('/{id}/destroy', [ClassController::class, 'destroy'])->name('classes.destroy');
     // });
-    Route::prefix('prospective-student')->name('prospectiveStudent.')->group(function () {
-        Route::get('/biodata', [prospectiveStudentController::class, 'biodata'])->name('biodata');
-        Route::get('/address', [prospectiveStudentController::class, 'address'])->name('address');
-        Route::get('/physical-condition', [prospectiveStudentController::class, 'physicalCondition'])->name('physicalCondition');
-        Route::get('/parent-father', [prospectiveStudentController::class, 'parentFather'])->name('parentFather');
-        Route::get('/parent-mother', [prospectiveStudentController::class, 'parentMother'])->name('parentMother');
-        Route::get('/parent-guardian', [prospectiveStudentController::class, 'parentGuardian'])->name('parentGuardian');
-    });
     Route::prefix('prospective-teacher')->name('prospectiveTeacher.')->group(function () {
         Route::get('/biodata', [prospectiveTeacherController::class, 'biodata'])->name('biodata');
         Route::post('/biodata', [prospectiveTeacherController::class,'store_biodata'])->name('store_biodata');
@@ -97,5 +93,31 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
     });
 
 });
+
+    Route::prefix('prospective-student')->name('prospectiveStudent.')->group(function () {
+        Route::get('/biodata', [prospectiveStudentController::class, 'biodata'])->name('biodata');
+        Route::post('/register/stepOne', [prospectiveStudentController::class, 'stepOne'])->name('register.stepOne');
+        Route::post('/register/stepTwo', [prospectiveStudentController::class, 'stepTwo'])->name('register.stepTwo');
+        Route::post('/register/stepThree', [prospectiveStudentController::class, 'stepThree'])->name('register.stepThree');
+        Route::post('/register/stepFour', [prospectiveStudentController::class, 'stepFour'])->name('register.stepFour');
+        Route::post('/register/stepFive', [prospectiveStudentController::class, 'stepFive'])->name('register.stepFive');
+        Route::post('/register/stepSix', [prospectiveStudentController::class, 'stepSix'])->name('register.stepSix');
+        Route::get('/api/provinces', [regionController::class, 'provinces']);
+        Route::get('/api/regencies/{province}', [regionController::class, 'regencies']);
+        Route::get('/api/districts/{province}', [regionController::class, 'districts']);
+        Route::get('/api/villages/{province}', [regionController::class, 'villages']);
+        
+
+
+
+
+
+        
+    });
+
+
+
+
+
 
 require __DIR__.'/auth.php';
