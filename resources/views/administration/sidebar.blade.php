@@ -32,7 +32,9 @@
               <span class="hide-menu">Dashboard</span>
             </a>
           </li>
-
+          <!-- ---------------------------------- -->
+          <!-- akademik -->
+          <!-- ---------------------------------- -->
           <li class="nav-small-cap">
             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
             <span class="hide-menu">Akademik</span>
@@ -64,7 +66,30 @@
               <span class="hide-menu">Tahun Ajaran</span>
             </a>
           </li>
-         
+
+          <!-- ---------------------------------- -->
+          <!-- PPDB -->
+          <!-- ---------------------------------- -->
+         <li class="nav-small-cap">
+            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+            <span class="hide-menu">PPDB</span>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="/administration/ppdb"  aria-expanded="false">
+              <span>
+                <i class="ti ti-tag-plus"></i>
+              </span>
+              <span class="hide-sitemap">PPDB</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="/administration/ppdb-requirement"  aria-expanded="false">
+              <span>
+                <i class="ti ti-list-check"></i>
+              </span>
+              <span class="hide-sitemap">Persyaratan</span>
+            </a>
+          </li>
       </nav>
 
       <div class="fixed-profile p-3 mx-4 mb-2 bg-secondary-subtle rounded mt-3">
