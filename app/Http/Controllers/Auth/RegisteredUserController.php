@@ -42,6 +42,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        $user->assignRole('student');
 
         $student = Student::create([
             'std_usr_id'=>$user->usr_id
