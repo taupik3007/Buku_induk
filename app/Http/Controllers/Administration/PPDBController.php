@@ -38,12 +38,13 @@ class PPDBController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
+        $fee = str_replace(['Rp', '.', ' '], '', $request->ppd_entry_fee);
         $create_ppdb = Ppdb::create([
             'ppd_academic_id' => $request->ppd_academic_id,
             'ppd_start_date' => $request->ppd_start_date,
             'ppd_end_date' => $request->ppd_end_date,
             'ppd_end_date' => $request->ppd_end_date,
-            'ppd_entry_fee' => $request->ppd_entry_fee,
+            'ppd_entry_fee' => $fee,
 
         ]); 
         // dd($create_ppdb);
@@ -75,12 +76,13 @@ class PPDBController extends Controller
     public function update(Request $request, string $id)
     {
         //  dd($request->all());
+        $fee = str_replace(['Rp', '.', ' '], '', $request->ppd_entry_fee);
         $update_Ppdb =Ppdb::findOrFail($id); 
         $update_Ppdb->ppd_academic_id= $request->ppd_academic_id;
         $update_Ppdb->ppd_start_date = $request->ppd_start_date;
         $update_Ppdb->ppd_end_date = $request->ppd_end_date;
         $update_Ppdb->ppd_end_date = $request->ppd_end_date;
-        $update_Ppdb->ppd_entry_fee = $request->ppd_entry_fee;
+        $update_Ppdb->ppd_entry_fee = $fee;
         $update_Ppdb->save();
 
         Alert::success('Berhasil Mengedit', 'Berhasil mengubah data jurusan');

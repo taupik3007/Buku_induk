@@ -66,9 +66,9 @@
                                 
                                 <td>{{$no+1}}</td>
                                 <td>{{ $ppdb->academic->academic_year ?? '-' }}</td>
-                                <td>{{ $ppdb->ppd_start_date}}</td>
-                                <td>{{ $ppdb->ppd_end_date }}</td>
-                                <td>{{ $ppdb->ppd_entry_fee}}</td>
+                                <td>{{ \Carbon\Carbon::parse($ppdb->ppd_start_date)->translatedFormat('j F Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($ppdb->ppd_end_date)->translatedFormat('j F Y') }}</td>
+                                <td>Rp {{ number_format($ppdb->ppd_entry_fee, 0, ',', '.') }}</td>
                               
                                 <td>
                                      <a href="/administration/ppdb/{{ $ppdb->ppd_id}}/edit" class="btn btn-primary">Edit</a>

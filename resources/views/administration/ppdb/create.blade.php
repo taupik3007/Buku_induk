@@ -83,7 +83,7 @@
                         <div class="mb-4 row align-items-center">
                             <label for="exampleInputText2" class="form-label col-sm-3 col-form-label">Biaya Awal</label>
                             <div class="col-sm-9">
-                                <input type="number" name="ppd_entry_fee" class="form-control" id="exampleInputText2"
+                                <input type="text" name="ppd_entry_fee" class="form-control" id="ppd_entry_fee"
                                     placeholder="" required oninvalid="this.setCustomValidity('Singkatan Wajib Diisi')"
                                     onchange="this.setCustomValidity('')">
                             </div>
@@ -108,4 +108,21 @@
 
 
 @push('script')
+<script>
+    const input = document.getElementById('ppd_entry_fee');
+    
+    input.addEventListener('keyup', function(e) {
+        let value = this.value.replace(/[^0-9]/g, '');
+    
+        if(value){
+            this.value = 'Rp ' + new Intl.NumberFormat('id-ID').format(value);
+        }else{
+            this.value = '';
+        }
+    });
+    
+    document.querySelector("form").addEventListener("submit", function(){
+        input.value = input.value.replace(/[^0-9]/g, '');
+    });
+    </script>
 @endpush
