@@ -29,10 +29,15 @@ class DatabaseSeeder extends Seeder
             ['rlg_name' => 'Hindu'],
             ['rlg_name' => 'Buddha'],
             ['rlg_name' => 'Konghucu'],
-        ]);
-
-        
+        ]);     
         
         $this->call([RoleSeeder::class]);
+          $user =  User::create([
+            'usr_name' => 'Test User',
+            'email' => 'taupikpathurrohman@gmail.com',
+            'password'=> bcrypt('12312311'),
+        ]);
+
+        $user->assignRole('administration');
     }
 }

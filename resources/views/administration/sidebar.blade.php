@@ -25,7 +25,7 @@
           <!-- Dashboard -->
           <!-- ---------------------------------- -->
           <li class="sidebar-item">
-            <a class="sidebar-link" href="/administration/dashboard"  aria-expanded="false">
+            <a class="sidebar-link" href="/administration/"  aria-expanded="false">
               <span>
                 <i class="ti ti-aperture"></i>
               </span>

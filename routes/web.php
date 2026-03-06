@@ -25,6 +25,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::prefix('administration')->name('administration.')->group(function () {
+     Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
+
     Route::prefix('major')->name('major.')->group(function () {
         Route::get('/', [MajorController::class, 'index'])->name('index');
         Route::get('/create', [MajorController::class, 'create'])->name('create');

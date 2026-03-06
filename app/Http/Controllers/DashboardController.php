@@ -26,4 +26,7 @@ class DashboardController extends Controller
 
         abort(403, 'Role tidak dikenali.');
     }
+    public function dashboard(){
+        return view('administration.dashboard');
+    }
 }
