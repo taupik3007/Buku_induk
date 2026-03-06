@@ -15,7 +15,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable, HasRoles, SoftDeletes;
     protected $primaryKey = 'usr_id';
 
-    protected $primaryKey ='usr_id';
+    // protected $primaryKey ='usr_id';
     /**
      * The attributes that are mass assignable.
      *

@@ -59,7 +59,7 @@
           </li>
 
           <li class="sidebar-item">
-            <a class="sidebar-link" href="/administration/academic-year"  aria-expanded="false">
+            <a class="sidebar-link" href="/administration/academic-years/"  aria-expanded="false">
               <span>
                 <i class="ti ti-calendar-time"></i>
               </span>

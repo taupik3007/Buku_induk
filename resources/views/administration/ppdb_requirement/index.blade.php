@@ -6,7 +6,7 @@
 @endpush
 
 @section('title')
-    SiMAPUT | Daftar Tahun Ajaran
+    SIMaput | Persyaratan PPDB
 @endsection
 
 @section('content')
@@ -15,16 +15,11 @@
             <div class="card-body px-4 py-3">
               <div class="row align-items-center">
                 <div class="col-9">
-                  <h4 class="fw-semibold mb-8">TAHUN AJARAN</h4>
+                  <h4 class="fw-semibold mb-8">Persayratan PPDB</h4>
                   <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                    <li class="breadcrumb-item" aria-current="page">Daftar Tahun Ajaran</li>
-                      <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" href="/administration/academic-years/create">Tambah Tahun Ajaran</a>
-                      </li>
-                      <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" href="/administration/academic-years/{id}/edit">Edit Tahun Ajaran</a>
-                      </li>
+                    <li class="breadcrumb-item" aria-current="page">Daftar Persyaratan PPDB</li>
+                      
                     </ol>
                    
                   </nav>
@@ -52,8 +47,8 @@
                             <!-- start row -->
                             <tr>
                                 <th width="10%">No</th>
-                                <th>Tahun Ajaran</th>
-                                <th>Status</th>
+                                <th>Nama Persyaratan</th>
+                                <th>Jenis Inputan</th>
                                 <th>Aksi</th>
                                 
                             </tr>
@@ -61,28 +56,25 @@
                         </thead>
                         <tbody>
                           <!-- start row -->
-                          @foreach ( $academic_year as $no=> $academic)
-                          <tr>
+                           @foreach ( $requirements as $no=> $requirements)
+                            <tr>
+                                
+                                <td>{{$no+1}}</td>
+                               
+                                <td>{{ $requirements->pdr_name}}</td>
+                                <td>{{ $requirements->pdr_type }}</td>
+                             
                               
-                              <td>{{$no+1}}</td>
-                              <td>{{ $academic->academic_year }}</td>
-                              <td>
-                                @if($academic->acy_status == 1)
-                                    <span class="badge bg-success">Aktif</span>
-                                @else
-                                    <span class="badge bg-secondary">Nonaktif</span>
-                                @endif
-                            </td>
-                              <td>
-                                   <a href="/administration/academic_years/{{ $academic->acy_id}}/edit" class="btn btn-primary">Edit</a>
-                                   <a href="/administration/academic_years/{{ $academic->acy_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
-
-                              </td>
-
-
-                              
-                          </tr>
-                          @endforeach
+                                <td>
+                                     {{-- <a href="/administration/ppdb/{{ $ppdb->ppd_id}}/edit" class="btn btn-primary">Edit</a>
+                                     <a href="/administration/ppdb/{{ $ppdb->ppd_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a> --}}
+  
+                                </td>
+  
+  
+                                
+                            </tr>
+                            @endforeach
                           <!-- end row -->
                           
                       </tbody>
@@ -91,9 +83,9 @@
                             
 
                             <tr>
-                                <th width="10%">No</th>
-                                <th>Tahun Ajaran</th>
-                                <th>Status</th>
+                              <th width="10%">No</th>
+                                <th>Nama Persyaratan</th>
+                                <th>Jenis Inputan</th>
                                 <th>Aksi</th>
                             </tr>
                             <!-- end row -->

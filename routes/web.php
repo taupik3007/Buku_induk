@@ -4,8 +4,9 @@ use App\Http\Controllers\Administration\AcademicYearController;
 use App\Http\Controllers\Administration\ClassController;
 use App\Http\Controllers\Administration\MajorController;
 use App\Http\Controllers\Administration\PPDBController;
+use App\Http\Controllers\Administration\PPDBRequirementController;
 use App\Http\Controllers\prospectiveStudentController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardController as AdministrationDashboardController;
 use App\Http\Controllers\ProfileController;
 
 use App\Http\Controllers\Student\DashboardController;
@@ -20,7 +21,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'index'])
+Route::get('/dashboard', [AdministrationDashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
@@ -31,7 +32,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::prefix('administration')->name('administration.')->group(function () {
-     Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
+     Route::get('/', [AdministrationDashboardController::class, 'dashboard'])->name('dashboard');
 
     Route::prefix('major')->name('major.')->group(function () {
         Route::get('/', [MajorController::class, 'index'])->name('index');
@@ -41,7 +42,7 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::post('/{id}/edit', [MajorController::class, 'update'])->name('update');
         Route::delete('/{id}/destroy', [MajorController::class, 'destroy'])->name('destroy');
     });
-    Route::prefix('academic_years')->name('academic_years.')->group(function () {
+    Route::prefix('academic-years')->name('academic_years.')->group(function () {
         Route::get('/', [AcademicYearController::class, 'index'])->name('academic_years');
         Route::get('/create', [AcademicYearController::class, 'create'])->name('academic_years.create');
         Route::post('/create', [AcademicYearController::class, 'store'])->name('academic_years.store');
@@ -51,6 +52,14 @@ Route::prefix('administration')->name('administration.')->group(function () {
     });
     Route::prefix('classes')->name('classes.')->group(function () {
         Route::get('/', [ClassController::class, 'index'])->name('classes');
+        Route::get('/create', [ClassController::class, 'create'])->name('classes.create');
+        Route::post('/create', [ClassController::class, 'store'])->name('classes.store');
+        Route::get('/{id}/edit', [ClassController::class, 'edit'])->name('classes.edit');
+        Route::post('/{id}/edit', [ClassController::class, 'update'])->name('classes.update');
+        Route::delete('/{id}/destroy', [ClassController::class, 'destroy'])->name('classes.destroy');
+    });
+    Route::prefix('ppdb-requirement')->name('classes.')->group(function () {
+        Route::get('/', [PpdbRequirementController::class, 'index'])->name('index');
         Route::get('/create', [ClassController::class, 'create'])->name('classes.create');
         Route::post('/create', [ClassController::class, 'store'])->name('classes.store');
         Route::get('/{id}/edit', [ClassController::class, 'edit'])->name('classes.edit');
