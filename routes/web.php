@@ -3,6 +3,7 @@
 use App\Http\Controllers\Administration\AcademicYearController;
 use App\Http\Controllers\Administration\ClassController;
 use App\Http\Controllers\Administration\MajorController;
+use App\Http\Controllers\Administration\PPDBController;
 use App\Http\Controllers\prospectiveStudentController;
 use App\Http\Controllers\ProfileController;
 
@@ -78,6 +79,14 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::get('/parent-father', [prospectiveTeacherController::class, 'parentFather'])->name('parentFather');
         Route::get('/parent-mother', [prospectiveTeacherController::class, 'parentMother'])->name('parentMother');
         Route::get('/parent-guardian', [prospectiveTeacherController::class, 'parentGuardian'])->name('parentGuardian');
+    });
+    Route::prefix('ppdb')->name('ppdb.')->group(function () {
+        Route::get('/', [PPDBController::class, 'index'])->name('');
+        Route::get('/create', [PPDBController::class, 'create'])->name('create');
+        Route::post('/create', [PPDBController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [PPDBController::class, 'edit'])->name('edit');
+        Route::post('/{id}/edit', [PPDBController::class, 'update'])->name('update');
+        Route::delete('/{id}/destroy', [PPDBController::class, 'destroy'])->name('destroy');
     });
 });
 
