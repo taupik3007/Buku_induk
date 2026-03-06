@@ -176,6 +176,7 @@
                                             <div class="step" data-target="#step-5">
                                                 <button class="step-trigger">
                                                     <span class="bs-stepper-circle">5</span>
+
                                                     <span class="bs-stepper-label">Data Ibu</span>
                                                 </button>
                                             </div>
@@ -187,7 +188,6 @@
                                                     <span class="bs-stepper-label">Data Wali</span>
                                                 </button>
                                             </div>
-
                                         </div>
 
                                         <form method="POST" action="/register">
@@ -196,7 +196,6 @@
                                             @csrf
 
                                             <div class="bs-stepper-content">
-
                                                 {{-- step 1 --}}
                                                 @include('prospectiveStudent.step-one')
 
@@ -215,9 +214,6 @@
 
                                                 {{-- step 6 --}}
                                                 @include('prospectiveStudent.step-six')
-
-
-
 
                                             </div>
                                         </form>

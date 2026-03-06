@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Teacher_Address extends Model
+class TeacherEducation extends Model
 {
     use HasFactory, SoftDeletes ;
-    protected $table = 'teacher_addresses';
-    protected $primaryKey = 'tca_id';
+    protected $table = 'teacher_education';
+    protected $primaryKey = 'tce_id';
     protected $guarded = [];
 
-    const CREATED_AT = 'tca_created_at';
-    const UPDATED_AT = 'tca_updated_at';
-    const DELETED_AT = 'tca_deleted_at';
+    const CREATED_AT = 'tce_created_at';
+    const UPDATED_AT = 'tce_updated_at';
+    const DELETED_AT = 'tce_deleted_at';
 
     public function bio()
     {

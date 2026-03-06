@@ -3,9 +3,15 @@
 use App\Http\Controllers\Administration\AcademicYearController;
 use App\Http\Controllers\Administration\ClassController;
 use App\Http\Controllers\Administration\MajorController;
+use App\Http\Controllers\Administration\PPDBController;
 use App\Http\Controllers\prospectiveStudentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+
+use App\Http\Controllers\Student\DashboardController;
+use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
+use App\Http\Controllers\Administration\prospectiveTeacherController;
+
 use App\Http\Controllers\RegionController;
 
 use Illuminate\Support\Facades\Route;
@@ -59,7 +65,45 @@ Route::prefix('administration')->name('administration.')->group(function () {
     //     Route::post('/{id}/edit', [ClassController::class, 'update'])->name('classes.update');
     //     Route::delete('/{id}/destroy', [ClassController::class, 'destroy'])->name('classes.destroy');
     // });
-    
+    Route::prefix('prospective-teacher')->name('prospectiveTeacher.')->group(function () {
+        Route::get('/biodata', [prospectiveTeacherController::class, 'biodata'])->name('biodata');
+        Route::post('/biodata', [prospectiveTeacherController::class,'store_biodata'])->name('store_biodata');
+        Route::get('/address', [prospectiveTeacherController::class, 'address'])->name('address');
+        Route::post('/address', [prospectiveTeacherController::class,'store_address'])->name('store_address'); 
+        Route::get('/partners', [prospectiveTeacherController::class, 'partner'])->name('partner');
+        Route::post('/partners', [prospectiveTeacherController::class,'store_partner'])->name('store_partner');
+        Route::get('/teach_history', [prospectiveTeacherController::class, 'history'])->name('history');
+        Route::post('/teach_history', [prospectiveTeacherController::class,'store_history'])->name('store_history');
+        Route::get('/education', [prospectiveTeacherController::class, 'education'])->name('education');
+        Route::post('/education', [prospectiveTeacherController::class,'store_education'])->name('store_education'); 
+        Route::post('/finish', [prospectiveTeacherController::class,'finish'])->name('finish');            
+              
+        Route::get('/physical-condition', [prospectiveTeacherController::class, 'physicalCondition'])->name('physicalCondition');
+        Route::get('/parent-father', [prospectiveTeacherController::class, 'parentFather'])->name('parentFather');
+        Route::get('/parent-mother', [prospectiveTeacherController::class, 'parentMother'])->name('parentMother');
+        Route::get('/parent-guardian', [prospectiveTeacherController::class, 'parentGuardian'])->name('parentGuardian');
+    });
+    Route::prefix('ppdb')->name('ppdb.')->group(function () {
+        Route::get('/', [PPDBController::class, 'index'])->name('');
+        Route::get('/create', [PPDBController::class, 'create'])->name('create');
+        Route::post('/create', [PPDBController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [PPDBController::class, 'edit'])->name('edit');
+        Route::post('/{id}/edit', [PPDBController::class, 'update'])->name('update');
+        Route::delete('/{id}/destroy', [PPDBController::class, 'destroy'])->name('destroy');
+    });
+});
+
+Route::prefix('student')->name('student.')->group(function () {
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('index');
+    });
+});
+
+Route::prefix('teacher')->name('teacher.')->group(function () {
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::get('/', [TeacherDashboardController::class, 'index'])->name('index');
+    });
+
 });
 
     Route::prefix('prospective-student')->name('prospectiveStudent.')->group(function () {

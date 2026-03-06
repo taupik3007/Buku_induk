@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('teach_histories', function (Blueprint $table) {
             $table->bigIncrements('tcs_id');
+            $table->unsignedBigInteger('tcs_bio_id');
+            $table->foreign('tcs_bio_id')->references('tcb_id')->on('teacher_bios')->onDelete('cascade');
             $table->string('tcs_subject_name');
             $table->string('tcs_name_school');
             $table->string('tcs_class');
             $table->string('tcs_jp');
             $table->year('tcs_year');
+            $table->string('tcs_status');
             $table->timestamps();
             $table->renameColumn('updated_at', 'tcs_updated_at');
             $table->renameColumn('created_at', 'tcs_created_at');

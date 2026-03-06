@@ -2,9 +2,41 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Teacher_Bio extends Model
 {
-    //
+    use HasFactory, SoftDeletes ;
+    protected $table = 'teacher_bios';
+    protected $primaryKey = 'tcb_id';
+    protected $guarded = [];
+
+    const CREATED_AT = 'tcb_created_at';
+    const UPDATED_AT = 'tcb_updated_at';
+    const DELETED_AT = 'tcb_deleted_at';
+
+    public function address()
+    {
+        return $this->hasOne(Teacher_Address::class, 'tcb_id');
+    }
+
+    public function partner()
+    {
+        return $this->hasOne(Teacher_Partner::class, 'tcp_id');
+    }
+
+    public function history()
+    {
+        return $this->hasOne(Teach_History::class, 'tcp_id');
+    }
+
+    public function education()
+    {
+        return $this->hasOne(TeacherEducation::class, 'tce_id');
+    }
+
 }
+
+

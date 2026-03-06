@@ -22,7 +22,6 @@ return new class extends Migration
             $table->foreign('cls_homeroom_id')->references('usr_id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('cls_acy_id');
             $table->foreign('cls_acy_id')->references('acy_id')->on('academic_years')->onDelete('cascade');
-            $table->bigInteger('cls_status')->default(1);
             $table->timestamps();
             $table->renameColumn('updated_at', 'cls_updated_at');
             $table->renameColumn('created_at', 'cls_created_at');

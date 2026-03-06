@@ -15,14 +15,14 @@
             <div class="card-body px-4 py-3">
               <div class="row align-items-center">
                 <div class="col-9">
-                  <h4 class="fw-semibold mb-8">KELAS</h4>
+                  <h4 class="fw-semibold mb-8">PPDB</h4>
                   <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                    <li class="breadcrumb-item" aria-current="page">Daftar Kelas</li>
+                    <li class="breadcrumb-item" aria-current="page">Daftar PPDB</li>
                       <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" href="/administration/classes/create">Tambah Kelas</a>
+                        <a class="text-muted text-decoration-none" href="/administration/ppdb/create">Tambah PPDB</a>
                       </li>
-                      <li class="breadcrumb-item" aria-current="page">Edit Kelas</li>
+                      <li class="breadcrumb-item" aria-current="page">Edit PPDB</li>
                     </ol>
                    
                   </nav>
@@ -39,11 +39,10 @@
         <div class="card">
             <div class="card-body">
                 <div class="mb-5 position-relative">
-                    <h4 class="card-title mb-0">Daftar Kelas</h4>
-                    <a href="/administration/classes/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Kelas</a>
+                    <h4 class="card-title mb-0">Daftar PPDB</h4>
+                    <a href="/administration/ppdb/create" class="btn btn-primary position-absolute top-0 end-0">Tambah ppdb</a>
                 </div>
                 <p class="card-subtitle mb-3">
-                    
                 </p>
                 <div class="table-responsive">
                     <table id="file_export" class="table w-100 table-striped table-bordered display text-nowrap">
@@ -51,12 +50,10 @@
                             <!-- start row -->
                             <tr>
                                 <th width="10%">No</th>
-                                <th>Kode Kelas</th>
-                                <th>Tingkatan</th>
-                                <th>Jurusan</th>
-                                <th>Nomor</th>
-                                <th>Wali Kelas</th>
-                                <th>Tahun Ajaran</th>
+                                <th>Tahun Ajaran </th>
+                                <th>Tanggal Mulai</th>
+                                <th>Tanggal Berakhir</th>
+                                <th>Biaya Masuk</th>
                                 <th>Aksi</th>
                                 
                             </tr>
@@ -64,19 +61,18 @@
                         </thead>
                         <tbody>
                           <!-- start row -->
-                          @foreach ( $class as $no=> $class)
+                          @foreach ( $ppdb as $no=> $ppdb)
                             <tr>
                                 
                                 <td>{{$no+1}}</td>
-                                <td>{{ $class->cls_code}}</td>
-                                <td>{{ $class->cls_level}}</td>
-                                <td>{{ $class->cls_major->mjr_abbr ?? '-' }}</td>
-                                <td>{{ $class->cls_number}}</td>
-                                <td>{{ $class->cls_homeroom->usr_name ?? '-' }}</td>
-                                <td>{{ $class->cls_academic->acy_year ?? '-' }}</td>
+                                <td>{{ $ppdb->academic->academic_year ?? '-' }}</td>
+                                <td>{{ \Carbon\Carbon::parse($ppdb->ppd_start_date)->translatedFormat('j F Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($ppdb->ppd_end_date)->translatedFormat('j F Y') }}</td>
+                                <td>Rp {{ number_format($ppdb->ppd_entry_fee, 0, ',', '.') }}</td>
+                              
                                 <td>
-                                     <a href="/administration/classes/{{ $class->cls_id}}/edit" class="btn btn-primary">Edit</a>
-                                     <a href="/administration/classes/{{ $class->cls_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                                     <a href="/administration/ppdb/{{ $ppdb->ppd_id}}/edit" class="btn btn-primary">Edit</a>
+                                     <a href="/administration/ppdb/{{ $ppdb->ppd_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
   
                                 </td>
   
@@ -92,14 +88,12 @@
                             
 
                             <tr>
-                              <th width="10%">No</th>
-                              <th>Kode Kelas</th>
-                              <th>Tingkatan</th>
-                              <th>Jurusan</th>
-                              <th>Nomor</th>
-                              <th>Wali Kelas</th>
-                              <th>Tahun Ajaran</th>
-                              <th>Aksi</th>
+                                <th width="10%">No</th>
+                                <th>Tahun Ajaran </th>
+                                <th>Tanggal Mulai</th>
+                                <th>Tanggal Berakhir</th>
+                                <th>Biaya Masuk</th>
+                                <th>Aksi</th>
                             </tr>
                             <!-- end row -->
                         </tfoot>

@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme" data-layout="vertical">
 
 <!-- head -->
-@include('teacher')
+@include('teacher.head')
 <!-- endhead -->
 <body>
   <div class="toast toast-onload align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
