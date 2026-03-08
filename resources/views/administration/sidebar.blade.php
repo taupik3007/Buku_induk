@@ -83,7 +83,7 @@
             </a>
           </li>
           <li class="sidebar-item">
-            <a class="sidebar-link" href="/administration/ppdb-requirement"  aria-expanded="false">
+            <a class="sidebar-link" href="/administration/ppdb-requirement/0"  aria-expanded="false">
               <span>
                 <i class="ti ti-list-check"></i>
               </span>
