@@ -65,7 +65,7 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::post('/create/{ppdbId}', [PpdbRequirementController::class, 'store'])->name('store');
         Route::get('/{id}/edit', [ClassController::class, 'edit'])->name('classes.edit');
         Route::post('/{id}/edit', [ClassController::class, 'update'])->name('classes.update');
-        Route::delete('/{id}/destroy', [ClassController::class, 'destroy'])->name('classes.destroy');
+        Route::delete('/{id}/destroy', [PpdbRequirementController::class, 'destroy'])->name('classes.destroy');
     });
     //  Route::prefix('gararetek')->name('gararetek.')->group(function () {
     //     Route::get('/', [ClassController::class, 'index'])->name('classes');

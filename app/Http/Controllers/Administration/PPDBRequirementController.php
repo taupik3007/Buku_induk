@@ -91,6 +91,10 @@ class PPDBRequirementController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $requirement = PpdbRequirement::findOrFail($id);
+    $requirement->delete();
+
+    return redirect()->back()
+        ->with('success', 'Persyaratan berhasil dihapus!');
     }
 }

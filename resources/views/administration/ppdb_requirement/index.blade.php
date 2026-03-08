@@ -50,7 +50,7 @@
                         </select>
 
                         <a href="/administration/ppdb-requirement/create/{{ $ppdb->ppd_id }}" class="btn btn-primary">Tambah
-                            </a>
+                        </a>
                     </div>
                 </div>
                 <p class="card-subtitle mb-3">
@@ -81,9 +81,12 @@
 
 
                                     <td>
-                                        {{-- <a href="/administration/ppdb/{{ $ppdb->ppd_id}}/edit" class="btn btn-primary">Edit</a>
-                                     <a href="/administration/ppdb/{{ $ppdb->ppd_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a> --}}
-
+                                        <form action="/administration/ppdb-requirement/{{ $requirements->pdr_id }}/destroy" method="POST"
+                                            onsubmit="return confirm('Yakin ingin menghapus persyaratan ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                        </form>
                                     </td>
 
 
@@ -125,11 +128,11 @@
 
     <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
     <script>
-$('#ppdbSelect').on('change', function () {
-    const ppdbId = $(this).val();
+        $('#ppdbSelect').on('change', function() {
+            const ppdbId = $(this).val();
 
-    // Loading state
-    $('#file_export tbody').html(`
+            // Loading state
+            $('#file_export tbody').html(`
         <tr>
             <td colspan="4" class="text-center py-4">
                 <div class="spinner-border spinner-border-sm text-primary me-2"></div>
@@ -138,17 +141,18 @@ $('#ppdbSelect').on('change', function () {
         </tr>
     `);
 
-    $.ajax({
-        url: '/administration/ppdb-requirement/' + ppdbId + '/list',
-        method: 'GET',
-        success: function (data) {
-            let rows = '';
+            $.ajax({
+                url: '/administration/ppdb-requirement/' + ppdbId + '/list',
+                method: 'GET',
+                success: function(data) {
+                    let rows = '';
 
-            if (data.length === 0) {
-                rows = `<tr><td colspan="4" class="text-center text-muted">Tidak ada persyaratan</td></tr>`;
-            } else {
-                data.forEach(function (item, index) {
-                    rows += `
+                    if (data.length === 0) {
+                        rows =
+                            `<tr><td colspan="4" class="text-center text-muted">Tidak ada persyaratan</td></tr>`;
+                    } else {
+                        data.forEach(function(item, index) {
+                            rows += `
                         <tr>
                             <td>${index + 1}</td>
                             <td>${item.pdr_name}</td>
@@ -156,20 +160,19 @@ $('#ppdbSelect').on('change', function () {
                             <td></td>
                         </tr>
                     `;
-                });
-            }
+                        });
+                    }
 
-            $('#file_export tbody').html(rows);
-        },
-        error: function () {
-            $('#file_export tbody').html(`
+                    $('#file_export tbody').html(rows);
+                },
+                error: function() {
+                    $('#file_export tbody').html(`
                 <tr>
                     <td colspan="4" class="text-center text-danger">Gagal memuat data.</td>
                 </tr>
             `);
-        }
-    });
-});
-</script>
-
+                }
+            });
+        });
+    </script>
 @endpush
