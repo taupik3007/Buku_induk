@@ -61,8 +61,8 @@ Route::prefix('administration')->name('administration.')->group(function () {
     Route::prefix('ppdb-requirement')->name('ppdbRequirement.')->group(function () {
         Route::get('/{id}', [PpdbRequirementController::class, 'index'])->name('index');
         Route::get('/{ppdbId}/list', [PpdbRequirementController::class, 'getByPpdb']);
-        Route::get('/create', [ClassController::class, 'create'])->name('classes.create');
-        Route::post('/create', [ClassController::class, 'store'])->name('classes.store');
+        Route::get('/create/{ppdbId}', [PpdbRequirementController::class, 'create'])->name('create');
+        Route::post('/create/{ppdbId}', [PpdbRequirementController::class, 'store'])->name('store');
         Route::get('/{id}/edit', [ClassController::class, 'edit'])->name('classes.edit');
         Route::post('/{id}/edit', [ClassController::class, 'update'])->name('classes.update');
         Route::delete('/{id}/destroy', [ClassController::class, 'destroy'])->name('classes.destroy');

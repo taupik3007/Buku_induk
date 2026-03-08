@@ -49,7 +49,7 @@
                             @endforeach
                         </select>
 
-                        <a href="/administration/academic-years/create/{{ $ppdb->ppd_id }}" class="btn btn-primary">Tambah
+                        <a href="/administration/ppdb-requirement/create/{{ $ppdb->ppd_id }}" class="btn btn-primary">Tambah
                             </a>
                     </div>
                 </div>

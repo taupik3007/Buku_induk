@@ -35,9 +35,10 @@ class PPDBRequirementController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($ppdbId)
     {
-        //
+         $ppdb = PPDB::findOrFail($ppdbId);
+    return view('administration.ppdb_requirement.create', compact('ppdb'));
     }
 
     /**
@@ -45,7 +46,20 @@ class PPDBRequirementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $request->validate([
+        'pdr_name' => 'required|string|max:255',
+        'pdr_type' => 'required|in:text,file,number,date',
+        'pdr_ppdb_id' => 'required|exists:ppdbs,ppd_id',
+    ]);
+
+    PpdbRequirement::create([
+        'pdr_name'    => $request->pdr_name,
+        'pdr_type'    => $request->pdr_type,
+        'pdr_ppdb_id' => $request->pdr_ppdb_id,
+    ]);
+
+    return redirect('/administration/ppdb-requirement/0')
+        ->with('success', 'Persyaratan berhasil ditambahkan!');
     }
 
     /**
