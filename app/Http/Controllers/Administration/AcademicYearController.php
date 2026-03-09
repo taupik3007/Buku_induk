@@ -54,6 +54,12 @@ class AcademicYearController extends Controller
         $request->validate([
             'acy_year' => 'required|digits:4|integer'
         ]);
+        $checkYear = Academic_Year::where('acy_year', $request->acy_year)->exists();
+
+        if ($checkYear) {
+            Alert::error('Gagal', 'Tahun ajaran sudah ada');
+            return redirect()->back()->withInput();
+        }
     
         Academic_Year::create([
             'acy_year' => $request->acy_year,
@@ -89,6 +95,16 @@ class AcademicYearController extends Controller
         $request->validate([
             'acy_year' => 'required|digits:4|integer'
         ]);
+
+        $checkYear = Academic_Year::where('acy_year', $request->acy_year)
+                    ->where('acy_id', '!=', $id)
+                    ->exists();
+
+    if ($checkYear) {
+        Alert::error('Gagal', 'Tahun ajaran sudah ada');
+        return redirect()->back()->withInput();
+    }
+
     
         $academicYear = Academic_Year::findOrFail($id);
     

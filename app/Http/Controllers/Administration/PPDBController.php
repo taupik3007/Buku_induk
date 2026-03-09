@@ -37,6 +37,31 @@ class PPDBController extends Controller
      */
     public function store(Request $request)
     {
+        $checkYear = Ppdb::where('ppd_academic_id', $request->ppd_academic_id)->exists();
+
+    if ($checkYear) {
+        Alert::error('Gagal', 'PPDB untuk tahun ajaran ini sudah ada');
+        return back()->withInput();
+    }
+    $academic = Academic_Year::find($request->ppd_academic_id);
+
+$startAcademic = $academic->acy_year . '-07-01';
+$endAcademic = ($academic->acy_year + 1) . '-06-30';
+
+if ($request->ppd_start_date < $startAcademic || $request->ppd_start_date > $endAcademic) {
+    Alert::error('Gagal', 'Tanggal mulai harus sesuai dengan tahun ajaran');
+    return back()->withInput();
+}
+
+if ($request->ppd_end_date < $startAcademic || $request->ppd_end_date > $endAcademic) {
+    Alert::error('Gagal', 'Tanggal berakhir harus sesuai dengan tahun ajaran');
+    return back()->withInput();
+}
+
+        if ($request->ppd_end_date < $request->ppd_start_date) {
+            Alert::error('Gagal', 'Tanggal berakhir tidak boleh sebelum tanggal mulai');
+            return back()->withInput();
+        }
         // dd($request->all());
         $fee = str_replace(['Rp', '.', ' '], '', $request->ppd_entry_fee);
         $create_ppdb = Ppdb::create([
@@ -75,6 +100,31 @@ class PPDBController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $checkYear = Ppdb::where('ppd_academic_id', $request->ppd_academic_id)->exists();
+
+        if ($checkYear) {
+            Alert::error('Gagal', 'PPDB untuk tahun ajaran ini sudah ada');
+            return back()->withInput();
+        }
+        $academic = Academic_Year::find($request->ppd_academic_id);
+
+$startAcademic = $academic->acy_year . '-07-01';
+$endAcademic = ($academic->acy_year + 1) . '-06-30';
+
+if ($request->ppd_start_date < $startAcademic || $request->ppd_start_date > $endAcademic) {
+    Alert::error('Gagal', 'Tanggal mulai harus sesuai dengan tahun ajaran');
+    return back()->withInput();
+}
+
+if ($request->ppd_end_date < $startAcademic || $request->ppd_end_date > $endAcademic) {
+    Alert::error('Gagal', 'Tanggal berakhir harus sesuai dengan tahun ajaran');
+    return back()->withInput();
+}
+    
+        if ($request->ppd_end_date < $request->ppd_start_date) {
+            Alert::error('Gagal', 'Tanggal berakhir tidak boleh sebelum tanggal mulai');
+            return back()->withInput();
+        }
         //  dd($request->all());
         $fee = str_replace(['Rp', '.', ' '], '', $request->ppd_entry_fee);
         $update_Ppdb =Ppdb::findOrFail($id); 
