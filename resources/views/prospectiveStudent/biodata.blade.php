@@ -44,18 +44,78 @@
     <header class="header-fp p-0 w-100">
         <nav class="navbar navbar-expand-lg bg-primary-subtle py-2 py-lg-10">
             <div class="custom-container d-flex align-items-center justify-content-between">
+                <!-- Logo -->
                 <a href="../main/frontend-landingpage.html" class="text-nowrap logo-img">
                     <img src="../assets/images/logos/dark-logo.svg" class="dark-logo" alt="Logo-Dark" />
                     <img src="../assets/images/logos/light-logo.svg" class="light-logo" alt="Logo-light" />
                 </a>
-                <button class="navbar-toggler border-0 p-0 shadow-none" type="button" data-bs-toggle="offcanvas"
+
+                <!-- Menu Kanan (Desktop) -->
+                <ul class="navbar-nav d-none d-lg-flex flex-row gap-2 ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link px-3 py-2 rounded fw-semibold" href="/prospective-student/biodata">
+                             Biodata
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3 py-2 rounded fw-semibold" href="/prospective-student/ppdb-registration">
+                            PPDB
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Toggler Mobile -->
+                <button class="navbar-toggler border-0 p-0 shadow-none ms-3" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                     <i class="ti ti-menu-2 fs-8"></i>
                 </button>
-
             </div>
         </nav>
     </header>
+
+    <!-- Offcanvas Mobile -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Menu</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="navbar-nav gap-1">
+                <li class="nav-item">
+                    <a class="nav-link px-3 py-2 rounded fw-semibold" href="/prospective-student/biodata">
+                         Biodata
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3 py-2 rounded fw-semibold" href="/prospective-student/ppdb-registration">
+                        PPDB
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Offcanvas Mobile -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Menu</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="navbar-nav gap-1">
+                <li class="nav-item">
+                    <a class="nav-link px-3 py-2 rounded fw-semibold" href="/biodata">
+                        <i class="ti ti-user me-2"></i> Biodata
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3 py-2 rounded fw-semibold" href="/ppdb">
+                        <i class="ti ti-school me-2"></i> PPDB
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
     <!-- ------------------------------------- -->
     <!-- Header End -->
     <!-- ------------------------------------- -->
@@ -63,7 +123,7 @@
     <!-- ------------------------------------- -->
     <!-- Responsive Sidebar Start -->
     <!-- ------------------------------------- -->
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    {{-- <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header">
             <a href="../main/frontend-landingpage.html">
                 <img src="../assets/images/logos/dark-logo.svg" alt="Logo-light" />
@@ -118,7 +178,7 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </div> --}}
     <!-- ------------------------------------- -->
     <!-- Responsive Sidebar End -->
     <!-- ------------------------------------- -->

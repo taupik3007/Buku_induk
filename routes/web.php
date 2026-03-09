@@ -128,6 +128,8 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::get('/api/regencies/{province}', [regionController::class, 'regencies']);
         Route::get('/api/districts/{province}', [regionController::class, 'districts']);
         Route::get('/api/villages/{province}', [regionController::class, 'villages']);
+        Route::get('/ppdb-registration', [prospectiveStudentController::class, 'ppdbRegistration'])->name('ppdbRegistration');
+
         
 
 

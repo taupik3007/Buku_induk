@@ -350,6 +350,23 @@ try {
     ], 500);
 }
 }
+ public function ppdbRegistration(){
+ 
+        // dd($address);
+        // dd($physicalCondition);
+
+        // dd($studentId);
+            // dd($userId);
+
+
+        /*
+            Step 2
+        */
+            
+
+        $religion = Religion::all();
+        return view('prospectiveStudent.ppdb_registration.index');
+    }
 
 
 
