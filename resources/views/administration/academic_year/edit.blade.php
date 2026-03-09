@@ -50,11 +50,12 @@
                     <label for="Select" class="form-label col-sm-3 col-form-label">Awal Tahun</label>
                     <div class="col-sm-9">
                         <select id="Select" name="acy_year" class="form-control" required>
-                            @for ($year = 2015; $year <= date('Y'); $year++)
-                            <option value="{{ $year }}" {{ $edit_academic->acy_year == $year ? 'selected' : '' }}>
-                              {{ $year }}
-                          </option>
-                            @endfor
+                          @foreach ($years as $year)
+        <option value="{{ $year }}"
+            {{ $edit_academic->acy_year == $year ? 'selected' : '' }}>
+            {{ $year }}
+        </option>
+    @endforeach
                           </select>
                     @error('adm_management_scope_id')
                         <div id="adm_id" class="form-text">{{ $message }}</div>

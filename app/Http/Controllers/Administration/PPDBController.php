@@ -28,7 +28,7 @@ class PPDBController extends Controller
      */
     public function create()
     {
-        $academic = Academic_Year::all();
+        $academic = Academic_Year::where('acy_status', 0)->get();
         return view('administration.ppdb.create', compact(['academic']));
     }
 

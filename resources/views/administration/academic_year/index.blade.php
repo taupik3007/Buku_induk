@@ -20,7 +20,12 @@
                     <ol class="breadcrumb">
                     <li class="breadcrumb-item" aria-current="page">Daftar Tahun Ajaran</li>
                       <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" href="/administration/academic-years/create">Tambah Tahun Ajaran</a>
+                        @if ($academic_year->isEmpty() || $academic_year->contains('acy_status', 1))
+                        <a class="text-muted text-decoration-none" href="/administration/academic_years/create">Tambah Tahun Ajaran</a>
+@else
+<a class="text-muted text-decoration-none" disabled>Tambah Tahun Ajaran</a>
+@endif
+                       
                       </li>
                       <li class="breadcrumb-item">
                         <a class="text-muted text-decoration-none" href="/administration/academic-years/{id}/edit">Edit Tahun Ajaran</a>
@@ -41,7 +46,18 @@
             <div class="card-body">
                 <div class="mb-5 position-relative">
                     <h4 class="card-title mb-0">Daftar Kategori</h4>
-                    <a href="/administration/academic-years/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Tahun Ajaran</a>
+
+                    {{-- <a href="/administration/academic_years/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Kategori</a> --}}
+                    @if ($academic_year->contains('acy_status', 0))
+    <button class="btn btn-primary position-absolute top-0 end-0" disabled>
+        Tambah Kategori
+    </button>
+@else
+    <a href="/administration/academic_years/create"
+       class="btn btn-primary position-absolute top-0 end-0">
+       Tambah Kategori
+    </a>
+@endif
                 </div>
                 <p class="card-subtitle mb-3">
                     

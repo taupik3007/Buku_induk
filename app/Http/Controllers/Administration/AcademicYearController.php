@@ -43,7 +43,9 @@ class AcademicYearController extends Controller
      */
     public function create()
     {
-        return view('administration.academic_year.create');
+        $years = [date('Y'), date('Y') + 1];
+
+        return view('administration.academic_year.create', compact('years'));
     }
 
     /**
@@ -84,7 +86,8 @@ class AcademicYearController extends Controller
     public function edit(string $id)
     {
         $edit_academic = Academic_Year::findOrFail($id);
-        return view('administration.academic_year.edit', compact('edit_academic'));
+        $years = [date('Y'), date('Y') + 1];
+        return view('administration.academic_year.edit', compact('edit_academic', 'years'));
     }
 
     /**
