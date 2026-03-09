@@ -47,16 +47,19 @@
                   <div class="mb-4 row align-items-center">
                     <label for="Select" class="form-label col-sm-3 col-form-label">Awal Tahun</label>
                     <div class="col-sm-9">
-                        <select id="Select" name="acy_year" class="form-control" required>
-                            <option hidden value="">Pilih Tahun</option>
-                            @for ($year = 2015; $year <= date('Y'); $year++)
+                      <select id="Select" name="acy_year" class="form-control" required>
+                          <option hidden value="">Pilih Tahun</option>
+                  
+                          @foreach ($years as $year)
                               <option value="{{ $year }}">{{ $year }}</option>
-                            @endfor
-                          </select>
-                    @error('adm_management_scope_id')
-                        <div id="adm_id" class="form-text">{{ $message }}</div>
-                    @enderror
-                    </div>
+                          @endforeach
+                  
+                      </select>
+                  
+                      @error('adm_management_scope_id')
+                          <div id="adm_id" class="form-text">{{ $message }}</div>
+                      @enderror
+                  </div>
                 </div>        
                 <div class="row">
                   <div class="col-sm-3"></div>
