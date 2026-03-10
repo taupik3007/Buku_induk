@@ -9,6 +9,7 @@ use App\Models\Address;
 use App\Models\Family;
 use App\Models\StudentBiodata;
 use App\Models\PhysicalCondition;
+use App\Models\Previous_Education;
 use Illuminate\Support\Facades\DB;
 
 
@@ -363,10 +364,42 @@ try {
             Step 2
         */
             
-
+        // $previous_education = Previous_Education::all();
+    //  $studentId = auth()->user()->student->std_id;
+// dd($studentId);
+        // dd($previous_education);
         $religion = Religion::all();
         return view('prospectiveStudent.ppdb_registration.index');
     }
+    public function stepSeven(Request $request)
+{
+     $studentId = auth()->user()->student->std_id;
+    $validated = $request->validate([
+        'prv_school_name'        => 'required|string|max:255',
+        'prv_npsn'               => 'required|digits:8',
+        'prv_certificate_number' => 'nullable|numeric',
+    ], [
+        'prv_school_name.required' => 'Nama sekolah wajib diisi.',
+        'prv_npsn.required'        => 'NPSN wajib diisi.',
+        'prv_npsn.digits'          => 'NPSN harus 8 digit angka.',
+        'prv_certificate_number.numeric' => 'Nomor ijazah harus berupa angka.',
+    ]);
+
+    Previous_Education::updateOrCreate(
+        ['prv_student_id' => $studentId],
+        [
+            'prv_school_name'        => $validated['prv_school_name'],
+            'prv_npsn'               => $validated['prv_npsn'],
+            'prv_certificate_number' => $validated['prv_certificate_number'] ?? null,
+            'prv_created_by'         => auth()->id(),
+            'prv_updated_by'         => auth()->id(),
+        ]
+    );
+
+    return response()->json(['success' => true]);
+}
+
+
 
 
 

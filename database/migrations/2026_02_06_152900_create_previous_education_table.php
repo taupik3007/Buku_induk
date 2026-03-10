@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('prv_student_id');
             $table->foreign('prv_student_id')->references('std_id')->on('students')->onDelete('cascade');
             $table->string('prv_school_name');
+            $table->string('prv_npsn');
             $table->date('prv_certificate_date')->nullable();
             $table->bigInteger('prv_certificate_number')->nullable();
             $table->string('prv_length')->nullable();

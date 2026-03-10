@@ -109,58 +109,7 @@
                                             <div class="bs-stepper-content">
 
                                                 {{-- Step 1: Sekolah Asal --}}
-                                                <div id="step-1" class="content">
-                                                    <div class="row g-3 mt-2">
-                                                        <div class="col-12">
-                                                            <h5 class="fw-semibold mb-1">Data Sekolah Asal</h5>
-                                                            <p class="text-muted mb-3">Isi informasi sekolah asal kamu</p>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-label fw-semibold">Nama Sekolah Asal <span class="text-danger">*</span></label>
-                                                            <input type="text" name="nama_sekolah" class="form-control" placeholder="Contoh: SMP Negeri 1 Jakarta" required />
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-label fw-semibold">NPSN Sekolah</label>
-                                                            <input type="text" name="npsn" class="form-control" placeholder="Nomor Pokok Sekolah Nasional" />
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-label fw-semibold">Jenis Sekolah <span class="text-danger">*</span></label>
-                                                            <select name="jenis_sekolah" class="form-select select2" required>
-                                                                <option value="" disabled selected>Pilih Jenis Sekolah</option>
-                                                                <option value="SMP">SMP</option>
-                                                                <option value="MTs">MTs</option>
-                                                                <option value="Paket B">Paket B</option>
-                                                                <option value="Lainnya">Lainnya</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-label fw-semibold">Tahun Lulus <span class="text-danger">*</span></label>
-                                                            <select name="tahun_lulus" class="form-select select2" required>
-                                                                <option value="" disabled selected>Pilih Tahun Lulus</option>
-                                                                @for ($y = date('Y'); $y >= date('Y') - 5; $y--)
-                                                                    <option value="{{ $y }}">{{ $y }}</option>
-                                                                @endfor
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-label fw-semibold">Nomor Ijazah</label>
-                                                            <input type="text" name="no_ijazah" class="form-control" placeholder="Masukkan nomor ijazah" />
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-label fw-semibold">Nilai Rata-rata Ijazah</label>
-                                                            <input type="number" name="nilai_ijazah" class="form-control" placeholder="Contoh: 85.50" step="0.01" min="0" max="100" />
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <label class="form-label fw-semibold">Alamat Sekolah</label>
-                                                            <textarea name="alamat_sekolah" class="form-control" rows="2" placeholder="Alamat lengkap sekolah asal"></textarea>
-                                                        </div>
-                                                        <div class="col-12 d-flex justify-content-end mt-3">
-                                                            <button type="button" class="btn btn-primary px-5" onclick="saveStep(1)">
-                                                                Selanjutnya <i class="ti ti-arrow-right ms-1"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                @include('prospectiveStudent.ppdb_registration.step-one')
 
                                                 {{-- Step 2: Persyaratan --}}
                                                 <div id="step-2" class="content">

@@ -129,6 +129,7 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::get('/api/districts/{province}', [regionController::class, 'districts']);
         Route::get('/api/villages/{province}', [regionController::class, 'villages']);
         Route::get('/ppdb-registration', [prospectiveStudentController::class, 'ppdbRegistration'])->name('ppdbRegistration');
+        Route::post('/ppdb-registration/stepOne', [ProspectiveStudentController::class, 'stepSeven'])->name('ppdbRegistration.stepOne');
 
         
 
