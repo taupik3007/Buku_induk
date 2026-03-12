@@ -112,55 +112,8 @@
                                                 @include('prospectiveStudent.ppdb_registration.step-one')
 
                                                 {{-- Step 2: Persyaratan --}}
-                                                <div id="step-2" class="content">
-                                                    <div class="row g-3 mt-2">
-                                                        <div class="col-12">
-                                                            <h5 class="fw-semibold mb-1">Upload Persyaratan</h5>
-                                                            <p class="text-muted mb-3">Upload dokumen persyaratan pendaftaran (format: PDF/JPG/PNG, maks. 2MB)</p>
-                                                        </div>
-
-                                                        <div class="col-md-6">
-                                                            <label class="form-label fw-semibold">Foto 3x4 <span class="text-danger">*</span></label>
-                                                            <input type="file" name="foto" class="form-control" accept="image/*" required />
-                                                            <small class="text-muted">Format: JPG/PNG, maks. 500KB</small>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-label fw-semibold">Scan Ijazah / SKL <span class="text-danger">*</span></label>
-                                                            <input type="file" name="ijazah" class="form-control" accept=".pdf,image/*" required />
-                                                            <small class="text-muted">Format: PDF/JPG/PNG, maks. 2MB</small>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-label fw-semibold">Kartu Keluarga <span class="text-danger">*</span></label>
-                                                            <input type="file" name="kartu_keluarga" class="form-control" accept=".pdf,image/*" required />
-                                                            <small class="text-muted">Format: PDF/JPG/PNG, maks. 2MB</small>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-label fw-semibold">Akta Kelahiran <span class="text-danger">*</span></label>
-                                                            <input type="file" name="akta_kelahiran" class="form-control" accept=".pdf,image/*" required />
-                                                            <small class="text-muted">Format: PDF/JPG/PNG, maks. 2MB</small>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-label fw-semibold">Rapor SMP (Semester 1-5)</label>
-                                                            <input type="file" name="rapor" class="form-control" accept=".pdf,image/*" />
-                                                            <small class="text-muted">Format: PDF/JPG/PNG, maks. 2MB</small>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-label fw-semibold">Sertifikat Prestasi (Opsional)</label>
-                                                            <input type="file" name="sertifikat" class="form-control" accept=".pdf,image/*" />
-                                                            <small class="text-muted">Format: PDF/JPG/PNG, maks. 2MB</small>
-                                                        </div>
-
-                                                        <div class="col-12 d-flex justify-content-between mt-3">
-                                                            <button type="button" class="btn btn-outline-secondary px-5" onclick="stepper.previous()">
-                                                                <i class="ti ti-arrow-left me-1"></i> Sebelumnya
-                                                            </button>
-                                                            <button type="button" class="btn btn-primary px-5" onclick="saveStep(2)">
-                                                                Selanjutnya <i class="ti ti-arrow-right ms-1"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
+                                                @include('prospectiveStudent.ppdb_registration.step-two')
+                                                
                                                 {{-- Step 3: Jurusan --}}
                                                 <div id="step-3" class="content">
                                                     <div class="row g-3 mt-2">

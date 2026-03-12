@@ -57,7 +57,7 @@
             })
             .catch(err => {
                 console.error(err);
-                alert('Terjadi kesalahan');
+                alert('Validasi gagal. Cek kembali inputan.');
             });
     }
 </script>

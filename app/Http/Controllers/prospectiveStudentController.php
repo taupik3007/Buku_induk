@@ -8,6 +8,7 @@ use App\Models\Religion;
 use App\Models\Address;
 use App\Models\Family;
 use App\Models\StudentBiodata;
+use App\Models\PpdbRequirement;
 use App\Models\PhysicalCondition;
 use App\Models\Previous_Education;
 use Illuminate\Support\Facades\DB;
@@ -368,11 +369,19 @@ try {
     //  $studentId = auth()->user()->student->std_id;
 // dd($studentId);
         // dd($previous_education);
+        $requirements       = PpdbRequirement::all();
+        $studentId = auth()->user()->student->std_id;
+
+        // dd($requirements);
+        $previousEducation = Previous_Education::where('prv_student_id',$studentId)->first();
+
         $religion = Religion::all();
-        return view('prospectiveStudent.ppdb_registration.index');
+        return view('prospectiveStudent.ppdb_registration.index',compact(['requirements','previousEducation']));
     }
+
+
     public function stepSeven(Request $request)
-{
+    {
      $studentId = auth()->user()->student->std_id;
     $validated = $request->validate([
         'prv_school_name'        => 'required|string|max:255',
