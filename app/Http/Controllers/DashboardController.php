@@ -22,6 +22,8 @@ class DashboardController extends Controller
 
         if ($user->hasRole('student')) {
             return redirect()->route('student.dashboard');
+        } if ($user->hasRole('prospectiveStudent')) {
+            return redirect()->route('prospectiveStudent.biodata');
         }
 
         abort(403, 'Role tidak dikenali.');
