@@ -63,7 +63,7 @@ function stepTwo() {
     formData.append('_token', '{{ csrf_token() }}');
 
     $.ajax({
-        url: "{{ route('prospectiveStudent.register.stepTwo') }}",
+        url: "{{ route('prospectiveStudent.ppdbRegistration.stepTwo') }}",
         type: "POST",
         data: formData,
         processData: false,

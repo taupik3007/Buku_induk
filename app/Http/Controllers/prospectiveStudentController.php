@@ -7,10 +7,14 @@ use App\Models\User;
 use App\Models\Religion;
 use App\Models\Address;
 use App\Models\Family;
+use App\Models\Ppdb;
 use App\Models\StudentBiodata;
 use App\Models\PpdbRequirement;
 use App\Models\PhysicalCondition;
+use App\Models\ProspectiveStudentRequirement;
 use App\Models\Previous_Education;
+
+
 use Illuminate\Support\Facades\DB;
 
 
@@ -369,14 +373,20 @@ try {
     //  $studentId = auth()->user()->student->std_id;
 // dd($studentId);
         // dd($previous_education);
-        $requirements       = PpdbRequirement::all();
+        $activePpdb = Ppdb::latest('ppd_created_at')->firstOrFail();
+        // dd($activePpdb);
+        $requirements       = PpdbRequirement::where('pdr_ppdb_id', $activePpdb->ppd_id)->get();
+        // dd($requirements);
         $studentId = auth()->user()->student->std_id;
-
+        $studentRequirements = ProspectiveStudentRequirement::where('psr_std_id', $studentId)
+            ->get()
+            ->keyBy('psr_requirement_id');
         // dd($requirements);
         $previousEducation = Previous_Education::where('prv_student_id',$studentId)->first();
+        // dd($studentRequirements);
 
         $religion = Religion::all();
-        return view('prospectiveStudent.ppdb_registration.index',compact(['requirements','previousEducation']));
+        return view('prospectiveStudent.ppdb_registration.index',compact(['requirements','previousEducation','studentRequirements']));
     }
 
 
@@ -406,6 +416,102 @@ try {
     );
 
     return response()->json(['success' => true]);
+}
+
+public function stepEight(Request $request)
+{
+    // Ambil persyaratan sesuai ppdb yang aktif
+            $activePpdb = Ppdb::latest('ppd_created_at')->firstOrFail(); // sesuaikan cara ambil ppdb aktif Anda
+    $requirements = PpdbRequirement::where('pdr_ppdb_id', $activePpdb->ppd_id)->get();
+
+    // Build validasi dinamis
+    $rules    = [];
+    $messages = [];
+
+    foreach ($requirements as $req) {
+        $key = "requirements.{$req->pdr_id}";
+
+        switch ($req->pdr_type) {
+            case 'file':
+                $rules[$key]              = 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048';
+                $messages["{$key}.mimes"] = "{$req->pdr_name} harus berformat PDF, JPG, atau PNG.";
+                $messages["{$key}.max"]   = "{$req->pdr_name} maksimal ukuran 2MB.";
+                break;
+
+            case 'number':
+                $rules[$key]              = 'nullable|numeric';
+                $messages["{$key}.numeric"] = "{$req->pdr_name} harus berupa angka.";
+                break;
+
+            case 'date':
+                $rules[$key]            = 'nullable|date';
+                $messages["{$key}.date"] = "{$req->pdr_name} harus berupa tanggal yang valid.";
+                break;
+
+            default: // text
+                $rules[$key] = 'nullable|string|max:255';
+                break;
+        }
+    }
+
+    try {
+        $request->validate($rules, $messages);
+    } catch (ValidationException $e) {
+        return response()->json([
+            'status' => false,
+            'errors' => $e->errors(),
+        ], 422);
+    }
+
+    // Simpan ke DB
+    foreach ($requirements as $req) {
+        $value = null;
+
+        if ($req->pdr_type === 'file') {
+            // Skip kalau tidak ada file baru diupload
+            if (!$request->hasFile("requirements.{$req->pdr_id}")) {
+                continue;
+            }
+
+            // Hapus file lama kalau ada
+            $existing = ProspectiveStudentRequirement::where('psr_std_id', auth()->id())
+                ->where('psr_requirement_id', $req->pdr_id)
+                ->first();
+
+            if ($existing && Storage::disk('public')->exists($existing->psr_value)) {
+                Storage::disk('public')->delete($existing->psr_value);
+            }
+
+            $value = $request->file("requirements.{$req->pdr_id}")
+                              ->store('requirements', 'public');
+        } else {
+            $value = $request->input("requirements.{$req->pdr_id}");
+
+            // Skip kalau kosong
+            if ($value === null || $value === '') {
+                continue;
+            }
+        }
+$studentId = auth()->user()->student->std_id;
+
+
+        ProspectiveStudentRequirement::updateOrCreate(
+            [
+                'psr_std_id'         => $studentId,
+                'psr_requirement_id' => $req->pdr_id,
+            ],
+            [
+                'psr_value'      => $value,
+                'psr_updated_by' => auth()->id(),
+                'psr_created_by' => auth()->id(),
+            ]
+        );
+    }
+
+    return response()->json([
+        'status'  => true,
+        'message' => 'Persyaratan berhasil disimpan.',
+    ]);
 }
 
 
