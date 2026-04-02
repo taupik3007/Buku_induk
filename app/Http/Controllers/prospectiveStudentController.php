@@ -8,6 +8,8 @@ use App\Models\Religion;
 use App\Models\Address;
 use App\Models\Family;
 use App\Models\Ppdb;
+use App\Models\Majors;
+use App\Models\PpdbSubmission;
 use App\Models\StudentBiodata;
 use App\Models\PpdbRequirement;
 use App\Models\PhysicalCondition;
@@ -386,7 +388,8 @@ try {
         // dd($studentRequirements);
 
         $religion = Religion::all();
-        return view('prospectiveStudent.ppdb_registration.index',compact(['requirements','previousEducation','studentRequirements']));
+        $majors = Majors::all();
+        return view('prospectiveStudent.ppdb_registration.index',compact(['requirements','previousEducation','studentRequirements','majors']));
     }
 
 
@@ -511,6 +514,29 @@ $studentId = auth()->user()->student->std_id;
     return response()->json([
         'status'  => true,
         'message' => 'Persyaratan berhasil disimpan.',
+    ]);
+}
+
+public function stepNine(Request $request)
+{
+    $request->validate([
+        'ppsu_major_id' => 'required|exists:majors,mjr_id',
+        'ppsu_reason'   => 'nullable|string|max:1000',
+    ]);
+     $studentId = auth()->user()->student->std_id;
+
+    PpdbSubmission::updateOrCreate(
+        ['ppsu_student_id' => $studentId], 
+        [
+            'ppsu_ppdb_id'=> 1,
+            'ppsu_major_id' => $request->ppsu_major_id,
+            'ppsu_reason'   => $request->ppsu_reason,
+        ]
+    );
+
+    return response()->json([
+        'status'  => true,
+        'message' => 'Pendaftaran berhasil dikirim!'
     ]);
 }
 

@@ -12,15 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ppdb_submissions', function (Blueprint $table) {
-            $table->bigIncrements('pps_id');
-            $table->unsignedBigInteger('pps_ppdb_id');
-            $table->foreign('pps_ppdb_id')->references('ppd_id')->on('ppdbs')->onDelete('cascade');
-            $table->unsignedBigInteger('pps_student_id');
-            $table->foreign('pps_student_id')->references('std_id')->on('students')->onDelete('cascade');
-            $table->unsignedBigInteger('pps_major_id');
-            $table->foreign('pps_major_id')->references('mjr_id')->on('majors')->onDelete('cascade');
-            $table->string('pps_reason');
+            $table->bigIncrements('ppsu_id');
+            $table->unsignedBigInteger('ppsu_ppdb_id');
+            $table->foreign('ppsu_ppdb_id')->references('ppd_id')->on('ppdbs')->onDelete('cascade');
+            $table->unsignedBigInteger('ppsu_student_id');
+            $table->foreign('ppsu_student_id')->references('std_id')->on('students')->onDelete('cascade');
+            $table->unsignedBigInteger('ppsu_major_id');
+            $table->foreign('ppsu_major_id')->references('mjr_id')->on('majors')->onDelete('cascade');
+            $table->string('ppsu_reason');
             $table->timestamps();
+            $table->renameColumn('updated_at', 'ppsu_updated_at');
+            $table->renameColumn('created_at', 'ppsu_created_at');
         });
     }
 

@@ -115,62 +115,8 @@
                                                 @include('prospectiveStudent.ppdb_registration.step-two')
                                                 
                                                 {{-- Step 3: Jurusan --}}
-                                                <div id="step-3" class="content">
-                                                    <div class="row g-3 mt-2">
-                                                        <div class="col-12">
-                                                            <h5 class="fw-semibold mb-1">Pilih Jurusan</h5>
-                                                            <p class="text-muted mb-3">Pilih jurusan pilihan pertama dan kedua</p>
-                                                        </div>
-
-                                                        <div class="col-md-6">
-                                                            <label class="form-label fw-semibold">Pilihan Jurusan 1 <span class="text-danger">*</span></label>
-                                                            <select name="jurusan_1" class="form-select select2" required>
-                                                                <option value="" disabled selected>Pilih Jurusan</option>
-                                                                <option value="TKJ">Teknik Komputer dan Jaringan (TKJ)</option>
-                                                                <option value="RPL">Rekayasa Perangkat Lunak (RPL)</option>
-                                                                <option value="MM">Multimedia (MM)</option>
-                                                                <option value="AK">Akuntansi (AK)</option>
-                                                                <option value="PM">Pemasaran (PM)</option>
-                                                                <option value="AP">Administrasi Perkantoran (AP)</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-label fw-semibold">Pilihan Jurusan 2</label>
-                                                            <select name="jurusan_2" class="form-select select2">
-                                                                <option value="" selected>Pilih Jurusan (Opsional)</option>
-                                                                <option value="TKJ">Teknik Komputer dan Jaringan (TKJ)</option>
-                                                                <option value="RPL">Rekayasa Perangkat Lunak (RPL)</option>
-                                                                <option value="MM">Multimedia (MM)</option>
-                                                                <option value="AK">Akuntansi (AK)</option>
-                                                                <option value="PM">Pemasaran (PM)</option>
-                                                                <option value="AP">Administrasi Perkantoran (AP)</option>
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="col-12">
-                                                            <label class="form-label fw-semibold">Alasan Memilih Jurusan</label>
-                                                            <textarea name="alasan_jurusan" class="form-control" rows="3" placeholder="Ceritakan alasan kamu memilih jurusan tersebut..."></textarea>
-                                                        </div>
-
-                                                        <div class="col-12">
-                                                            <div class="form-check mt-2">
-                                                                <input class="form-check-input" type="checkbox" id="pernyataan" name="pernyataan" required />
-                                                                <label class="form-check-label" for="pernyataan">
-                                                                    Saya menyatakan bahwa semua data yang saya isi adalah <strong>benar dan dapat dipertanggungjawabkan</strong>.
-                                                                </label>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-12 d-flex justify-content-between mt-3">
-                                                            <button type="button" class="btn btn-outline-secondary px-5" onclick="stepper.previous()">
-                                                                <i class="ti ti-arrow-left me-1"></i> Sebelumnya
-                                                            </button>
-                                                            <button type="submit" class="btn btn-success px-5">
-                                                                <i class="ti ti-check me-1"></i> Kirim Pendaftaran
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                @include('prospectiveStudent.ppdb_registration.step-three')
+                                                
 
                                             </div>
                                         </form>

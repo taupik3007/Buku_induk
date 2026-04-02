@@ -131,6 +131,7 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::get('/ppdb-registration', [prospectiveStudentController::class, 'ppdbRegistration'])->name('ppdbRegistration');
         Route::post('/ppdb-registration/stepOne', [ProspectiveStudentController::class, 'stepSeven'])->name('ppdbRegistration.stepOne');
         Route::post('/ppdb-registration/stepTwo', [ProspectiveStudentController::class, 'stepEight'])->name('ppdbRegistration.stepTwo');
+        Route::post('/ppdb-registration/step-three', [ProspectiveStudentController::class, 'stepNine'])->name('ppdbRegistration.stepThree');
 
 
         
