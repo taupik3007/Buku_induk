@@ -70,22 +70,39 @@ function stepTwo() {
         contentType: false,
         success: function(response) {
             if (response.status) {
-                stepper.next();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: response.message,
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    stepper.next();
+                });
             }
         },
         error: function(xhr) {
             if (xhr.status === 422) {
                 let errors = xhr.responseJSON.errors;
                 $.each(errors, function(field, messages) {
-                    // field format: requirements.123
                     let id = field.split('.')[1];
                     let input = $('[name="requirements[' + id + ']"]');
                     input.addClass('is-invalid');
                     let feedback = $('.invalid-feedback-req[data-id="' + id + '"]');
                     feedback.text(messages[0]).show();
                 });
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validasi Gagal!',
+                    text: 'Cek kembali inputan.',
+                });
             } else {
-                alert('Terjadi kesalahan server.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops!',
+                    text: 'Terjadi kesalahan server.',
+                });
             }
         }
     });

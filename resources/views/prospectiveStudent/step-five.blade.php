@@ -103,18 +103,31 @@ function stepFive() {
         type: "POST",
         data: formData,
         success: function(response) {
-
             if (response.status) {
-                alert(response.message);
-                stepper.next();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: response.message,
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    stepper.next();
+                });
             }
         },
         error: function(xhr) {
-
             if (xhr.status === 422) {
-                alert('Validasi gagal. Cek kembali inputan.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validasi Gagal!',
+                    text: 'Cek kembali inputan.',
+                });
             } else {
-                alert('Terjadi kesalahan server.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops!',
+                    text: 'Terjadi kesalahan server.',
+                });
             }
         }
     });

@@ -141,71 +141,94 @@
     {{-- Telepon --}}
     <div class="mb-3">
         <label class="form-label">No Telepon</label>
-        <input type="text" name="stb_telp" class="form-control"  value="{{ old('stb_telp', $biodata->stb_telp ?? '') }}" required>
+        <input type="text" name="stb_telp" class="form-control"
+            value="{{ old('stb_telp', $biodata->stb_telp ?? '') }}" required>
     </div>
 
     {{-- Tinggal --}}
     <div class="mb-3">
         <label class="form-label">Tinggal</label>
         @php
-        $living = old('stb_living_with', $biodata->stb_living_with ?? '');
-    @endphp
+            $living = old('stb_living_with', $biodata->stb_living_with ?? '');
+        @endphp
 
-    <select name="stb_living_with" class="form-select" required>
-        <option value="">Pilih ..</option>
+        <select name="stb_living_with" class="form-select" required>
+            <option value="">Pilih ..</option>
 
-        <option value="1" {{ (string)$living === '1' ? 'selected' : '' }}>
-            Bersama Orangtua
-        </option>
+            <option value="1" {{ (string) $living === '1' ? 'selected' : '' }}>
+                Bersama Orangtua
+            </option>
 
-        <option value="2" {{ (string)$living === '2' ? 'selected' : '' }}>
-            Tinggal bersama Ayah
-        </option>
+            <option value="2" {{ (string) $living === '2' ? 'selected' : '' }}>
+                Tinggal bersama Ayah
+            </option>
 
-        <option value="3" {{ (string)$living === '3' ? 'selected' : '' }}>
-            Tinggal bersama Ibu
-        </option>
+            <option value="3" {{ (string) $living === '3' ? 'selected' : '' }}>
+                Tinggal bersama Ibu
+            </option>
 
-        <option value="4" {{ (string)$living === '4' ? 'selected' : '' }}>
-            Tinggal bersama Wali
-        </option>
+            <option value="4" {{ (string) $living === '4' ? 'selected' : '' }}>
+                Tinggal bersama Wali
+            </option>
 
-        <option value="5" {{ (string)$living === '5' ? 'selected' : '' }}>
-            Tinggal Sendiri
-        </option>
+            <option value="5" {{ (string) $living === '5' ? 'selected' : '' }}>
+                Tinggal Sendiri
+            </option>
 
-    </select>
+        </select>
     </div>
 
-    <button type="button" class="btn btn-primary" onclick="stepOne()">
-        Lanjut
-    </button>
+    <div class="d-flex justify-content-between mt-4">
+        {{-- <button type="button" class="btn btn-secondary" onclick="stepper.previous()">
+            Kembali
+        </button> --}}
+
+        <button type="button" class="btn btn-primary" onclick="stepOne()">
+            Lanjut
+        </button>
+    </div>
 
 </div>
 
 <script>
-        function stepOne() {
-            let form = document.querySelector('#step-1').closest('form');
-            let formData = new FormData(form);
+    function stepOne() {
+    let form = document.querySelector('#step-1').closest('form');
+    let formData = new FormData(form);
 
-            fetch("{{ route('prospectiveStudent.register.stepOne') }}", {
-                    method: "POST",
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: formData
-                })
-                .then(res => res.json())
-                .then(res => {
-                    if (res.success) {
-                        stepper.next();
-                    } else {
-                        alert(res.message);
-                    }
-                })
-                .catch(err => {
-                    console.error(err);
-                    alert('Terjadi kesalahan');
+    fetch("{{ route('prospectiveStudent.register.stepOne') }}", {
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: formData
+        })
+        .then(res => res.json())
+        .then(res => {
+            if (res.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: res.message,
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    stepper.next();
                 });
-        }
-    </script>
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: res.message,
+                });
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops!',
+                text: 'Periksa Kembali Inputan',
+            });
+        });
+}
+</script>

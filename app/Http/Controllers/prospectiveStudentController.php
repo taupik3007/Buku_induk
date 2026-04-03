@@ -30,6 +30,13 @@ class prospectiveStudentController extends Controller
         $family = Family::where('fml_student_id',$studentId)->first();
         $address = Address::where('adr_user_id',auth()->user()->usr_id)->first();
         $physicalCondition = PhysicalCondition::where('phy_student_id',$studentId)->first();
+        $ppdb = Ppdb::where('ppd_start_date', '<=', now())
+            ->where('ppd_end_date', '>=', now())
+            ->first();
+            // if($ppdb == null){
+            //     dd("tidak aktif");
+            // }
+            // dd($ppdb);
         // dd($address);
         // dd($physicalCondition);
 
@@ -43,7 +50,7 @@ class prospectiveStudentController extends Controller
             
 
         $religion = Religion::all();
-        return view('prospectiveStudent.biodata',compact(['religion','biodata','family','address','physicalCondition']));
+        return view('prospectiveStudent.biodata',compact(['religion','biodata','family','address','physicalCondition','ppdb']));
     }
        public function StepOne(Request $request)
     {
@@ -341,10 +348,19 @@ try {
     );
 
     DB::commit();
+    $ppdb = Ppdb::where('ppd_start_date', '<=', now())
+            ->where('ppd_end_date', '>=', now())
+            ->first();
+            if($ppdb == null){
+                $ppdbMessage = 'Data wali berhasil disimpan. SPMB belum dibuka, Silahkan kembali saat SPMB di buka'; 
+            }else{
+                $ppdbMessage = 'Data wali berhasil disimpan. Silahkan lanjutkan pengisian pada menu SPMB'; 
+
+            }
 
     return response()->json([
         'status'  => true,
-        'message' => 'Data wali berhasil disimpan.',
+        'message' => $ppdbMessage,
     ]);
 
 } catch (\Exception $e) {
@@ -375,6 +391,12 @@ try {
     //  $studentId = auth()->user()->student->std_id;
 // dd($studentId);
         // dd($previous_education);
+        $ppdb = Ppdb::where('ppd_start_date', '<=', now())
+            ->where('ppd_end_date', '>=', now())
+            ->first();
+            if($ppdb == null){
+                return redirect('/prospective-student/biodata');
+            }
         $activePpdb = Ppdb::latest('ppd_created_at')->firstOrFail();
         // dd($activePpdb);
         $requirements       = PpdbRequirement::where('pdr_ppdb_id', $activePpdb->ppd_id)->get();

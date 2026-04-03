@@ -54,14 +54,17 @@
                 <ul class="navbar-nav d-none d-lg-flex flex-row gap-2 ms-auto">
                     <li class="nav-item">
                         <a class="nav-link px-3 py-2 rounded fw-semibold" href="/prospective-student/biodata">
-                             Biodata
+                            Biodata
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link px-3 py-2 rounded fw-semibold" href="/prospective-student/ppdb-registration">
-                            PPDB
-                        </a>
-                    </li>
+                    @if ($ppdb)
+                        <li class="nav-item">
+                            <a class="nav-link px-3 py-2 rounded fw-semibold"
+                                href="/prospective-student/ppdb-registration">
+                                PPDB
+                            </a>
+                        </li>
+                    @endif
                 </ul>
 
                 <!-- Toggler Mobile -->
@@ -83,7 +86,7 @@
             <ul class="navbar-nav gap-1">
                 <li class="nav-item">
                     <a class="nav-link px-3 py-2 rounded fw-semibold" href="/prospective-student/biodata">
-                         Biodata
+                        Biodata
                     </a>
                 </li>
                 <li class="nav-item">
@@ -353,6 +356,7 @@
     <script src="{{ asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
     <script src="{{ asset('assets/js/forms/select2.init.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 

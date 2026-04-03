@@ -37,27 +37,43 @@
 
 <script>
     function stepOne() {
-        let form = document.querySelector('#step-1').closest('form');
-        let formData = new FormData(form);
+    let form = document.querySelector('#step-1').closest('form');
+    let formData = new FormData(form);
 
-        fetch("{{ route('prospectiveStudent.ppdbRegistration.stepOne') }}", {
-                method: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: formData
-            })
-            .then(res => res.json())
-            .then(res => {
-                if (res.success) {
+    fetch("{{ route('prospectiveStudent.ppdbRegistration.stepOne') }}", {
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: formData
+        })
+        .then(res => res.json())
+        .then(res => {
+            if (res.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: res.message,
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
                     stepper.next();
-                } else {
-                    alert(res.message);
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                alert('Validasi gagal. Cek kembali inputan.');
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: res.message,
+                });
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            Swal.fire({
+                icon: 'error',
+                title: 'Validasi Gagal!',
+                text: 'Cek kembali inputan.',
             });
-    }
+        });
+}
 </script>

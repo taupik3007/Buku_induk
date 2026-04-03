@@ -77,7 +77,7 @@
         </button>
 
         <button type="button" class="btn btn-primary" onclick="stepSix()">
-            Lanjut
+            Kirim
         </button>
     </div>
 
@@ -104,9 +104,16 @@ function stepSix() {
         data: formData,
         success: function(response) {
 
-            if (response.status) {
-                alert(response.message);
-                stepper.next();
+             if (response.status) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: response.message,
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    stepper.next();
+                });
             }
         },
         error: function(xhr) {

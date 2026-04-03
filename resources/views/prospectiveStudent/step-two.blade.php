@@ -54,13 +54,15 @@
         <textarea name="adr_detail" class="form-control" rows="3">{{ $address->adr_detail?? '' }}</textarea>
     </div>
 
-    <button type="button" class="btn btn-secondary" onclick="stepper.previous()">
-        Kembali
-    </button>
+    <div class="d-flex justify-content-between mt-4">
+        <button type="button" class="btn btn-secondary" onclick="stepper.previous()">
+            Kembali
+        </button>
 
-    <button type="button" class="btn btn-primary" onclick="stepTwo()">
-        Lanjut
-    </button>
+        <button type="button" class="btn btn-primary" onclick="stepTwo()">
+            Lanjut
+        </button>
+    </div>
 
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -203,20 +205,31 @@ function stepTwo() {
         type: "POST",
         data: formData,
         success: function(response) {
-
-            if(response.status){
-                alert(response.message);
-
-                // lanjut ke step berikutnya
-                stepper.next();
+            if (response.status) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: response.message,
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    stepper.next();
+                });
             }
         },
-        error: function(xhr){
-
-            if(xhr.status === 422){
-                alert('Validasi gagal. Cek kembali inputan.');
+        error: function(xhr) {
+            if (xhr.status === 422) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validasi Gagal!',
+                    text: 'Cek kembali inputan.',
+                });
             } else {
-                alert('Terjadi kesalahan server.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops!',
+                    text: 'Terjadi kesalahan server.',
+                });
             }
         }
     });

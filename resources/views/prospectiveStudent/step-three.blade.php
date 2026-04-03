@@ -26,13 +26,15 @@
     </div>
 
   
+        <div class="d-flex justify-content-between mt-4">
         <button type="button" class="btn btn-secondary" onclick="stepper.previous()">
-        Kembali
-    </button>
+            Kembali
+        </button>
 
-    <button type="button" class="btn btn-primary" onclick="stepThree()">
-        Lanjut
-    </button>
+        <button type="button" class="btn btn-primary" onclick="stepThree()">
+            Lanjut
+        </button>
+    </div>
   
 
 </div>
@@ -54,20 +56,31 @@ function stepThree() {
         type: "POST",
         data: formData,
         success: function(response) {
-
             if (response.status) {
-                alert(response.message);
-
-                // lanjut ke step berikutnya
-                stepper.next();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: response.message,
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    stepper.next();
+                });
             }
         },
-        error: function(xhr){
-
+        error: function(xhr) {
             if (xhr.status === 422) {
-                alert('Validasi gagal. Cek kembali inputan.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validasi Gagal!',
+                    text: 'Cek kembali inputan.',
+                });
             } else {
-                alert('Terjadi kesalahan server.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops!',
+                    text: 'Terjadi kesalahan server.',
+                });
             }
         }
     });

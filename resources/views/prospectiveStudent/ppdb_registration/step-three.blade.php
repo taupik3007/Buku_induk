@@ -13,24 +13,26 @@
 
         <div class="col-12">
             <label class="form-label fw-semibold">Alasan Memilih Jurusan</label>
-            <textarea name="ppsu_reason" class="form-control" rows="3" placeholder="Ceritakan alasan kamu memilih jurusan tersebut..."></textarea>
+            <textarea name="ppsu_reason" class="form-control" rows="3"
+                placeholder="Ceritakan alasan kamu memilih jurusan tersebut..."></textarea>
         </div>
 
         <div class="col-12">
             <div class="form-check mt-2">
                 <input class="form-check-input" type="checkbox" id="agreement" name="aggreement" required />
                 <label class="form-check-label" for="agreement">
-                    Saya menyatakan bahwa semua data yang saya isi adalah <strong>benar dan dapat dipertanggungjawabkan</strong>.
+                    Saya menyatakan bahwa semua data yang saya isi adalah <strong>benar dan dapat
+                        dipertanggungjawabkan</strong>.
                 </label>
             </div>
         </div>
 
-        <div class="col-12 d-flex justify-content-between mt-3">
-            <button type="button" class="btn btn-outline-secondary px-5" onclick="stepper.previous()">
-                <i class="ti ti-arrow-left me-1"></i> Sebelumnya
+        <div class="d-flex justify-content-between mt-4">
+            <button type="button" class="btn btn-secondary" onclick="stepper.previous()">
+                Kembali
             </button>
-            <button type="button" class="btn btn-success px-5" onclick="stepThree()">
-                <i class="ti ti-check me-1"></i> Kirim Pendaftaran
+            <button type="button" class="btn btn-success" onclick="stepThree()">
+                Kirim Pendaftaran
             </button>
         </div>
 
@@ -38,38 +40,57 @@
 </div>
 
 <script>
-function stepThree() {
+    function stepThree() {
 
-    if (!$('#agreement').is(':checked')) {
-        alert('Harap centang pernyataan persetujuan.');
-        return;
-    }
-
-    let formData = {
-        ppsu_major_id : $('[name="ppsu_major_id"]').val(),
-        ppsu_reason   : $('[name="ppsu_reason"]').val(),
-        _token        : '{{ csrf_token() }}'
-    };
-
-    $.ajax({
-        url: "{{ route('prospectiveStudent.ppdbRegistration.stepThree') }}",
-        type: "POST",
-        data: formData,
-        success: function(response) {
-            if (response.status) {
-                alert(response.message);
-                stepper.next(); // atau redirect jika ini step terakhir
-            }
-        },
-        error: function(xhr) {
-            if (xhr.status === 422) {
-                let errors = xhr.responseJSON.errors;
-                let msg = Object.values(errors).flat().join('\n');
-                alert(msg);
-            } else {
-                alert('Terjadi kesalahan server.');
-            }
+        if (!$('#agreement').is(':checked')) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Perhatian!',
+                text: 'Harap centang pernyataan persetujuan.',
+            });
+            return;
         }
-    });
-}
+
+        let formData = {
+            ppsu_major_id: $('[name="ppsu_major_id"]').val(),
+            ppsu_reason: $('[name="ppsu_reason"]').val(),
+            _token: '{{ csrf_token() }}'
+        };
+
+        $.ajax({
+            url: "{{ route('prospectiveStudent.ppdbRegistration.stepThree') }}",
+            type: "POST",
+            data: formData,
+            success: function(response) {
+                if (response.status) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: response.message,
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => {
+                        stepper.next();
+                    });
+                }
+            },
+            error: function(xhr) {
+                if (xhr.status === 422) {
+                    let errors = xhr.responseJSON.errors;
+                    let msg = Object.values(errors).flat().join('\n');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Validasi Gagal!',
+                        text: msg,
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops!',
+                        text: 'Terjadi kesalahan server.',
+                    });
+                }
+            }
+        });
+    }
 </script>
