@@ -33,6 +33,8 @@ class prospectiveStudentController extends Controller
         $ppdb = Ppdb::where('ppd_start_date', '<=', now())
             ->where('ppd_end_date', '>=', now())
             ->first();
+        $isComplited = PpdbSubmission::where('ppsu_student_id',$studentId)->first();
+        // dd($isComplited);
             // if($ppdb == null){
             //     dd("tidak aktif");
             // }
@@ -50,7 +52,7 @@ class prospectiveStudentController extends Controller
             
 
         $religion = Religion::all();
-        return view('prospectiveStudent.biodata',compact(['religion','biodata','family','address','physicalCondition','ppdb']));
+        return view('prospectiveStudent.biodata',compact(['religion','biodata','family','address','physicalCondition','ppdb','isComplited']));
     }
        public function StepOne(Request $request)
     {
@@ -346,7 +348,9 @@ try {
         ['fml_student_id' => $studentId],
         $validated
     );
-
+    $ppdb_submission = PpdbSubmission::updateOrCreate(
+        ['ppsu_student_id' => $studentId]
+    );
     DB::commit();
     $ppdb = Ppdb::where('ppd_start_date', '<=', now())
             ->where('ppd_end_date', '>=', now())
@@ -357,6 +361,7 @@ try {
                 $ppdbMessage = 'Data wali berhasil disimpan. Silahkan lanjutkan pengisian pada menu SPMB'; 
 
             }
+
 
     return response()->json([
         'status'  => true,
@@ -391,17 +396,20 @@ try {
     //  $studentId = auth()->user()->student->std_id;
 // dd($studentId);
         // dd($previous_education);
+        $studentId = auth()->user()->student->std_id;
+
         $ppdb = Ppdb::where('ppd_start_date', '<=', now())
             ->where('ppd_end_date', '>=', now())
             ->first();
-            if($ppdb == null){
+        $isComplited = PpdbSubmission::where('ppsu_student_id',$studentId)->first();
+
+            if($ppdb == null || $isComplited == null){
                 return redirect('/prospective-student/biodata');
             }
         $activePpdb = Ppdb::latest('ppd_created_at')->firstOrFail();
         // dd($activePpdb);
         $requirements       = PpdbRequirement::where('pdr_ppdb_id', $activePpdb->ppd_id)->get();
         // dd($requirements);
-        $studentId = auth()->user()->student->std_id;
         $studentRequirements = ProspectiveStudentRequirement::where('psr_std_id', $studentId)
             ->get()
             ->keyBy('psr_requirement_id');
@@ -541,16 +549,19 @@ $studentId = auth()->user()->student->std_id;
 
 public function stepNine(Request $request)
 {
+    
     $request->validate([
         'ppsu_major_id' => 'required|exists:majors,mjr_id',
         'ppsu_reason'   => 'nullable|string|max:1000',
     ]);
      $studentId = auth()->user()->student->std_id;
-
+      $ppdb = Ppdb::where('ppd_start_date', '<=', now())
+            ->where('ppd_end_date', '>=', now())
+            ->first();
     PpdbSubmission::updateOrCreate(
         ['ppsu_student_id' => $studentId], 
         [
-            'ppsu_ppdb_id'=> 1,
+            'ppsu_ppdb_id'=> $ppdb->ppd_id,
             'ppsu_major_id' => $request->ppsu_major_id,
             'ppsu_reason'   => $request->ppsu_reason,
         ]

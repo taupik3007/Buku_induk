@@ -57,7 +57,7 @@
                             Biodata
                         </a>
                     </li>
-                    @if ($ppdb)
+                    @if ($ppdb && $isComplited )
                         <li class="nav-item">
                             <a class="nav-link px-3 py-2 rounded fw-semibold"
                                 href="/prospective-student/ppdb-registration">
@@ -89,11 +89,14 @@
                         Biodata
                     </a>
                 </li>
+                    @if ($ppdb && $isComplited ==null)
+
                 <li class="nav-item">
                     <a class="nav-link px-3 py-2 rounded fw-semibold" href="/prospective-student/ppdb-registration">
                         PPDB
                     </a>
                 </li>
+                @endif
             </ul>
         </div>
     </div>
