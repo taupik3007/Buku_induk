@@ -20,6 +20,8 @@ return new class extends Migration
             $table->unsignedBigInteger('ppsu_major_id')->nullable();
             $table->foreign('ppsu_major_id')->references('mjr_id')->on('majors')->onDelete('cascade');
             $table->string('ppsu_reason')->nullable();
+            $table->tinyInteger('ppsu_status')->default(0);
+        // 0 = pending, 1 = diterima, 2 = ditolak
             $table->timestamps();
             $table->renameColumn('updated_at', 'ppsu_updated_at');
             $table->renameColumn('created_at', 'ppsu_created_at');

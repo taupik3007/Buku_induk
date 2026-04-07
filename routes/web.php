@@ -5,6 +5,7 @@ use App\Http\Controllers\Administration\ClassController;
 use App\Http\Controllers\Administration\MajorController;
 use App\Http\Controllers\Administration\PPDBController;
 use App\Http\Controllers\Administration\PPDBRequirementController;
+use App\Http\Controllers\Administration\PPDBReceptionController;
 use App\Http\Controllers\prospectiveStudentController;
 use App\Http\Controllers\DashboardController as AdministrationDashboardController;
 use App\Http\Controllers\ProfileController;
@@ -100,6 +101,15 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::get('/{id}/edit', [PPDBController::class, 'edit'])->name('edit');
         Route::post('/{id}/edit', [PPDBController::class, 'update'])->name('update');
         Route::delete('/{id}/destroy', [PPDBController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('ppdb-reception')->name('ppdbReception.')->group(function () {
+        Route::get('/{ppd_id}', [PPDBReceptionController::class, 'index'])->name('index');
+        Route::get('/{ppd_id}/list', [PpdbReceptionController::class, 'list'])->name('list');
+        Route::get('/{ppd_id}/prospective-student', [PPDBReceptionController::class, 'detail'])->name('detail');
+        Route::post('/{student_id}/accept', [PPDBReceptionController::class, 'accept'])->name('accept');
+        Route::get('/{student_id}/reject', [PPDBReceptionController::class, 'reject'])->name('reject');
+        Route::post('/{student_id}/accepted', [PPDBReceptionController::class, 'accepted'])->name('accepted');
+        Route::delete('/{studetn_id}/rejected', [PPDBReceptionController::class, 'rejected'])->name('rejected');
     });
 });
 

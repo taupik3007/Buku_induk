@@ -1,0 +1,92 @@
+<?php
+
+namespace App\Http\Controllers\administration;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Ppdb;
+use App\Models\PpdbSubmission;
+
+class PPDBReceptionController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $ppdbList = Ppdb::orderByDesc('ppd_id')->get();
+        $ppdb = $ppdbList->first();
+
+        $participants = $ppdb
+            ? PpdbSubmission::with(['student', 'major'])
+                ->where('ppsu_ppdb_id', $ppdb->ppd_id)
+                ->get()
+            : collect();
+
+        return view('administration.ppdb_reception.index', compact('ppdbList', 'ppdb', 'participants'));
+    }
+   public function list($ppdbId)
+{
+    $participants = PpdbSubmission::with(['student.user', 'major'])
+        ->where('ppsu_ppdb_id', $ppdbId)
+        ->get()
+        ->map(function ($item) {
+            return [
+                'id'     => $item->ppsu_id,
+                'name'   => $item->student->user->usr_name ?? '-',
+                'major'  => $item->major->mjr_name ?? '-',
+                'status' => $item->ppsu_status,
+            ];
+        });
+
+    return response()->json($participants);
+}
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
+}

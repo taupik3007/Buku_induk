@@ -100,7 +100,7 @@
             <span class="hide-menu">PENERIMAAN SPMB</span>
           </li>
           <li class="sidebar-item">
-            <a class="sidebar-link" href="/administration/ppdb"  aria-expanded="false">
+            <a class="sidebar-link" href="/administration/ppdb-reception/0"  aria-expanded="false">
               <span>
                 <i class="ti ti-user-exclamation"></i>
               </span>
