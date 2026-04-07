@@ -72,14 +72,14 @@
           <!-- ---------------------------------- -->
          <li class="nav-small-cap">
             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-            <span class="hide-menu">PPDB</span>
+            <span class="hide-menu">MANAJEMEN SPMB</span>
           </li>
           <li class="sidebar-item">
             <a class="sidebar-link" href="/administration/ppdb"  aria-expanded="false">
               <span>
                 <i class="ti ti-tag-plus"></i>
               </span>
-              <span class="hide-sitemap">PPDB</span>
+              <span class="hide-sitemap">SPMB</span>
             </a>
           </li>
           <li class="sidebar-item">
@@ -89,6 +89,39 @@
               </span>
               <span class="hide-sitemap">Persyaratan</span>
             </a>
+          </li>
+        <!-- ---------------------------------- -->
+          <!-- PENERIMAAN PPDB -->
+          <!-- ---------------------------------- -->
+
+
+          <li class="nav-small-cap">
+            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+            <span class="hide-menu">PENERIMAAN SPMB</span>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="/administration/ppdb"  aria-expanded="false">
+              <span>
+                <i class="ti ti-user-exclamation"></i>
+              </span>
+              <span class="hide-sitemap">Daftar Calon Siswa</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="/administration/ppdb"  aria-expanded="false">
+              <span>
+                <i class="ti ti-user-check"></i>
+              </span>
+              <span class="hide-sitemap">Daftar Diterima</span>
+            </a>
+            <li class="sidebar-item">
+            <a class="sidebar-link" href="/administration/ppdb"  aria-expanded="false">
+              <span>
+                <i class="ti ti-user-x"></i>
+              </span>
+              <span class="hide-sitemap">Daftar Ditolak</span>
+            </a>
+          </li>
           </li>
       </nav>
 
