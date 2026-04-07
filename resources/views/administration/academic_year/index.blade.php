@@ -22,9 +22,10 @@
                       <li class="breadcrumb-item">
                         @if ($academic_year->isEmpty() || $academic_year->contains('acy_status', 1))
                         <a class="text-muted text-decoration-none" href="/administration/academic-years/create">Tambah Tahun Ajaran</a>
-@else
-<a class="text-muted text-decoration-none" disabled>Tambah Tahun Ajaran</a>
-@endif
+
+                          @else
+                          <a class="text-muted text-decoration-none" disabled>Tambah Tahun Ajaran</a>
+                          @endif
                        
                       </li>
                       <li class="breadcrumb-item">
