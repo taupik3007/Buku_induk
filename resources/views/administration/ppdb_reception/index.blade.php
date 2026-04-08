@@ -50,6 +50,7 @@
                 </div>
 
                 <div class="table-responsive">
+                    {{-- tbody dikosongkan, semua data diisi via JS --}}
                     <table id="file_export" class="table w-100 table-striped table-bordered display text-nowrap">
                         <thead>
                             <tr>
@@ -60,50 +61,7 @@
                                 <th>Aksi</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @forelse ($participants as $no => $participant)
-                                <tr>
-                                    <td>{{ $no + 1 }}</td>
-                                    <td>{{ $participant->student->user->usr_name ?? '-' }}</td>
-                                    <td>{{ $participant->major->mjr_name ?? '-' }}</td>
-                                    <td>
-                                        @if ($participant->ppsu_status == 1)
-                                            <span class="badge bg-success">Diterima</span>
-                                        @elseif ($participant->ppsu_status == 2)
-                                            <span class="badge bg-danger">Ditolak</span>
-                                        @else
-                                            <span class="badge bg-warning text-dark">Pending</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <div class="d-flex gap-1">
-                                            <a href="/administration/ppdb-participant/{{ $participant->ppsu_id }}/show"
-                                                class="btn btn-info btn-sm">Detail</a>
-
-                                            <form action="/administration/ppdb-participant/{{ $participant->ppsu_id }}/accept"
-                                                method="POST"
-                                                onsubmit="return confirm('Terima peserta ini?')">
-                                                @csrf
-                                                @method('PATCH')
-                                                <button type="submit" class="btn btn-success btn-sm">Terima</button>
-                                            </form>
-
-                                            <form action="/administration/ppdb-participant/{{ $participant->ppsu_id }}/reject"
-                                                method="POST"
-                                                onsubmit="return confirm('Tolak peserta ini?')">
-                                                @csrf
-                                                @method('PATCH')
-                                                <button type="submit" class="btn btn-danger btn-sm">Tolak</button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="5" class="text-center text-muted">Tidak ada calon peserta didik</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
+                        <tbody></tbody>
                         <tfoot>
                             <tr>
                                 <th width="5%">No</th>
@@ -122,20 +80,43 @@
 
 @push('script')
     <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
-    <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
+    {{-- HAPUS datatable-advanced.init.js karena bentrok --}}
 
     <script>
-        $('#ppdbSelect').on('change', function() {
-            const ppdbId = $(this).val();
+        let table;
 
+        $(document).ready(function () {
+            table = $('#file_export').DataTable({
+                columnDefs: [{ orderable: false, targets: -1 }],
+                language: {
+                    emptyTable: "Tidak ada calon peserta didik",
+                    zeroRecords: "Tidak ada data yang cocok",
+                    info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                    infoEmpty: "Tidak ada data",
+                    search: "Cari:",
+                    paginate: {
+                        first: "Pertama",
+                        last: "Terakhir",
+                        next: "Selanjutnya",
+                        previous: "Sebelumnya"
+                    }
+                }
+            });
+
+            // Load data awal sesuai PPDB yang terpilih
+            loadParticipants($('#ppdbSelect').val());
+        });
+
+        $('#ppdbSelect').on('change', function () {
+            loadParticipants($(this).val());
+        });
+
+        function loadParticipants(ppdbId) {
+            table.clear().draw();
+
+            // Tampilkan loading
             $('#file_export tbody').html(`
-                <tr>
+                <tr class="dt-loading">
                     <td colspan="5" class="text-center py-4">
                         <div class="spinner-border spinner-border-sm text-primary me-2"></div>
                         Memuat data...
@@ -144,44 +125,35 @@
             `);
 
             $.ajax({
-                url: '/administration/ppdb-participant/' + ppdbId + '/list',
+                url: '/administration/ppdb-reception/' + ppdbId + '/list',
                 method: 'GET',
-                success: function(data) {
-                    let rows = '';
+                success: function (data) {
+                    table.clear();
 
-                    if (data.length === 0) {
-                        rows = `<tr><td colspan="5" class="text-center text-muted">Tidak ada calon peserta didik</td></tr>`;
-                    } else {
-                        data.forEach(function(item, index) {
-                            let badge = '';
-                            if (item.status == 1) badge = `<span class="badge bg-success">Diterima</span>`;
-                            else if (item.status == 2) badge = `<span class="badge bg-danger">Ditolak</span>`;
-                            else badge = `<span class="badge bg-warning text-dark">Pending</span>`;
+                    data.forEach(function (item, index) {
+                        let badge = '';
+                        if (item.status == 1) badge = `<span class="badge bg-success">Diterima</span>`;
+                        else if (item.status == 2) badge = `<span class="badge bg-danger">Ditolak</span>`;
+                        else badge = `<span class="badge bg-warning text-dark">Pending</span>`;
 
-                            rows += `
-                                <tr>
-                                    <td>${index + 1}</td>
-                                    <td>${item.name}</td>
-                                    <td>${item.major}</td>
-                                    <td>${badge}</td>
-                                    <td>
-                                        <div class="d-flex gap-1">
-                                            <a href="/administration/ppdb-participant/${item.id}/show"
-                                                class="btn btn-info btn-sm">Detail</a>
-                                            <button class="btn btn-success btn-sm"
-                                                onclick="updateStatus(${item.id}, 'accept')">Terima</button>
-                                            <button class="btn btn-danger btn-sm"
-                                                onclick="updateStatus(${item.id}, 'reject')">Tolak</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            `;
-                        });
-                    }
+                        const aksi = `
+                            <div class="d-flex gap-1">
+                                <a href="/administration/ppdb-participant/${item.id}/show"
+                                    class="btn btn-info btn-sm">Detail</a>
+                                <button class="btn btn-success btn-sm"
+                                    onclick="updateStatus(${item.id}, 'accept')">Terima</button>
+                                <button class="btn btn-danger btn-sm"
+                                    onclick="updateStatus(${item.id}, 'reject')">Tolak</button>
+                            </div>
+                        `;
 
-                    $('#file_export tbody').html(rows);
+                        table.row.add([index + 1, item.name, item.major, badge, aksi]);
+                    });
+
+                    table.draw();
                 },
-                error: function() {
+                error: function () {
+                    table.clear().draw();
                     $('#file_export tbody').html(`
                         <tr>
                             <td colspan="5" class="text-center text-danger">Gagal memuat data.</td>
@@ -189,7 +161,7 @@
                     `);
                 }
             });
-        });
+        }
 
         function updateStatus(id, action) {
             const label = action === 'accept' ? 'menerima' : 'menolak';
@@ -202,10 +174,10 @@
                     _token: '{{ csrf_token() }}',
                     _method: 'PATCH'
                 },
-                success: function() {
-                    $('#ppdbSelect').trigger('change');
+                success: function () {
+                    loadParticipants($('#ppdbSelect').val());
                 },
-                error: function() {
+                error: function () {
                     alert('Gagal memperbarui status.');
                 }
             });

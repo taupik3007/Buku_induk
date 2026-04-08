@@ -103,7 +103,7 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::delete('/{id}/destroy', [PPDBController::class, 'destroy'])->name('destroy');
     });
     Route::prefix('ppdb-reception')->name('ppdbReception.')->group(function () {
-        Route::get('/{ppd_id}', [PPDBReceptionController::class, 'index'])->name('index');
+        Route::get('/', [PPDBReceptionController::class, 'index'])->name('index');
         Route::get('/{ppd_id}/list', [PpdbReceptionController::class, 'list'])->name('list');
         Route::get('/{ppd_id}/prospective-student', [PPDBReceptionController::class, 'detail'])->name('detail');
         Route::post('/{student_id}/accept', [PPDBReceptionController::class, 'accept'])->name('accept');

@@ -29,7 +29,7 @@ class PpdbSubmission extends Model
 
     public function major()
     {
-        return $this->belongsTo(Major::class, 'ppsu_major_id', 'mjr_id');
+        return $this->belongsTo(Majors::class, 'ppsu_major_id', 'mjr_id');
     }
 
     public function getStatusLabelAttribute(): string
