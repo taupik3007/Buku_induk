@@ -42,6 +42,69 @@ class PPDBReceptionController extends Controller
     return response()->json($participants);
 }
 
+    public function accepted(){
+        $ppdbList = Ppdb::orderByDesc('ppd_id')->get();
+        $ppdb = $ppdbList->first();
+
+        $participants = $ppdb
+            ? PpdbSubmission::with(['student', 'major'])
+                ->where('ppsu_ppdb_id', $ppdb->ppd_id)
+                ->where('ppsu_status','1')
+                ->get()
+            : collect();
+
+        return view('administration.ppdb_reception.accepted', compact('ppdbList', 'ppdb', 'participants'));
+    }
+    public function acceptedList($ppdbId)
+{
+    $participants = PpdbSubmission::with(['student.user', 'major'])
+        ->where('ppsu_ppdb_id', $ppdbId)
+        ->where('ppsu_status','1')
+        ->get()
+        ->map(function ($item) {
+            return [
+                'id'     => $item->ppsu_id,
+                'name'   => $item->student->user->usr_name ?? '-',
+                'major'  => $item->major->mjr_name ?? '-',
+                'status' => $item->ppsu_status,
+            ];
+        });
+
+    return response()->json($participants);
+}
+
+public function rejected(){
+        $ppdbList = Ppdb::orderByDesc('ppd_id')->get();
+        $ppdb = $ppdbList->first();
+        // dd($ppdb);
+
+        $participants = $ppdb
+            ? PpdbSubmission::with(['student', 'major'])
+                ->where('ppsu_ppdb_id', $ppdb->ppd_id)
+                ->where('ppsu_status','2')
+                ->get()
+            : collect();
+
+        return view('administration.ppdb_reception.rejected', compact('ppdbList', 'ppdb', 'participants'));
+    }
+    public function rejectedList($ppdbId)
+{
+    $participants = PpdbSubmission::with(['student.user', 'major'])
+        ->where('ppsu_ppdb_id', $ppdbId)
+        ->where('ppsu_status','2')
+        ->get()
+        ->map(function ($item) {
+            return [
+                'id'     => $item->ppsu_id,
+                'name'   => $item->student->user->usr_name ?? '-',
+                'major'  => $item->major->mjr_name ?? '-',
+                'status' => $item->ppsu_status,
+            ];
+        });
+
+    return response()->json($participants);
+}
+
     /**
      * Show the form for creating a new resource.
      */

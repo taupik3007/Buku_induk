@@ -57,7 +57,7 @@
                                 <th width="5%">No</th>
                                 <th>Nama</th>
                                 <th>Jurusan</th>
-                                <th>Status</th>
+                                {{-- <th>Status</th> --}}
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -67,7 +67,7 @@
                                 <th width="5%">No</th>
                                 <th>Nama</th>
                                 <th>Jurusan</th>
-                                <th>Status</th>
+                                {{-- <th>Status</th> --}}
                                 <th>Aksi</th>
                             </tr>
                         </tfoot>
@@ -125,7 +125,7 @@
             `);
 
             $.ajax({
-                url: '/administration/ppdb-reception/' + ppdbId + '/list',
+                url: '/administration/ppdb-reception/' + ppdbId + '/accepted-list',
                 method: 'GET',
                 success: function (data) {
                     table.clear();
@@ -140,14 +140,11 @@
                             <div class="d-flex gap-1">
                                 <a href="/administration/ppdb-reception/${item.id}/show"
                                     class="btn btn-info btn-sm">Detail</a>
-                                <button class="btn btn-success btn-sm"
-                                    onclick="updateStatus(${item.id}, 'accept')">Terima</button>
-                                <button class="btn btn-danger btn-sm"
-                                    onclick="updateStatus(${item.id}, 'reject')">Tolak</button>
+                                
                             </div>
                         `;
 
-                        table.row.add([index + 1, item.name, item.major, badge, aksi]);
+                        table.row.add([index + 1, item.name, item.major, aksi]);
                     });
 
                     table.draw();

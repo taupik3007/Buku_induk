@@ -100,7 +100,7 @@
             <span class="hide-menu">PENERIMAAN SPMB</span>
           </li>
           <li class="sidebar-item">
-            <a class="sidebar-link" href="/administration/ppdb-reception/0"  aria-expanded="false">
+            <a class="sidebar-link" href="/administration/ppdb-reception"  aria-expanded="false">
               <span>
                 <i class="ti ti-user-exclamation"></i>
               </span>
@@ -108,14 +108,14 @@
             </a>
           </li>
           <li class="sidebar-item">
-            <a class="sidebar-link" href="/administration/ppdb"  aria-expanded="false">
+            <a class="sidebar-link" href="/administration/ppdb-reception/accepted"  aria-expanded="false">
               <span>
                 <i class="ti ti-user-check"></i>
               </span>
               <span class="hide-sitemap">Daftar Diterima</span>
             </a>
             <li class="sidebar-item">
-            <a class="sidebar-link" href="/administration/ppdb"  aria-expanded="false">
+            <a class="sidebar-link" href="/administration/ppdb-reception/rejected"  aria-expanded="false">
               <span>
                 <i class="ti ti-user-x"></i>
               </span>
