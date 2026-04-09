@@ -21,4 +21,12 @@ class Student extends Model
             'usr_id'      // PK di users
         );
     }
+    public function biodata()
+    {
+        return $this->hasOne(StudentBiodata::class, 'stb_student_id', 'std_id');
+    }
+    public function family()
+    {
+        return $this->hasOne(Family::class, 'fml_student_id', 'std_id');
+    }
 }

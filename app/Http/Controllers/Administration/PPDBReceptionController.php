@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Ppdb;
 use App\Models\PpdbSubmission;
+use App\Models\PpdbRequirement;
+
 
 class PPDBReceptionController extends Controller
 {
@@ -126,7 +128,15 @@ public function rejected(){
      */
     public function show(string $id)
     {
-        //
+         $student   = PpdbSubmission::where('ppsu_student_id',$id)->first();
+         $documents = PpdbRequirement::with(['upload' => fn($q) => $q->where('std_id', $id)])
+                    ->where('pdr_ppdb_id', $student->ppd_id)
+                    ->get()
+                    ->map(function ($req) {
+                        $req->file_path = $req->upload->file_path ?? null;
+                        return $req;
+                    });
+        return view('administration.ppdb_reception.show', compact('student', 'documents'));
     }
 
     /**
