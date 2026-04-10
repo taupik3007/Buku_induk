@@ -143,29 +143,37 @@ class prospectiveStudentController extends Controller
         $userId = auth()->user()->usr_id;
 
          $validated = $request->validate([
-        'adr_province'     => 'required|string',
-        'adr_regency'      => 'required|string',
-        'adr_district'     => 'required|string',
-        'adr_village'      => 'required|string',
-        'adr_postal_code'  => 'nullable|digits:5',
-        'adr_distance'     => 'nullable|numeric',
-        'adr_detail'       => 'required|string|max:500',
-    ]);
+    'adr_province'        => 'required|string',
+    'adr_province_value'  => 'required|string',
+    'adr_regency'         => 'required|string',
+    'adr_regency_value'   => 'required|string',
+    'adr_district'        => 'required|string',
+    'adr_district_value'  => 'required|string',
+    'adr_village'         => 'required|string',
+    'adr_village_value'   => 'required|string',
+    'adr_postal_code'     => 'nullable|digits:5',
+    'adr_distance'        => 'nullable|numeric',
+    'adr_detail'          => 'required|string|max:500',
+]);
 
     DB::beginTransaction();
 
     try {
 
-        $student = Address::updateOrCreate(
+       $student = Address::updateOrCreate(
     ['adr_user_id' => $userId],
     [
-        'adr_province'     => $request->adr_province,
-        'adr_regency'      => $request->adr_regency,
-        'adr_district'     => $request->adr_district,
-        'adr_village'      => $request->adr_village,
-        'adr_postal_code'  => $request->adr_postal_code,
-        'adr_distance'     => $request->adr_distance,
-        'adr_detail'       => $request->adr_detail,
+        'adr_province'        => $request->adr_province,
+        'adr_province_value'  => $request->adr_province_value,
+        'adr_regency'         => $request->adr_regency,
+        'adr_regency_value'   => $request->adr_regency_value,
+        'adr_district'        => $request->adr_district,
+        'adr_district_value'  => $request->adr_district_value,
+        'adr_village'         => $request->adr_village,
+        'adr_village_value'   => $request->adr_village_value,
+        'adr_postal_code'     => $request->adr_postal_code,
+        'adr_distance'        => $request->adr_distance,
+        'adr_detail'          => $request->adr_detail,
     ]
 );
 

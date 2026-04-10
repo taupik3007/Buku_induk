@@ -17,9 +17,13 @@ return new class extends Migration
             $table->foreign('adr_user_id')->references('usr_id')->on('users')->onDelete('cascade');
             $table->string('adr_detail');
             $table->string('adr_village');
+            $table->string('adr_village_value');
             $table->string('adr_district');
+            $table->string('adr_district_value');
             $table->string('adr_regency');
+            $table->string('adr_regency_value');
             $table->string('adr_province');
+            $table->string('adr_province_value');
             $table->bigInteger('adr_postal_code');
             $table->bigInteger('adr_distance');
             $table->timestamps();

@@ -164,35 +164,211 @@
         </div>
     </div>
 </div>
-
+  {{-- Alamat--}}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h6 class="card-title text-uppercase text-muted fw-semibold mb-3" style="font-size:11px;letter-spacing:.06em;">
+                            Data Alamat
+                        </h6>
+                        <table class="table table-sm table-borderless mb-0">
+                            <tbody>
+                                <tr>
+                                    <td class="text-muted ps-0" style="width:45%">Provinsi</td>
+                                    <td class="fw-medium">{{ $student->student->user->address->adr_province_value?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Kabupaten/Kota</td>
+                                    <td class="fw-medium">{{ $student->student->user->address->adr_regency_value?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Kecamatan</td>
+                                    <td class="fw-medium">{{ $student->student->user->address->adr_district_value  ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Desa</td>
+                                    <td class="fw-medium">{{ $student->student->user->address->adr_village_value  ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Kode POS</td>
+                                    <td class="fw-medium">{{ $student->student->user->address->adr_postal_code ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Jarak Rumah ke Sekolah(km)</td>
+                                    <td class="fw-medium">{{ $student->student->user->address->adr_distance  ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Alamat Lengkap</td>
+                                    <td class="fw-medium">{{ $student->student->user->address->adr_detail  ?? '-' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h6 class="card-title text-uppercase text-muted fw-semibold mb-3" style="font-size:11px;letter-spacing:.06em;">
+                            Kondisi Fisik
+                        </h6>
+                        <table class="table table-sm table-borderless mb-0">
+                            <tbody>
+                                <tr>
+                                    <td class="text-muted ps-0" style="width:45%">Golongan Darah</td>
+                                    <td class="fw-medium">{{ $student->student->physicalCondition->phy_blood_type ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Penyakit Bawaan</td>
+                                    <td class="fw-medium">{{ $student->student->physicalCondition->phy_illness ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">kelainan Jasmani</td>
+                                    <td class="fw-medium">{{ $student->student->physicalCondition->phy_disability ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Tinggi Badan (cm)</td>
+                                    <td class="fw-medium">{{ $student->student->physicalCondition->phy_height ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Berat Badan (kg)</td>
+                                    <td class="fw-medium">{{ $student->student->physicalCondition->phy_weight ?? '-' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
             {{-- Data Orang Tua / Wali --}}
             <div class="col-md-6 mb-4">
                 <div class="card h-100">
                     <div class="card-body">
                         <h6 class="card-title text-uppercase text-muted fw-semibold mb-3" style="font-size:11px;letter-spacing:.06em;">
-                            Data Orang Tua / Wali
+                            Data Ayah
                         </h6>
                         <table class="table table-sm table-borderless mb-0">
                             <tbody>
                                 <tr>
-                                    <td class="text-muted ps-0" style="width:45%">Nama Ayah</td>
-                                    <td class="fw-medium">{{ $student->std_father_name ?? '-' }}</td>
+                                    <td class="text-muted ps-0" style="width:45%">Nama</td>
+                                    <td class="fw-medium">{{ $student->student->family->fml_father_name ?? '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="text-muted ps-0">Nama Ibu</td>
-                                    <td class="fw-medium">{{ $student->std_mother_name ?? '-' }}</td>
+                                    <td class="text-muted ps-0">Agama</td>
+                                    <td class="fw-medium">{{ $student->student->family->fatherReligion->rlg_name ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Kewarganegaraan</td>
+                                    <td class="fw-medium">{{ $student->student->family->fml_father_nationality ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Pekerjaan</td>
-                                    <td class="fw-medium">{{ $student->std_parent_job ?? '-' }}</td>
+                                    <td class="fw-medium">{{ $student->student->family->fml_father_occupation ?? '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="text-muted ps-0">No. HP</td>
-                                    <td class="fw-medium">{{ $student->std_parent_phone ?? '-' }}</td>
+                                    <td class="text-muted ps-0">Pendidikan Terakhir</td>
+                                    <td class="fw-medium">{{ $student->student->family->fml_father_education ?? '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="text-muted ps-0">Email</td>
-                                    <td class="fw-medium">{{ $student->std_parent_email ?? '-' }}</td>
+                                    <td class="text-muted ps-0">Penghasilan per Bulan (Rp)</td>
+                                    <td class="fw-medium">{{ $student->student->family->fml_father_income ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Alamat</td>
+                                    <td class="fw-medium">{{ $student->student->family->fml_father_address ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Nomor Telepon</td>
+                                    <td class="fw-medium">{{ $student->student->family->fml_father_phone ?? '-' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h6 class="card-title text-uppercase text-muted fw-semibold mb-3" style="font-size:11px;letter-spacing:.06em;">
+                            Data Ibu
+                        </h6>
+                        <table class="table table-sm table-borderless mb-0">
+                            <tbody>
+                                <tr>
+                                    <td class="text-muted ps-0" style="width:45%">Nama</td>
+                                    <td class="fw-medium">{{ $student->student->family->fml_mother_name ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Agama</td>
+                                    <td class="fw-medium">{{ $student->student->family->motherReligion->rlg_name ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Kewarganegaraan</td>
+                                    <td class="fw-medium">{{ $student->student->family->fml_mother_nationality ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Pekerjaan</td>
+                                    <td class="fw-medium">{{ $student->student->family->fml_mother_occupation ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Pendidikan Terakhir</td>
+                                    <td class="fw-medium">{{ $student->student->family->fml_mother_education ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Penghasilan per Bulan (Rp)</td>
+                                    <td class="fw-medium">{{ $student->student->family->fml_motherr_income ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Alamat</td>
+                                    <td class="fw-medium">{{ $student->student->family->fml_mother_address ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Nomor Telepon</td>
+                                    <td class="fw-medium">{{ $student->student->family->fml_mother_phone ?? '-' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h6 class="card-title text-uppercase text-muted fw-semibold mb-3" style="font-size:11px;letter-spacing:.06em;">
+                            Data Wali
+                        </h6>
+                        <table class="table table-sm table-borderless mb-0">
+                            <tbody>
+                                <tr>
+                                    <td class="text-muted ps-0" style="width:45%">Nama</td>
+                                    <td class="fw-medium">{{ $student->student->family->fml_guardian_name ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Agama</td>
+                                    <td class="fw-medium">{{ $student->student->family->fatherReligion->rlg_name ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Kewarganegaraan</td>
+                                    <td class="fw-medium">{{ $student->student->family->fml_guardian_nationality ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Pekerjaan</td>
+                                    <td class="fw-medium">{{ $student->student->family->fml_guardian_occupation ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Pendidikan Terakhir</td>
+                                    <td class="fw-medium">{{ $student->student->family->fml_guardian_education ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Penghasilan per Bulan (Rp)</td>
+                                    <td class="fw-medium">{{ $student->student->family->fml_guardian_income ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Alamat</td>
+                                    <td class="fw-medium">{{ $student->student->family->fml_guardian_address ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Nomor Telepon</td>
+                                    <td class="fw-medium">{{ $student->student->family->fml_guardian_phone ?? '-' }}</td>
                                 </tr>
                             </tbody>
                         </table>

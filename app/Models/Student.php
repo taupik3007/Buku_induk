@@ -29,4 +29,8 @@ class Student extends Model
     {
         return $this->hasOne(Family::class, 'fml_student_id', 'std_id');
     }
+    public function physicalCondition()
+    {
+        return $this->hasOne(PhysicalCondition::class, 'phy_student_id', 'std_id');
+    }
 }

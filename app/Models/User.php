@@ -58,4 +58,13 @@ class User extends Authenticatable
         'usr_id'      // PK di users
     );
 }
+public function address()
+{
+    return $this->hasOne(
+        Address::class,
+        'adr_user_id', // FK di students
+        'usr_id'      // PK di users
+    );
+}
+
 }
