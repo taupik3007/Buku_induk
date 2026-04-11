@@ -33,4 +33,8 @@ class Student extends Model
     {
         return $this->hasOne(PhysicalCondition::class, 'phy_student_id', 'std_id');
     }
+    public function previousEducation()
+    {
+        return $this->hasOne(Previous_Education::class, 'prv_student_id', 'std_id');
+    }
 }
