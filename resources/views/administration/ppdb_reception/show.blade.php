@@ -45,10 +45,10 @@
                 <div class="d-flex align-items-center gap-3 flex-wrap">
                     <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0"
                         style="width:60px;height:60px;font-size:20px;font-weight:500;color:#185FA5;">
-                        {{ strtoupper(substr($student->std_name, 0, 1)) }}{{ strtoupper(substr(strrchr($student->std_name, ' ') ?: $student->std_name, 1, 1)) }}
+                        {{ strtoupper(substr($student->student->user->usr_name, 0, 1)) }}{{ strtoupper(substr(strrchr($student->student->user->usr_name, ' ') ?: $student->student->user->usr_name, 1, 1)) }}
                     </div>
                     <div class="flex-grow-1">
-                        <h5 class="fw-semibold mb-1">{{ $student->std_name }}</h5>
+                        <h5 class="fw-semibold mb-1">{{ $student->student->user->usr_name }}</h5>
                         <div class="d-flex flex-wrap gap-2 align-items-center">
                             <span class="badge bg-primary-subtle text-primary">
                                 No. Daftar: {{ $student->reg_number ?? '-' }}
