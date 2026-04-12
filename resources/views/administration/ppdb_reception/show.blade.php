@@ -533,14 +533,16 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                @if ($doc->file_path)
+                                                {{-- {{$doc->upload}} --}}
+                                                @if ($doc->upload)
                                                     <span class="badge bg-success-subtle text-success">Diunggah</span>
                                                 @else
                                                     <span class="badge bg-danger-subtle text-danger">Belum Diunggah</span>
                                                 @endif
                                             </td>
                                             <td>
-                                                @if ($doc->file_path)
+                                                @if ($doc->upload)
+                                               
                                                     <a href="{{ asset('storage/' . $doc->file_path) }}" target="_blank"
                                                         class="btn btn-outline-primary btn-sm">
                                                         <i class="ti ti-eye me-1"></i>Lihat
