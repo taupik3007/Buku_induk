@@ -15,4 +15,9 @@ class PpdbRequirement extends Model
     const CREATED_AT = 'pdr_created_at';
     const UPDATED_AT = 'pdr_updated_at';
     const DELETED_AT = 'pdr_deleted_at';
+
+    public function upload()
+{
+    return $this->hasOne(ProspectiveStudentRequirement::class, 'psr_requirement_id', 'pdr_id');
+}
 }

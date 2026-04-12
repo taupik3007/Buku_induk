@@ -128,14 +128,22 @@ public function rejected(){
      */
     public function show(string $id)
     {
+
          $student   = PpdbSubmission::where('ppsu_student_id',$id)->first();
-         $documents = PpdbRequirement::with(['upload' => fn($q) => $q->where('std_id', $id)])
-                    ->where('pdr_ppdb_id', $student->ppd_id)
+         $documents = PpdbRequirement::with(['upload' => fn($q) => $q->where('psr_std_id', $id)])
+                    ->where('pdr_ppdb_id', $student->ppsu_ppdb_id)
                     ->get()
                     ->map(function ($req) {
-                        $req->file_path = $req->upload->file_path ?? null;
+                        $req->file_path = $req->upload->psr_value ?? null;
                         return $req;
                     });
+                    // dd($student->student);
+        // dd($documents->upload);
+        // foreach($documents as $doc){
+        
+        //         dd($doc->upload);
+        //     }
+        // }
         return view('administration.ppdb_reception.show', compact('student', 'documents'));
     }
 
