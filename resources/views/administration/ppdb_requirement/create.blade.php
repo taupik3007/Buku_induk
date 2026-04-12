@@ -53,7 +53,7 @@
                     <label class="form-label fw-semibold">Nama Persyaratan <span class="text-danger">*</span></label>
                     <input type="text" name="pdr_name" class="form-control @error('pdr_name') is-invalid @enderror"
                         placeholder="Contoh: Akta Kelahiran, Kartu Keluarga..."
-                        value="{{ old('pdr_name') }}">
+                        value="{{ old('tcr_name') }}">
                     @error('pdr_name')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -61,7 +61,7 @@
 
                 <div class="mb-4">
                     <label class="form-label fw-semibold">Jenis Inputan <span class="text-danger">*</span></label>
-                    <select name="pdr_type" class="form-select @error('pdr_type') is-invalid @enderror">
+                    <select name="tcr_type" class="form-select @error('pdr_type') is-invalid @enderror">
                         <option value="" disabled selected>-- Pilih Jenis --</option>
                         <option value="text" {{ old('pdr_type') == 'text' ? 'selected' : '' }}>Text</option>
                         <option value="file" {{ old('pdr_type') == 'file' ? 'selected' : '' }}>File Upload</option>
