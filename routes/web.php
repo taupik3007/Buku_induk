@@ -13,9 +13,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Student\DashboardController;
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
 use App\Http\Controllers\Administration\prospectiveTeacherController;
-
+use App\Http\Controllers\Administration\TeacherRequirementController;
 use App\Http\Controllers\RegionController;
-
+use App\Models\TeacherRequirement;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -93,6 +93,14 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::get('/parent-father', [prospectiveTeacherController::class, 'parentFather'])->name('parentFather');
         Route::get('/parent-mother', [prospectiveTeacherController::class, 'parentMother'])->name('parentMother');
         Route::get('/parent-guardian', [prospectiveTeacherController::class, 'parentGuardian'])->name('parentGuardian');
+    });
+    Route::prefix('teacher-requirement')->name('teacherRequirement.')->group(function () {
+        Route::get('/', [TeacherRequirementController::class, 'index'])->name('index');
+        Route::get('/create', [TeacherRequirementController::class, 'create'])->name('create');
+        Route::post('/create', [TeacherRequirementController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [TeacherRequirementController::class, 'edit'])->name('edit');
+        Route::post('/{id}/edit', [TeacherRequirementController::class, 'update'])->name('update');
+        Route::delete('/{id}/destroy', [TeacherRequirementController::class, 'destroy'])->name('classes.destroy');
     });
     Route::prefix('ppdb')->name('ppdb.')->group(function () {
         Route::get('/', [PPDBController::class, 'index'])->name('');
