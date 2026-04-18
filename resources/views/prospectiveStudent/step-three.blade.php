@@ -2,12 +2,22 @@
 
     <div class="mb-3">
         <label class="form-label">Golongan Darah</label>
-        <input type="text" name="phy_blood_type"  value="{{ old('phy_blood_type', $physicalCondition->phy_blood_type ?? '') }}" class="form-control" placeholder="Contoh: A, B, AB, O ,Jika tidak ada, isi '-'">
+        @php
+            $selectblood = old('phy_blood_type', $physicalCondition->phy_blood_type ?? '');
+        @endphp
+
+        <select name="phy_blood_type" class="form-select" required>
+            <option value="">Pilih ..</option>
+            <option value="A" {{ $selectblood === 'A' ? 'selected' : '' }}>A</option>
+            <option value="B" {{ $selectblood === 'B' ? 'selected' : '' }}>B</option>
+            <option value="AB" {{ $selectblood === 'AB' ? 'selected' : '' }}>AB</option>
+            <option value="O" {{ $selectblood === 'O' ? 'selected' : '' }}>O</option>
+        </select>
     </div>
 
     <div class="mb-3">
         <label class="form-label">Penyakit Bawaan</label>
-        <input type="text" name="phy_illness" value="{{ old('phy_ullness', $physicalCondition->phy_illness ?? '') }}" class="form-control" placeholder="Jika tidak ada, isi '-'">
+        <input type="text" name="phy_illness" value="{{ old('phy_illness', $physicalCondition->phy_illness ?? '') }}" class="form-control" placeholder="Jika tidak ada, isi '-'">
     </div>
 
     <div class="mb-3">
@@ -43,7 +53,7 @@
 function stepThree() {
 
     let formData = {
-        phy_blood_type: $('input[name="phy_blood_type"]').val(),
+        phy_blood_type: $('select[name="phy_blood_type"]').val(),
         phy_illness: $('input[name="phy_illness"]').val(),
         phy_disability: $('input[name="phy_disability"]').val(),
         phy_height: $('input[name="phy_height"]').val(),

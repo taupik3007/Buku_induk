@@ -22,13 +22,24 @@
             @endforeach
         </select>
     </div>
-
     <div class="mb-3">
+        <label class="form-label">Kewarganegaraan</label>
+        @php
+            $mothernationality = old('fml_mother_nationality', $family->fml_mother_nationality ?? '');
+        @endphp
+
+        <select name="fml_mother_nationality" class="form-select" required>
+            <option value="">Pilih ..</option>
+            <option value="WNI" {{ $mothernationality  === 'WNI' ? 'selected' : '' }}>WNI</option>
+            <option value="WNA" {{ $mothernationality  === 'WNA' ? 'selected' : '' }}>WNA</option>
+        </select>
+    </div>
+    {{-- <div class="mb-3">
         <label class="form-label">Kewarganegaraan</label>
         <input type="text" name="fml_mother_nationality"
             value="{{ old('fml_mother_nationality', $family->fml_mother_nationality ?? '') }}"
             class="form-control" placeholder="Contoh: Indonesia">
-    </div>
+    </div> --}}
 
     <div class="mb-3">
         <label class="form-label">Pekerjaan</label>
@@ -37,11 +48,27 @@
             placeholder="Pekerjaan">
     </div>
 
-    <div class="mb-3">
+    {{-- <div class="mb-3">
         <label class="form-label">Pendidikan Terakhir</label>
         <input type="text" name="fml_mother_education" class="form-control"
             value="{{ old('fml_mother_education', $family->fml_mother_education ?? '') }}"
             placeholder="Pendidikan terakhir">
+    </div> --}}
+    <div class="mb-3">
+        <label class="form-label">Pendidikan Terakhir</label>
+        @php
+            $mothereducation = old('fml_mother_education', $family->fml_mother_education ?? '');
+        @endphp
+
+        <select name="fml_mother_education" class="form-select" required>
+            <option value="">Pilih ..</option>
+            <option value="SD" {{ $mothereducation === 'SD' ? 'selected' : 'SD' }}>SD</option>
+            <option value="SMP" {{ $mothereducation === 'SMP' ? 'selected' : 'SMP' }}>SMP</option>
+            <option value="SMA" {{ $mothereducation === 'SMA' ? 'selected' : 'SMA' }}>SMA</option>
+            <option value="SMK" {{ $mothereducation === 'SMK' ? 'selected' : 'SMK' }}>SMK</option>
+            <option value="S1" {{ $mothereducation === 'S1' ? 'selected' : 'S1' }}>S1</option>
+            <option value="S2" {{ $mothereducation === 'S2' ? 'selected' : 'S2' }}>S2</option>
+        </select>
     </div>
 
     <div class="mb-3">
@@ -89,8 +116,8 @@ function stepFive() {
     let formData = {
         fml_mother_name: $('[name="fml_mother_name"]').val(),
         fml_mother_religion_id: $('[name="fml_mother_religion_id"]').val(),
-        fml_mother_nationality: $('[name="fml_mother_nationality"]').val(),
-        fml_mother_education: $('[name="fml_mother_education"]').val(),
+        fml_mother_nationality: $('select[name="fml_mother_nationality"]').val(),
+        fml_mother_education: $('select[name="fml_mother_education"]').val(),
         fml_mother_occupation: $('[name="fml_mother_occupation"]').val(),
         fml_mother_income: $('[name="fml_mother_income"]').val(),
         fml_mother_address: $('[name="fml_mother_address"]').val(),
@@ -116,6 +143,7 @@ function stepFive() {
             }
         },
         error: function(xhr) {
+            console.log(xhr.responseJSON);
             if (xhr.status === 422) {
                 Swal.fire({
                     icon: 'error',
