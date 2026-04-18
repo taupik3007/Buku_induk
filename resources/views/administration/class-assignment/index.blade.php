@@ -1,0 +1,422 @@
+@extends('administration.master')
+
+@push('link')
+    <link rel="stylesheet" href="{{ asset('assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
+@endpush
+
+@section('title')
+    SiMAPUT | Pembagian Kelas
+@endsection
+
+@section('content')
+
+<style>
+    .stat-card {
+        border-radius: 12px;
+        border: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        overflow: hidden;
+    }
+    .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12) !important;
+    }
+    .stat-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+    }
+    .jurusan-card {
+        border-radius: 12px;
+        border: 1px solid #e9ecef;
+        transition: all 0.2s ease;
+    }
+    .jurusan-card:hover {
+        box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    }
+    .jurusan-header {
+        border-radius: 10px 10px 0 0;
+        padding: 16px 20px;
+    }
+    .badge-kelas {
+        font-size: 11px;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+    .progress-thin {
+        height: 6px;
+        border-radius: 10px;
+    }
+    .step-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 12px 0;
+        border-bottom: 1px dashed #e9ecef;
+    }
+    .step-item:last-child { border-bottom: none; }
+    .step-num {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+    .alert-info-soft {
+        background: #e8f4fd;
+        border: 1px solid #b8d9f5;
+        border-radius: 10px;
+        color: #1565c0;
+    }
+    .btn-process {
+        background: linear-gradient(135deg, #1976d2, #1565c0);
+        border: none;
+        border-radius: 10px;
+        padding: 12px 28px;
+        font-weight: 600;
+        font-size: 15px;
+        letter-spacing: 0.3px;
+        box-shadow: 0 4px 14px rgba(25, 118, 210, 0.4);
+        transition: all 0.2s ease;
+    }
+    .btn-process:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(25, 118, 210, 0.5);
+    }
+    .btn-finalize {
+        background: linear-gradient(135deg, #2e7d32, #1b5e20);
+        border: none;
+        border-radius: 10px;
+        padding: 12px 28px;
+        font-weight: 600;
+        font-size: 15px;
+        box-shadow: 0 4px 14px rgba(46, 125, 50, 0.35);
+        transition: all 0.2s ease;
+    }
+    .btn-finalize:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(46, 125, 50, 0.45);
+    }
+    .status-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 6px;
+    }
+    .table-preview th {
+        background: #f0f4ff;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #5c6bc0;
+        font-weight: 700;
+        border: none;
+    }
+    .table-preview td {
+        font-size: 13px;
+        vertical-align: middle;
+        border-color: #f0f0f0;
+    }
+    .empty-state {
+        padding: 40px 20px;
+        text-align: center;
+    }
+    .empty-state i {
+        font-size: 48px;
+        color: #dee2e6;
+        margin-bottom: 12px;
+    }
+</style>
+
+{{-- Breadcrumb --}}
+<div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
+    <div class="card-body px-4 py-3">
+        <div class="row align-items-center">
+            <div class="col-9">
+                <h4 class="fw-semibold mb-8">PEMBAGIAN KELAS</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a class="text-muted text-decoration-none" href="/administration/classes">Daftar Kelas</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Pembagian Kelas</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="col-3">
+                <div class="text-center mb-n5">
+                    <img src="{{ asset('assets/images/breadcrumb/ChatBc.png') }}" alt="modernize-img" class="img-fluid mb-n4" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- STAT CARDS --}}
+<div class="row g-3 mb-4">
+    <div class="col-xl-3 col-sm-6">
+        <div class="card stat-card shadow-sm h-100">
+            <div class="card-body d-flex align-items-center gap-3">
+                <div class="stat-icon" style="background:#e3f2fd;">
+                    <i class="ti ti-users text-primary"></i>
+                </div>
+                <div>
+                    <div class="text-muted" style="font-size:12px;">Total Siswa Diterima</div>
+                    {{-- Static value --}}
+                    <div class="fw-bold fs-4">120</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+        <div class="card stat-card shadow-sm h-100">
+            <div class="card-body d-flex align-items-center gap-3">
+                <div class="stat-icon" style="background:#e8f5e9;">
+                    <i class="ti ti-building text-success"></i>
+                </div>
+                <div>
+                    <div class="text-muted" style="font-size:12px;">Total Kelas Tersedia</div>
+                    <div class="fw-bold fs-4">6</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+        <div class="card stat-card shadow-sm h-100">
+            <div class="card-body d-flex align-items-center gap-3">
+                <div class="stat-icon" style="background:#fff3e0;">
+                    <i class="ti ti-stack-2 text-warning"></i>
+                </div>
+                <div>
+                    <div class="text-muted" style="font-size:12px;">Total Jurusan</div>
+                    <div class="fw-bold fs-4">3</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+        <div class="card stat-card shadow-sm h-100">
+            <div class="card-body d-flex align-items-center gap-3">
+                <div class="stat-icon" style="background:#fce4ec;">
+                    <i class="ti ti-check text-danger"></i>
+                </div>
+                <div>
+                    <div class="text-muted" style="font-size:12px;">Status Pembagian</div>
+                    <div class="fw-bold" style="font-size:15px;">
+                        <span class="status-dot bg-warning"></span>Belum Diproses
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+
+    {{-- LEFT: Jumlah Siswa Per Jurusan --}}
+    <div class="col-xl-8">
+        <div class="card shadow-sm" style="border-radius:12px;">
+            <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div>
+                        <h5 class="card-title mb-1">Siswa Per Jurusan</h5>
+                        <p class="text-muted mb-0" style="font-size:13px;">Distribusi siswa yang diterima berdasarkan jurusan</p>
+                    </div>
+                    <span class="badge bg-primary-subtle text-primary" style="border-radius:20px;padding:6px 14px;font-size:12px;">
+                        Tahun Ajaran 2024/2025
+                    </span>
+                </div>
+
+                {{-- Static jurusan cards --}}
+                @php
+                $jurusan_data = [
+                    ['nama' => 'Rekayasa Perangkat Lunak', 'singkatan' => 'RPL', 'siswa' => 40, 'kelas' => 2, 'kapasitas' => 40, 'color' => '#1976d2', 'bg' => '#e3f2fd', 'icon' => 'ti ti-code'],
+                    ['nama' => 'Teknik Komputer & Jaringan', 'singkatan' => 'TKJ', 'siswa' => 38, 'kelas' => 2, 'kapasitas' => 40, 'color' => '#2e7d32', 'bg' => '#e8f5e9', 'icon' => 'ti ti-network'],
+                    ['nama' => 'Desain Komunikasi Visual', 'singkatan' => 'DKV', 'siswa' => 42, 'kelas' => 2, 'kapasitas' => 44, 'color' => '#e65100', 'bg' => '#fff3e0', 'icon' => 'ti ti-palette'],
+                ];
+                @endphp
+
+                <div class="row g-3">
+                    @foreach($jurusan_data as $jur)
+                    @php $pct = round(($jur['siswa'] / ($jur['kelas'] * 40)) * 100); @endphp
+                    <div class="col-12">
+                        <div class="jurusan-card">
+                            <div class="jurusan-header" style="background:{{ $jur['bg'] }};">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="stat-icon" style="background:{{ $jur['color'] }}20; color:{{ $jur['color'] }}; width:40px; height:40px; font-size:18px; border-radius:10px; display:flex; align-items:center; justify-content:center;">
+                                            <i class="{{ $jur['icon'] }}"></i>
+                                        </div>
+                                        <div>
+                                            <div class="fw-semibold" style="color:{{ $jur['color'] }}; font-size:14px;">{{ $jur['nama'] }}</div>
+                                            <div class="text-muted" style="font-size:12px;">{{ $jur['singkatan'] }} &bull; {{ $jur['kelas'] }} Kelas</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-end">
+                                        <div class="fw-bold fs-4" style="color:{{ $jur['color'] }};">{{ $jur['siswa'] }}</div>
+                                        <div class="text-muted" style="font-size:11px;">siswa</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <div class="d-flex justify-content-between mb-1" style="font-size:12px;">
+                                    <span class="text-muted">Kapasitas terisi</span>
+                                    <span class="fw-semibold">{{ $jur['siswa'] }} / {{ $jur['kelas'] * 40 }}</span>
+                                </div>
+                                <div class="progress progress-thin">
+                                    <div class="progress-bar" style="width:{{ $pct }}%; background:{{ $jur['color'] }}; border-radius:10px;"></div>
+                                </div>
+                                <div class="d-flex gap-2 mt-2">
+                                    @for($k = 1; $k <= $jur['kelas']; $k++)
+                                        <span class="badge-kelas" style="background:{{ $jur['color'] }}18; color:{{ $jur['color'] }};">
+                                            Kelas {{ $jur['singkatan'] }}-{{ $k }}
+                                        </span>
+                                    @endfor
+                                    <span class="ms-auto text-muted" style="font-size:11px;">{{ $pct }}% terisi</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- RIGHT: Panel Proses --}}
+    <div class="col-xl-4">
+
+        {{-- Panduan --}}
+        <div class="card shadow-sm mb-3" style="border-radius:12px;">
+            <div class="card-body">
+                <h5 class="card-title mb-3">
+                    <i class="ti ti-info-circle text-primary me-2"></i>Panduan Pembagian
+                </h5>
+                <div class="step-item">
+                    <div class="step-num" style="background:#e3f2fd; color:#1976d2;">1</div>
+                    <div>
+                        <div class="fw-semibold" style="font-size:13px;">Pastikan Kelas Tersedia</div>
+                        <div class="text-muted" style="font-size:12px;">Tiap jurusan harus sudah memiliki kelas yang dibuat</div>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num" style="background:#e8f5e9; color:#2e7d32;">2</div>
+                    <div>
+                        <div class="fw-semibold" style="font-size:13px;">Klik Proses Pembagian</div>
+                        <div class="text-muted" style="font-size:12px;">Sistem akan membagi otomatis berdasarkan abjad per jurusan</div>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num" style="background:#fff3e0; color:#e65100;">3</div>
+                    <div>
+                        <div class="fw-semibold" style="font-size:13px;">Review Hasil Preview</div>
+                        <div class="text-muted" style="font-size:12px;">Cek hasil pembagian sebelum disimpan permanen</div>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num" style="background:#fce4ec; color:#c62828;">4</div>
+                    <div>
+                        <div class="fw-semibold" style="font-size:13px;">Finalisasi</div>
+                        <div class="text-muted" style="font-size:12px;">Simpan permanen, siswa bisa melihat kelas mereka</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Aksi --}}
+        <div class="card shadow-sm" style="border-radius:12px;">
+            <div class="card-body">
+                <h5 class="card-title mb-1">Proses Pembagian</h5>
+                <p class="text-muted mb-3" style="font-size:13px;">Pilih tahun ajaran lalu jalankan pembagian kelas</p>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold" style="font-size:13px;">Tahun Ajaran</label>
+                    <select class="form-select form-select-sm" style="border-radius:8px;">
+                        <option selected>2024/2025</option>
+                        <option>2023/2024</option>
+                    </select>
+                </div>
+
+                <div class="alert-info-soft p-3 mb-3" style="font-size:12px;">
+                    <i class="ti ti-alert-circle me-1"></i>
+                    Pembagian kelas dilakukan <strong>otomatis</strong> berdasarkan urutan abjad nama siswa per jurusan.
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button class="btn btn-process text-white" onclick="window.location='/administration/class-assignment/process'">
+                        <i class="ti ti-refresh me-2"></i>Proses Pembagian Kelas
+                    </button>
+                    <button class="btn btn-finalize text-white" onclick="window.location='/administration/class-assignment/finalize'" disabled>
+                        <i class="ti ti-check me-2"></i>Finalisasi Pembagian
+                    </button>
+                    <button class="btn btn-outline-danger btn-sm" style="border-radius:8px;" disabled>
+                        <i class="ti ti-rotate me-2"></i>Reset Pembagian
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{{-- Preview Table (static, akan muncul setelah diproses) --}}
+<div class="card shadow-sm mt-3" style="border-radius:12px;">
+    <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <div>
+                <h5 class="card-title mb-1">Preview Hasil Pembagian</h5>
+                <p class="text-muted mb-0" style="font-size:13px;">Hasil akan tampil di sini setelah proses pembagian dijalankan</p>
+            </div>
+            <span class="badge bg-warning-subtle text-warning" style="border-radius:20px;padding:6px 14px;font-size:12px;">
+                <span class="status-dot bg-warning"></span>Belum Diproses
+            </span>
+        </div>
+
+        {{-- Empty state --}}
+        <div class="empty-state">
+            <i class="ti ti-layout-grid-add d-block"></i>
+            <h6 class="text-muted">Pembagian Kelas Belum Diproses</h6>
+            <p class="text-muted" style="font-size:13px;">Klik tombol <strong>"Proses Pembagian Kelas"</strong> di atas untuk memulai pembagian otomatis</p>
+        </div>
+
+        {{-- Table (hidden, akan tampil setelah proses) --}}
+        {{-- Uncomment ini setelah ada data --}}
+        {{--
+        <div class="table-responsive">
+            <table class="table table-preview">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Siswa</th>
+                        <th>Jurusan</th>
+                        <th>Kelas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Ahmad Fauzi</td>
+                        <td><span class="badge bg-primary-subtle text-primary">RPL</span></td>
+                        <td>RPL-1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        --}}
+    </div>
+</div>
+
+@endsection
+
+@push('script')
+    <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
+@endpush

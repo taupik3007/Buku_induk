@@ -22,6 +22,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/kelas', function () {
+    return view('administration.class-assignment.index');
+});
 Route::get('/dashboard', [AdministrationDashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
