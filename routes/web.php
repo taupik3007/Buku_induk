@@ -165,8 +165,4 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
     });
 
 
-
-
-
-
 require __DIR__.'/auth.php';
