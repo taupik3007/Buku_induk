@@ -122,6 +122,14 @@
               <span class="hide-sitemap">Daftar Ditolak</span>
             </a>
           </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="/administration/class-assignment/"  aria-expanded="false">
+              <span>
+                <i class="ti ti-users-group"></i>
+              </span>
+              <span class="hide-sitemap">Pembagian Kelas</span>
+            </a>
+          </li>
           </li>
       </nav>
 

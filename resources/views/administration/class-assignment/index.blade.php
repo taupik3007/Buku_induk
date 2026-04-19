@@ -162,7 +162,7 @@
 
 {{-- STAT CARDS --}}
 <div class="row g-3 mb-4">
-    <div class="col-xl-3 col-sm-6">
+    <div class="col-xl-4 col-sm-6">
         <div class="card stat-card shadow-sm h-100">
             <div class="card-body d-flex align-items-center gap-3">
                 <div class="stat-icon" style="background:#e3f2fd;">
@@ -171,25 +171,12 @@
                 <div>
                     <div class="text-muted" style="font-size:12px;">Total Siswa Diterima</div>
                     {{-- Static value --}}
-                    <div class="fw-bold fs-4">120</div>
+                    <div class="fw-bold fs-4">{{$studentCount}}</div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-sm-6">
-        <div class="card stat-card shadow-sm h-100">
-            <div class="card-body d-flex align-items-center gap-3">
-                <div class="stat-icon" style="background:#e8f5e9;">
-                    <i class="ti ti-building text-success"></i>
-                </div>
-                <div>
-                    <div class="text-muted" style="font-size:12px;">Total Kelas Tersedia</div>
-                    <div class="fw-bold fs-4">6</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-sm-6">
+    <div class="col-xl-4 col-sm-6">
         <div class="card stat-card shadow-sm h-100">
             <div class="card-body d-flex align-items-center gap-3">
                 <div class="stat-icon" style="background:#fff3e0;">
@@ -197,12 +184,12 @@
                 </div>
                 <div>
                     <div class="text-muted" style="font-size:12px;">Total Jurusan</div>
-                    <div class="fw-bold fs-4">3</div>
+                    <div class="fw-bold fs-4">{{$majorCount}}</div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-sm-6">
+    <div class="col-xl-4 col-sm-6">
         <div class="card stat-card shadow-sm h-100">
             <div class="card-body d-flex align-items-center gap-3">
                 <div class="stat-icon" style="background:#fce4ec;">
@@ -236,57 +223,169 @@
                 </div>
 
                 {{-- Static jurusan cards --}}
-                @php
-                $jurusan_data = [
-                    ['nama' => 'Rekayasa Perangkat Lunak', 'singkatan' => 'RPL', 'siswa' => 40, 'kelas' => 2, 'kapasitas' => 40, 'color' => '#1976d2', 'bg' => '#e3f2fd', 'icon' => 'ti ti-code'],
-                    ['nama' => 'Teknik Komputer & Jaringan', 'singkatan' => 'TKJ', 'siswa' => 38, 'kelas' => 2, 'kapasitas' => 40, 'color' => '#2e7d32', 'bg' => '#e8f5e9', 'icon' => 'ti ti-network'],
-                    ['nama' => 'Desain Komunikasi Visual', 'singkatan' => 'DKV', 'siswa' => 42, 'kelas' => 2, 'kapasitas' => 44, 'color' => '#e65100', 'bg' => '#fff3e0', 'icon' => 'ti ti-palette'],
-                ];
-                @endphp
+              @php
+$colors = [
+    ['color' => '#1976d2', 'bg' => '#e3f2fd', 'icon' => 'ti ti-code'],
+    ['color' => '#2e7d32', 'bg' => '#e8f5e9', 'icon' => 'ti ti-network'],
+    ['color' => '#e65100', 'bg' => '#fff3e0', 'icon' => 'ti ti-palette'],
+    ['color' => '#6a1b9a', 'bg' => '#f3e5f5', 'icon' => 'ti ti-school'],
+    ['color' => '#00838f', 'bg' => '#e0f7fa', 'icon' => 'ti ti-atom'],
+];
+@endphp
 
-                <div class="row g-3">
-                    @foreach($jurusan_data as $jur)
-                    @php $pct = round(($jur['siswa'] / ($jur['kelas'] * 40)) * 100); @endphp
-                    <div class="col-12">
-                        <div class="jurusan-card">
-                            <div class="jurusan-header" style="background:{{ $jur['bg'] }};">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="stat-icon" style="background:{{ $jur['color'] }}20; color:{{ $jur['color'] }}; width:40px; height:40px; font-size:18px; border-radius:10px; display:flex; align-items:center; justify-content:center;">
-                                            <i class="{{ $jur['icon'] }}"></i>
-                                        </div>
-                                        <div>
-                                            <div class="fw-semibold" style="color:{{ $jur['color'] }}; font-size:14px;">{{ $jur['nama'] }}</div>
-                                            <div class="text-muted" style="font-size:12px;">{{ $jur['singkatan'] }} &bull; {{ $jur['kelas'] }} Kelas</div>
-                                        </div>
-                                    </div>
-                                    <div class="text-end">
-                                        <div class="fw-bold fs-4" style="color:{{ $jur['color'] }};">{{ $jur['siswa'] }}</div>
-                                        <div class="text-muted" style="font-size:11px;">siswa</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="p-3">
-                                <div class="d-flex justify-content-between mb-1" style="font-size:12px;">
-                                    <span class="text-muted">Kapasitas terisi</span>
-                                    <span class="fw-semibold">{{ $jur['siswa'] }} / {{ $jur['kelas'] * 40 }}</span>
-                                </div>
-                                <div class="progress progress-thin">
-                                    <div class="progress-bar" style="width:{{ $pct }}%; background:{{ $jur['color'] }}; border-radius:10px;"></div>
-                                </div>
-                                <div class="d-flex gap-2 mt-2">
-                                    @for($k = 1; $k <= $jur['kelas']; $k++)
-                                        <span class="badge-kelas" style="background:{{ $jur['color'] }}18; color:{{ $jur['color'] }};">
-                                            Kelas {{ $jur['singkatan'] }}-{{ $k }}
-                                        </span>
-                                    @endfor
-                                    <span class="ms-auto text-muted" style="font-size:11px;">{{ $pct }}% terisi</span>
-                                </div>
-                            </div>
+<div class="row g-3">
+    @foreach($major as $i => $jur)
+    @php
+        $c = $colors[$i % count($colors)];
+        $jumlahKelas = old('jumlah_kelas.'.$jur->mjr_id, 2);
+        $totalKapasitas = $jumlahKelas * 40;
+        $siswa = $jur->accepted_students_count ?? 0;
+        $pct = $totalKapasitas > 0 ? min(round(($siswa / $totalKapasitas) * 100), 100) : 0;
+    @endphp
+    <div class="col-12">
+        <div class="jurusan-card">
+            <div class="jurusan-header" style="background:{{ $c['bg'] }};">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-3">
+                        <div style="background:{{ $c['color'] }}20; color:{{ $c['color'] }}; width:40px; height:40px; font-size:18px; border-radius:10px; display:flex; align-items:center; justify-content:center;">
+                            <i class="{{ $c['icon'] }}"></i>
+                        </div>
+                        <div>
+                            <div class="fw-semibold" style="color:{{ $c['color'] }}; font-size:14px;">{{ $jur->mjr_name }}</div>
+                            <div class="text-muted" style="font-size:12px;">{{ $jur->mjr_abbr }}</div>
                         </div>
                     </div>
-                    @endforeach
+                    <div class="text-end">
+                        <div class="fw-bold fs-4" style="color:{{ $c['color'] }};">{{ $siswa }}</div>
+                        <div class="text-muted" style="font-size:11px;">siswa diterima</div>
+                    </div>
                 </div>
+            </div>
+            <div class="p-3">
+                {{-- Input jumlah kelas --}}
+                <div class="d-flex align-items-center gap-3 mb-3 p-2 rounded" style="background:#f8f9fa; border:1px dashed #dee2e6;">
+                    <label class="text-muted mb-0 fw-semibold" style="font-size:12px; white-space:nowrap;">
+                        <i class="ti ti-door me-1"></i>Jumlah Kelas:
+                    </label>
+                    <div class="d-flex align-items-center gap-2">
+                        <button type="button" class="btn btn-sm btn-outline-secondary px-2 py-0 kelas-minus" data-id="{{ $jur->mjr_id }}" style="border-radius:6px; line-height:1.6;">
+                            <i class="ti ti-minus" style="font-size:11px;"></i>
+                        </button>
+                        <input type="number"
+                            name="jumlah_kelas[{{ $jur->mjr_id }}]"
+                            id="kelas_{{ $jur->mjr_id }}"
+                            class="form-control form-control-sm text-center kelas-input"
+                            data-id="{{ $jur->mjr_id }}"
+                            data-siswa="{{ $siswa }}"
+                            data-abbr="{{ $jur->mjr_abbr }}"
+                            value="{{ $jumlahKelas }}"
+                            min="1" max="20"
+                            style="width:55px; border-radius:6px; font-weight:600;">
+                        <button type="button" class="btn btn-sm btn-outline-secondary px-2 py-0 kelas-plus" data-id="{{ $jur->mjr_id }}" style="border-radius:6px; line-height:1.6;">
+                            <i class="ti ti-plus" style="font-size:11px;"></i>
+                        </button>
+                    </div>
+                    <span class="text-muted ms-auto" style="font-size:11px;">
+                        maks. kapasitas <span class="fw-semibold kapasitas-total" id="kapasitas_{{ $jur->mjr_id }}">{{ $totalKapasitas }}</span> siswa
+                    </span>
+                </div>
+
+                {{-- Progress --}}
+                <div class="d-flex justify-content-between mb-1" style="font-size:12px;">
+                    <span class="text-muted">Kapasitas terisi</span>
+                    <span class="fw-semibold">
+                        {{ $siswa }} / <span class="kapasitas-label" id="kapasitas_label_{{ $jur->mjr_id }}">{{ $totalKapasitas }}</span>
+                    </span>
+                </div>
+                <div class="progress progress-thin">
+                    <div class="progress-bar kapasitas-bar" id="bar_{{ $jur->mjr_id }}"
+                        style="width:{{ $pct }}%; background:{{ $c['color'] }}; border-radius:10px; transition:width 0.3s ease;">
+                    </div>
+                </div>
+
+                {{-- Badge kelas preview --}}
+                <div class="d-flex flex-wrap gap-2 mt-2 kelas-badges" id="badges_{{ $jur->mjr_id }}">
+                    @for($k = 1; $k <= $jumlahKelas; $k++)
+                        <span class="badge-kelas" style="background:{{ $c['color'] }}18; color:{{ $c['color'] }};">
+                            {{ $jur->mjr_abbr }}-{{ $k }}
+                        </span>
+                    @endfor
+                    <span class="ms-auto text-muted pct-label" id="pct_{{ $jur->mjr_id }}" style="font-size:11px;">{{ $pct }}% terisi</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
+</div>
+
+@push('script')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Plus button
+    document.querySelectorAll('.kelas-plus').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const id = this.dataset.id;
+            const input = document.getElementById('kelas_' + id);
+            input.value = Math.min(parseInt(input.value) + 1, 20);
+            updateKelas(input);
+        });
+    });
+
+    // Minus button
+    document.querySelectorAll('.kelas-minus').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const id = this.dataset.id;
+            const input = document.getElementById('kelas_' + id);
+            input.value = Math.max(parseInt(input.value) - 1, 1);
+            updateKelas(input);
+        });
+    });
+
+    // Manual input change
+    document.querySelectorAll('.kelas-input').forEach(input => {
+        input.addEventListener('change', function () {
+            this.value = Math.min(Math.max(parseInt(this.value) || 1, 1), 20);
+            updateKelas(this);
+        });
+    });
+
+    function updateKelas(input) {
+        const id = input.dataset.id;
+        const abbr = input.dataset.abbr;
+        const siswa = parseInt(input.dataset.siswa);
+        const jumlah = parseInt(input.value);
+        const kapasitas = jumlah * 40;
+        const pct = Math.min(Math.round((siswa / kapasitas) * 100), 100);
+
+        // Update kapasitas text
+        document.getElementById('kapasitas_' + id).textContent = kapasitas;
+        document.getElementById('kapasitas_label_' + id).textContent = kapasitas;
+
+        // Update progress bar
+        document.getElementById('bar_' + id).style.width = pct + '%';
+        document.getElementById('pct_' + id).textContent = pct + '% terisi';
+
+        // Update badges
+        const badgeContainer = document.getElementById('badges_' + id);
+        const pctSpan = badgeContainer.querySelector('.pct-label');
+        // Remove old badges
+        badgeContainer.querySelectorAll('.badge-kelas').forEach(b => b.remove());
+        // Re-add badges
+        for (let k = 1; k <= jumlah; k++) {
+            const span = document.createElement('span');
+            span.className = 'badge-kelas';
+            span.style.cssText = badgeContainer.closest('.jurusan-card')
+                .querySelector('.badge-kelas') 
+                ? badgeContainer.closest('.jurusan-card').querySelector('.badge-kelas').style.cssText
+                : '';
+            span.textContent = abbr + '-' + k;
+            badgeContainer.insertBefore(span, pctSpan);
+        }
+        pctSpan.textContent = pct + '% terisi';
+    }
+});
+</script>
+@endpush
             </div>
         </div>
     </div>
@@ -389,7 +488,7 @@
 
         {{-- Table (hidden, akan tampil setelah proses) --}}
         {{-- Uncomment ini setelah ada data --}}
-        {{--
+        
         <div class="table-responsive">
             <table class="table table-preview">
                 <thead>
@@ -410,7 +509,7 @@
                 </tbody>
             </table>
         </div>
-        --}}
+       
     </div>
 </div>
 

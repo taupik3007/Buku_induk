@@ -9,11 +9,11 @@ use App\Http\Controllers\Administration\PPDBReceptionController;
 use App\Http\Controllers\prospectiveStudentController;
 use App\Http\Controllers\DashboardController as AdministrationDashboardController;
 use App\Http\Controllers\ProfileController;
-
 use App\Http\Controllers\Student\DashboardController;
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
 use App\Http\Controllers\Administration\prospectiveTeacherController;
 use App\Http\Controllers\Administration\TeacherRequirementController;
+use App\Http\Controllers\Administration\ClassAssignmentController;
 use App\Http\Controllers\RegionController;
 use App\Models\TeacherRequirement;
 use Illuminate\Support\Facades\Route;
@@ -22,9 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/kelas', function () {
-    return view('administration.class-assignment.index');
-});
+
 Route::get('/dashboard', [AdministrationDashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
@@ -125,6 +123,24 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::get('/{ppd_id}/rejected-list', [PpdbReceptionController::class, 'rejectedList'])->name('rejecttedList');
 
     });
+    Route::prefix('class-assignment')->name('classAssignment.')->group(function () {
+        Route::get('/', [ClassAssignmentController::class, 'index'])->name('index');
+        Route::get('/{ppd_id}/list', [ClassAssingmentController::class, 'list'])->name('list');
+        Route::get('/{student_id}/show', [ClassAssingmentController::class, 'show'])->name('show');
+        Route::post('/{student_id}/accept', [ClassAssingmentController::class, 'accept'])->name('accept');
+        Route::get('/{student_id}/reject', [ClassAssingmentController::class, 'reject'])->name('reject');
+        Route::get('/accepted', [ClassAssingmentController::class, 'accepted'])->name('accepted');
+        Route::get('/{ppd_id}/accepted-list', [ClassAssingmentController::class, 'acceptedList'])->name('acceptedList');
+        Route::get('/rejected', [ClassAssingmentController::class, 'rejected'])->name('rejected');
+        Route::get('/{ppd_id}/rejected-list', [ClassAssingmentController::class, 'rejectedList'])->name('rejecttedList');
+
+    });
+
+
+
+//     Route::get('/kelas', function () {
+//     return view('administration.class-assignment.index');
+// });
 });
 
 Route::prefix('student')->name('student.')->group(function () {

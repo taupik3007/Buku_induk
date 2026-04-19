@@ -16,4 +16,9 @@ class Majors extends Model
     const CREATED_AT = 'mjr_created_at';
     const UPDATED_AT = 'mjr_updated_at';
     const DELETED_AT = 'mjr_deleted_at';
+    // Major.php
+    public function ppdbSubmissions()
+    {
+        return $this->hasMany(PpdbSubmission::class, 'ppsu_major_id', 'mjr_id');
+    }
 }
