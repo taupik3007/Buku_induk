@@ -136,7 +136,6 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
     });
 
 });
-
     Route::prefix('prospective-student')->name('prospectiveStudent.')->group(function () {
         Route::get('/biodata', [prospectiveStudentController::class, 'biodata'])->name('biodata');
         Route::post('/register/stepOne', [prospectiveStudentController::class, 'stepOne'])->name('register.stepOne');
@@ -153,16 +152,8 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::post('/ppdb-registration/stepOne', [ProspectiveStudentController::class, 'stepSeven'])->name('ppdbRegistration.stepOne');
         Route::post('/ppdb-registration/stepTwo', [ProspectiveStudentController::class, 'stepEight'])->name('ppdbRegistration.stepTwo');
         Route::post('/ppdb-registration/step-three', [ProspectiveStudentController::class, 'stepNine'])->name('ppdbRegistration.stepThree');
-
-
-        
-
-
-
-
-
-        
     });
+
 
 
 require __DIR__.'/auth.php';
