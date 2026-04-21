@@ -125,7 +125,7 @@ Route::prefix('administration')->name('administration.')->group(function () {
     });
     Route::prefix('class-assignment')->name('classAssignment.')->group(function () {
         Route::get('/', [ClassAssignmentController::class, 'index'])->name('index');
-        Route::get('/{ppd_id}/list', [ClassAssingmentController::class, 'list'])->name('list');
+        Route::get('/process', [ClassAssignmentController::class, 'process'])->name('process');
         Route::get('/{student_id}/show', [ClassAssingmentController::class, 'show'])->name('show');
         Route::post('/{student_id}/accept', [ClassAssingmentController::class, 'accept'])->name('accept');
         Route::get('/{student_id}/reject', [ClassAssingmentController::class, 'reject'])->name('reject');
