@@ -32,9 +32,11 @@ class ClassAssignmentController extends Controller
     }
     public function process(Request $request)
 {
+    dd($request->ppd_id);
+
     $request->validate([
-        'ppdb_id'       => 'required|exists:ppdbs,ppd_id',
-        'jumlah_kelas'  => 'required|array',
+        'ppd_id'       => 'required|exists:ppdbs,ppd_id',
+        // 'jumlah_kelas'  => 'required|array',
     ]);
 
     $ppdbId = $request->ppdb_id;

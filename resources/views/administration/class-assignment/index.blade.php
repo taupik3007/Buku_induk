@@ -501,7 +501,7 @@
 
                     <div class="d-grid gap-2">
                         <button class="btn btn-process text-white"
-                            onclick="window.location='/administration/class-assignment/process'">
+                            onclick="window.location='/administration/class-assignment/process?ppd_id={{$ppdb->ppd_id}}'">
                             <i class="ti ti-refresh me-2"></i>Proses Pembagian Kelas
                         </button>
                         <button class="btn btn-finalize text-white"

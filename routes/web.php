@@ -115,8 +115,8 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::get('/', [PPDBReceptionController::class, 'index'])->name('index');
         Route::get('/{ppd_id}/list', [PpdbReceptionController::class, 'list'])->name('list');
         Route::get('/{student_id}/show', [PPDBReceptionController::class, 'show'])->name('show');
-        Route::post('/{student_id}/accept', [PPDBReceptionController::class, 'accept'])->name('accept');
-        Route::get('/{student_id}/reject', [PPDBReceptionController::class, 'reject'])->name('reject');
+        Route::get('/{student_id}/accept', [PPDBReceptionController::class, 'accept'])->name('accept');
+        Route::post('/{student_id}/reject', [PPDBReceptionController::class, 'reject'])->name('reject');
         Route::get('/accepted', [PPDBReceptionController::class, 'accepted'])->name('accepted');
         Route::get('/{ppd_id}/accepted-list', [PpdbReceptionController::class, 'acceptedList'])->name('acceptedList');
         Route::get('/rejected', [PPDBReceptionController::class, 'rejected'])->name('rejected');
@@ -126,13 +126,13 @@ Route::prefix('administration')->name('administration.')->group(function () {
     Route::prefix('class-assignment')->name('classAssignment.')->group(function () {
         Route::get('/', [ClassAssignmentController::class, 'index'])->name('index');
         Route::get('/process', [ClassAssignmentController::class, 'process'])->name('process');
-        Route::get('/{student_id}/show', [ClassAssingmentController::class, 'show'])->name('show');
-        Route::post('/{student_id}/accept', [ClassAssingmentController::class, 'accept'])->name('accept');
-        Route::get('/{student_id}/reject', [ClassAssingmentController::class, 'reject'])->name('reject');
-        Route::get('/accepted', [ClassAssingmentController::class, 'accepted'])->name('accepted');
-        Route::get('/{ppd_id}/accepted-list', [ClassAssingmentController::class, 'acceptedList'])->name('acceptedList');
-        Route::get('/rejected', [ClassAssingmentController::class, 'rejected'])->name('rejected');
-        Route::get('/{ppd_id}/rejected-list', [ClassAssingmentController::class, 'rejectedList'])->name('rejecttedList');
+        // Route::get('/{student_id}/show', [ClassAssingmentController::class, 'show'])->name('show');
+        // Route::post('/{student_id}/accept', [ClassAssingmentController::class, 'accept'])->name('accept');
+        // Route::get('/{student_id}/reject', [ClassAssingmentController::class, 'reject'])->name('reject');
+        // Route::get('/accepted', [ClassAssingmentController::class, 'accepted'])->name('accepted');
+        // Route::get('/{ppd_id}/accepted-list', [ClassAssingmentController::class, 'acceptedList'])->name('acceptedList');
+        // Route::get('/rejected', [ClassAssingmentController::class, 'rejected'])->name('rejected');
+        // Route::get('/{ppd_id}/rejected-list', [ClassAssingmentController::class, 'rejectedList'])->name('rejecttedList');
 
     });
 

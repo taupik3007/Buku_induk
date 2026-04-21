@@ -110,9 +110,19 @@ public function rejected(){
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function accept($id)
     {
-        //
+        $accept = PpdbSubmission::where('ppsu_student_id', 1)
+    ->update([
+        'ppsu_status' => 1
+    ]);
+
+        return response()->json([
+        'status'  => true,
+        'message' => 'Persyaratan berhasil disimpan.',
+    ]);
+        
+
     }
 
     /**
