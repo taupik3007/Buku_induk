@@ -228,7 +228,10 @@
             </div>
         </div>
     </div>
+<form method="POST" action="{{ route('administration.classAssignment.process') }}">
+    @csrf
 
+    <input type="hidden" name="ppd_id" value="{{ $selectedPpdb->ppd_id }}">
     <div class="row g-3">
 
         {{-- LEFT: Jumlah Siswa Per Jurusan --}}
@@ -500,8 +503,7 @@
                     </div>
 
                     <div class="d-grid gap-2">
-                        <button class="btn btn-process text-white"
-                            onclick="window.location='/administration/class-assignment/process?ppd_id={{$ppdb->ppd_id}}'">
+                        <button class="btn btn-process text-white">
                             <i class="ti ti-refresh me-2"></i>Proses Pembagian Kelas
                         </button>
                         <button class="btn btn-finalize text-white"
@@ -517,6 +519,7 @@
 
         </div>
     </div>
+</form>
 
     {{-- Preview Table (static, akan muncul setelah diproses) --}}
     <div class="card shadow-sm mt-3" style="border-radius:12px;">

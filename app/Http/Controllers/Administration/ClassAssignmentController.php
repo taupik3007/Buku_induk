@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\PpdbSubmission;
 use App\Models\Majors;
 use App\Models\Ppdb;
+use App\Models\Classes;
+use App\Models\Student;
+use Illuminate\Support\Facades\DB;
+
+
 
 
 class ClassAssignmentController extends Controller
@@ -32,38 +37,48 @@ class ClassAssignmentController extends Controller
     }
     public function process(Request $request)
 {
-    dd($request->ppd_id);
+    // dd($request->ppd_id);
 
     $request->validate([
         'ppd_id'       => 'required|exists:ppdbs,ppd_id',
-        // 'jumlah_kelas'  => 'required|array',
+        'jumlah_kelas'  => 'required|array',
     ]);
+    // dd($request->ppd_id);
 
-    $ppdbId = $request->ppdb_id;
+    $ppdbId = $request->ppd_id;
+    $ppdb = Ppdb::where('ppd_id',$ppdbId)->first();
+    // dd($ppdb);
+
     $jumlahKelasInput = $request->jumlah_kelas; // ['mjr_id' => jumlah]
 
     // Ambil academic year dari ppdb
-    $ppdb = Ppdb::findOrFail($ppdbId);
 
+    // dd($jumlahKelasInput);
     DB::beginTransaction();
     try {
+        // dd($request);
         foreach ($jumlahKelasInput as $mjrId => $jumlah) {
             $jumlah = (int) $jumlah;
 
             // Ambil siswa diterima di jurusan ini, urut abjad by nama user
             $submissions = PpdbSubmission::with(['student.user'])
-                ->where('ppsu_ppdb_id', $ppdbId)
-                ->where('ppsu_major_id', $mjrId)
-                ->where('ppsu_status', 1)
-                ->get()
-                ->sortBy(fn($s) => $s->student->user->usr_name ?? '')
-                ->values();
+    ->where('ppsu_ppdb_id', $ppdbId)
+    ->where('ppsu_major_id', $mjrId)
+    ->where('ppsu_status', 1)
+    ->get()
+    ->sortBy(function ($s) {
+        return optional($s->student->user)->usr_name;
+    })
+    ->values();
+                // dd($submissions);
 
             if ($submissions->isEmpty()) continue;
+
 
             // Buat atau ambil kelas yang ada untuk jurusan ini
             $major = Majors::find($mjrId);
             $classes = [];
+
 
             for ($k = 1; $k <= $jumlah; $k++) {
                 $clsCode = $major->mjr_abbr . '-' . $k;
@@ -71,7 +86,7 @@ class ClassAssignmentController extends Controller
                 $kelas = Classes::updateOrCreate(
                     [
                         'cls_major_id' => $mjrId,
-                        'cls_acy_id'   => $ppdb->ppd_acy_id, // sesuaikan nama kolom FK academic year di ppdb
+                        'cls_acy_id'   => $ppdb->ppd_academic_id, // sesuaikan nama kolom FK academic year di ppdb
                         'cls_number'   => $k,
                     ],
                     [
@@ -83,6 +98,8 @@ class ClassAssignmentController extends Controller
 
                 $classes[] = $kelas;
             }
+                // dd($submissions);
+
 
             // Bagi siswa ke kelas berdasarkan abjad
             $perKelas = ceil($submissions->count() / $jumlah);
@@ -96,13 +113,20 @@ class ClassAssignmentController extends Controller
                 }
             }
         }
+    // dd($request);
+
 
         DB::commit();
         return redirect()->back()->with('success', 'Pembagian kelas berhasil diproses.');
+    
 
     } catch (\Exception $e) {
+    // dd($request);
+
         DB::rollBack();
         return redirect()->back()->with('error', 'Gagal memproses: ' . $e->getMessage());
     }
+    // dd($request);
+
 }
 }
