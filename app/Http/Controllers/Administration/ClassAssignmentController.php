@@ -29,11 +29,13 @@ class ClassAssignmentController extends Controller
             ->where('ppsu_status', 1)
             ->where('ppsu_ppdb_id', $selectedPpdb->ppd_id)
     ])->get();
+    $ppdb = Ppdb::find($selectedPpdb)->first();
+    // dd($ppdb);
     // $major = Majors::with('ppdbSubmissions')->get();
     // dd($major);
     $studentCount =PpdbSubmission::where('ppsu_ppdb_id',$selectedPpdb->ppd_id)->where('ppsu_status',1)->count();
 
-    return view('administration.class-assignment.index', compact('major', 'ppdbList', 'selectedPpdb','studentCount'));
+    return view('administration.class-assignment.index', compact('major', 'ppdbList', 'selectedPpdb','studentCount','ppdb'));
     }
     public function process(Request $request)
 {

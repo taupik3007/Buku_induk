@@ -56,7 +56,7 @@
                                 <th>Jurusan</th>
                                 <th>Nomor</th>
                                 <th>Wali Kelas</th>
-                                <th>Tahun Ajaran</th>
+                                <th>Jumlah Siswa</th>
                                 <th>Aksi</th>
                                 
                             </tr>
@@ -73,8 +73,9 @@
                                 <td>{{ $class->cls_major->mjr_abbr ?? '-' }}</td>
                                 <td>{{ $class->cls_number}}</td>
                                 <td>{{ $class->cls_homeroom->usr_name ?? '-' }}</td>
-                                <td>{{ $class->cls_academic->acy_year ?? '-' }}</td>
+                                <td>{{ $class->students->count()}}</td>
                                 <td>
+                                     <a href="/administration/classes/{{ $class->cls_id}}/students" class="btn btn-info">Siswa</a>
                                      <a href="/administration/classes/{{ $class->cls_id}}/edit" class="btn btn-primary">Edit</a>
                                      <a href="/administration/classes/{{ $class->cls_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
   
@@ -98,7 +99,7 @@
                               <th>Jurusan</th>
                               <th>Nomor</th>
                               <th>Wali Kelas</th>
-                              <th>Tahun Ajaran</th>
+                              <th>Jumlah Siswa</th>
                               <th>Aksi</th>
                             </tr>
                             <!-- end row -->

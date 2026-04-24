@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('ppd_start_date');
             $table->date('ppd_end_date');
             $table->bigInteger('ppd_entry_fee');
-            
+            $table->bigInteger('ppd_status')->default(1);            
             $table->timestamps();
             $table->renameColumn('updated_at', 'ppd_updated_at');
             $table->renameColumn('created_at', 'ppd_created_at');

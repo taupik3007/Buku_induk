@@ -54,6 +54,7 @@ Route::prefix('administration')->name('administration.')->group(function () {
     });
     Route::prefix('classes')->name('classes.')->group(function () {
         Route::get('/', [ClassController::class, 'index'])->name('classes');
+        Route::get('/{id}/students', [ClassController::class, 'students'])->name('students');
         Route::get('/create', [ClassController::class, 'create'])->name('classes.create');
         Route::post('/create', [ClassController::class, 'store'])->name('classes.store');
         Route::get('/{id}/edit', [ClassController::class, 'edit'])->name('classes.edit');

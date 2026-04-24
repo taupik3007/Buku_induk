@@ -194,7 +194,7 @@
                     <div>
                         <div class="text-muted" style="font-size:12px;">Total Siswa Diterima</div>
                         {{-- Static value --}}
-                        <div class="fw-bold fs-4">{{$studentCount}}</div>
+                        <div class="fw-bold fs-4">{{ $studentCount }}</div>
                     </div>
                 </div>
             </div>
@@ -221,305 +221,323 @@
                     <div>
                         <div class="text-muted" style="font-size:12px;">Status Pembagian</div>
                         <div class="fw-bold" style="font-size:15px;">
-                            <span class="status-dot bg-warning"></span>Belum Diproses
+                            @if ($ppdb->ppd_status == 1)
+                                <span class="status-dot bg-warning"></span>Belum Diproses
+                            @else
+                                <span class="status-dot bg-success"></span>Telah Diproses
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<form method="POST" action="{{ route('administration.classAssignment.process') }}">
-    @csrf
+    <form method="POST" action="{{ route('administration.classAssignment.process') }}">
+        @csrf
 
-    <input type="hidden" name="ppd_id" value="{{ $selectedPpdb->ppd_id }}">
-    <div class="row g-3">
+        <input type="hidden" name="ppd_id" value="{{ $selectedPpdb->ppd_id }}">
+        <div class="row g-3">
 
-        {{-- LEFT: Jumlah Siswa Per Jurusan --}}
-        <div class="col-xl-8">
-            <div class="card shadow-sm" style="border-radius:12px;">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <div>
-                            <h5 class="card-title mb-1">Siswa Per Jurusan</h5>
-                            <p class="text-muted mb-0" style="font-size:13px;">Distribusi siswa yang diterima berdasarkan
-                                jurusan</p>
+            {{-- LEFT: Jumlah Siswa Per Jurusan --}}
+            <div class="col-xl-8">
+                <div class="card shadow-sm" style="border-radius:12px;">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <div>
+                                <h5 class="card-title mb-1">Siswa Per Jurusan</h5>
+                                <p class="text-muted mb-0" style="font-size:13px;">Distribusi siswa yang diterima
+                                    berdasarkan
+                                    jurusan</p>
+                            </div>
+                            <span class="badge bg-primary-subtle text-primary"
+                                style="border-radius:20px;padding:6px 14px;font-size:12px;">
+                                Tahun Ajaran 2024/2025
+                            </span>
                         </div>
-                        <span class="badge bg-primary-subtle text-primary"
-                            style="border-radius:20px;padding:6px 14px;font-size:12px;">
-                            Tahun Ajaran 2024/2025
-                        </span>
-                    </div>
 
-                    {{-- Static jurusan cards --}}
-                    @php
-                        $colors = [
-                            ['color' => '#1976d2', 'bg' => '#e3f2fd', 'icon' => 'ti ti-code'],
-                            ['color' => '#2e7d32', 'bg' => '#e8f5e9', 'icon' => 'ti ti-network'],
-                            ['color' => '#e65100', 'bg' => '#fff3e0', 'icon' => 'ti ti-palette'],
-                            ['color' => '#6a1b9a', 'bg' => '#f3e5f5', 'icon' => 'ti ti-school'],
-                            ['color' => '#00838f', 'bg' => '#e0f7fa', 'icon' => 'ti ti-atom'],
-                        ];
-                    @endphp
+                        {{-- Static jurusan cards --}}
+                        @php
+                            $colors = [
+                                ['color' => '#1976d2', 'bg' => '#e3f2fd', 'icon' => 'ti ti-code'],
+                                ['color' => '#2e7d32', 'bg' => '#e8f5e9', 'icon' => 'ti ti-network'],
+                                ['color' => '#e65100', 'bg' => '#fff3e0', 'icon' => 'ti ti-palette'],
+                                ['color' => '#6a1b9a', 'bg' => '#f3e5f5', 'icon' => 'ti ti-school'],
+                                ['color' => '#00838f', 'bg' => '#e0f7fa', 'icon' => 'ti ti-atom'],
+                            ];
+                        @endphp
 
-                    <div class="row g-3">
-                        @foreach ($major as $i => $jur)
-                            @php
-                                $c = $colors[$i % count($colors)];
-                                $jumlahKelas = old('jumlah_kelas.' . $jur->mjr_id, 2);
-                                $totalKapasitas = $jumlahKelas * 40;
-                                $siswa = $jur->accepted_students_count ?? 0;
-                                $pct = $totalKapasitas > 0 ? min(round(($siswa / $totalKapasitas) * 100), 100) : 0;
-                            @endphp
-                            <div class="col-12">
-                                <div class="jurusan-card">
-                                    <div class="jurusan-header" style="background:{{ $c['bg'] }};">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <div
-                                                    style="background:{{ $c['color'] }}20; color:{{ $c['color'] }}; width:40px; height:40px; font-size:18px; border-radius:10px; display:flex; align-items:center; justify-content:center;">
-                                                    <i class="{{ $c['icon'] }}"></i>
-                                                </div>
-                                                <div>
-                                                    <div class="fw-semibold"
-                                                        style="color:{{ $c['color'] }}; font-size:14px;">
-                                                        {{ $jur->mjr_name }}</div>
-                                                    <div class="text-muted" style="font-size:12px;">{{ $jur->mjr_abbr }}
+                        <div class="row g-3">
+                            @foreach ($major as $i => $jur)
+                                @php
+                                    $c = $colors[$i % count($colors)];
+                                    $jumlahKelas = old('jumlah_kelas.' . $jur->mjr_id, 2);
+                                    $totalKapasitas = $jumlahKelas * 40;
+                                    $siswa = $jur->accepted_students_count ?? 0;
+                                    $pct = $totalKapasitas > 0 ? min(round(($siswa / $totalKapasitas) * 100), 100) : 0;
+                                @endphp
+                                <div class="col-12">
+                                    <div class="jurusan-card">
+                                        <div class="jurusan-header" style="background:{{ $c['bg'] }};">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <div
+                                                        style="background:{{ $c['color'] }}20; color:{{ $c['color'] }}; width:40px; height:40px; font-size:18px; border-radius:10px; display:flex; align-items:center; justify-content:center;">
+                                                        <i class="{{ $c['icon'] }}"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-semibold"
+                                                            style="color:{{ $c['color'] }}; font-size:14px;">
+                                                            {{ $jur->mjr_name }}</div>
+                                                        <div class="text-muted" style="font-size:12px;">
+                                                            {{ $jur->mjr_abbr }}
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="text-end">
-                                                <div class="fw-bold fs-4" style="color:{{ $c['color'] }};">
-                                                    {{ $siswa }}</div>
-                                                <div class="text-muted" style="font-size:11px;">siswa diterima</div>
+                                                <div class="text-end">
+                                                    <div class="fw-bold fs-4" style="color:{{ $c['color'] }};">
+                                                        {{ $siswa }}</div>
+                                                    <div class="text-muted" style="font-size:11px;">siswa diterima</div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="p-3">
-                                        {{-- Input jumlah kelas --}}
-                                        <div class="d-flex align-items-center gap-3 mb-3 p-2 rounded"
-                                            style="background:#f8f9fa; border:1px dashed #dee2e6;">
-                                            <label class="text-muted mb-0 fw-semibold"
-                                                style="font-size:12px; white-space:nowrap;">
-                                                <i class="ti ti-door me-1"></i>Jumlah Kelas:
-                                            </label>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <button type="button"
-                                                    class="btn btn-sm btn-outline-secondary px-2 py-0 kelas-minus"
-                                                    data-id="{{ $jur->mjr_id }}"
-                                                    style="border-radius:6px; line-height:1.6;">
-                                                    <i class="ti ti-minus" style="font-size:11px;"></i>
-                                                </button>
-                                                <input type="number" name="jumlah_kelas[{{ $jur->mjr_id }}]"
-                                                    id="kelas_{{ $jur->mjr_id }}"
-                                                    class="form-control form-control-sm text-center kelas-input"
-                                                    data-id="{{ $jur->mjr_id }}" data-siswa="{{ $siswa }}"
-                                                    data-abbr="{{ $jur->mjr_abbr }}" value="{{ $jumlahKelas }}"
-                                                    min="1" max="20"
-                                                    style="width:55px; border-radius:6px; font-weight:600;">
-                                                <button type="button"
-                                                    class="btn btn-sm btn-outline-secondary px-2 py-0 kelas-plus"
-                                                    data-id="{{ $jur->mjr_id }}"
-                                                    style="border-radius:6px; line-height:1.6;">
-                                                    <i class="ti ti-plus" style="font-size:11px;"></i>
-                                                </button>
-                                            </div>
-                                            <span class="text-muted ms-auto" style="font-size:11px;">
-                                                maks. kapasitas <span class="fw-semibold kapasitas-total"
-                                                    id="kapasitas_{{ $jur->mjr_id }}">{{ $totalKapasitas }}</span> siswa
-                                            </span>
-                                        </div>
+                                        @if ($ppdb->ppd_status == 1)
+                                            <div class="p-3">
+                                                {{-- Input jumlah kelas --}}
+                                                <div class="d-flex align-items-center gap-3 mb-3 p-2 rounded"
+                                                    style="background:#f8f9fa; border:1px dashed #dee2e6;">
+                                                    <label class="text-muted mb-0 fw-semibold"
+                                                        style="font-size:12px; white-space:nowrap;">
+                                                        <i class="ti ti-door me-1"></i>Jumlah Kelas:
+                                                    </label>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <button type="button"
+                                                            class="btn btn-sm btn-outline-secondary px-2 py-0 kelas-minus"
+                                                            data-id="{{ $jur->mjr_id }}"
+                                                            style="border-radius:6px; line-height:1.6;">
+                                                            <i class="ti ti-minus" style="font-size:11px;"></i>
+                                                        </button>
+                                                        <input type="number" name="jumlah_kelas[{{ $jur->mjr_id }}]"
+                                                            id="kelas_{{ $jur->mjr_id }}"
+                                                            class="form-control form-control-sm text-center kelas-input"
+                                                            data-id="{{ $jur->mjr_id }}"
+                                                            data-siswa="{{ $siswa }}"
+                                                            data-abbr="{{ $jur->mjr_abbr }}" value="{{ $jumlahKelas }}"
+                                                            min="1" max="20"
+                                                            style="width:55px; border-radius:6px; font-weight:600;">
+                                                        <button type="button"
+                                                            class="btn btn-sm btn-outline-secondary px-2 py-0 kelas-plus"
+                                                            data-id="{{ $jur->mjr_id }}"
+                                                            style="border-radius:6px; line-height:1.6;">
+                                                            <i class="ti ti-plus" style="font-size:11px;"></i>
+                                                        </button>
+                                                    </div>
+                                                    <span class="text-muted ms-auto" style="font-size:11px;">
+                                                        maks. kapasitas <span class="fw-semibold kapasitas-total"
+                                                            id="kapasitas_{{ $jur->mjr_id }}">{{ $totalKapasitas }}</span>
+                                                        siswa
+                                                    </span>
+                                                </div>
 
-                                        {{-- Progress --}}
-                                        <div class="d-flex justify-content-between mb-1" style="font-size:12px;">
-                                            <span class="text-muted">Kapasitas terisi</span>
-                                            <span class="fw-semibold">
-                                                {{ $siswa }} / <span class="kapasitas-label"
-                                                    id="kapasitas_label_{{ $jur->mjr_id }}">{{ $totalKapasitas }}</span>
-                                            </span>
-                                        </div>
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar kapasitas-bar" id="bar_{{ $jur->mjr_id }}"
-                                                style="width:{{ $pct }}%; background:{{ $c['color'] }}; border-radius:10px; transition:width 0.3s ease;">
-                                            </div>
-                                        </div>
+                                                {{-- Progress --}}
+                                                <div class="d-flex justify-content-between mb-1" style="font-size:12px;">
+                                                    <span class="text-muted">Kapasitas terisi</span>
+                                                    <span class="fw-semibold">
+                                                        {{ $siswa }} / <span class="kapasitas-label"
+                                                            id="kapasitas_label_{{ $jur->mjr_id }}">{{ $totalKapasitas }}</span>
+                                                    </span>
+                                                </div>
+                                                <div class="progress progress-thin">
+                                                    <div class="progress-bar kapasitas-bar" id="bar_{{ $jur->mjr_id }}"
+                                                        style="width:{{ $pct }}%; background:{{ $c['color'] }}; border-radius:10px; transition:width 0.3s ease;">
+                                                    </div>
+                                                </div>
 
-                                        {{-- Badge kelas preview --}}
-                                        <div class="d-flex flex-wrap gap-2 mt-2 kelas-badges"
-                                            id="badges_{{ $jur->mjr_id }}">
-                                            @for ($k = 1; $k <= $jumlahKelas; $k++)
-                                                <span class="badge-kelas"
-                                                    style="background:{{ $c['color'] }}18; color:{{ $c['color'] }};">
-                                                    {{ $jur->mjr_abbr }}-{{ $k }}
-                                                </span>
-                                            @endfor
-                                            <span class="ms-auto text-muted pct-label" id="pct_{{ $jur->mjr_id }}"
-                                                style="font-size:11px;">{{ $pct }}% terisi</span>
-                                        </div>
+                                                {{-- Badge kelas preview --}}
+                                                <div class="d-flex flex-wrap gap-2 mt-2 kelas-badges"
+                                                    id="badges_{{ $jur->mjr_id }}">
+                                                    @for ($k = 1; $k <= $jumlahKelas; $k++)
+                                                        <span class="badge-kelas"
+                                                            style="background:{{ $c['color'] }}18; color:{{ $c['color'] }};">
+                                                            {{ $jur->mjr_abbr }}-{{ $k }}
+                                                        </span>
+                                                    @endfor
+                                                    <span class="ms-auto text-muted pct-label"
+                                                        id="pct_{{ $jur->mjr_id }}"
+                                                        style="font-size:11px;">{{ $pct }}% terisi</span>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
-                    </div>
-
-                    @push('script')
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                                // Plus button
-                                document.querySelectorAll('.kelas-plus').forEach(btn => {
-                                    btn.addEventListener('click', function() {
-                                        const id = this.dataset.id;
-                                        const input = document.getElementById('kelas_' + id);
-                                        input.value = Math.min(parseInt(input.value) + 1, 20);
-                                        updateKelas(input);
-                                    });
-                                });
-
-                                // Minus button
-                                document.querySelectorAll('.kelas-minus').forEach(btn => {
-                                    btn.addEventListener('click', function() {
-                                        const id = this.dataset.id;
-                                        const input = document.getElementById('kelas_' + id);
-                                        input.value = Math.max(parseInt(input.value) - 1, 1);
-                                        updateKelas(input);
-                                    });
-                                });
-
-                                // Manual input change
-                                document.querySelectorAll('.kelas-input').forEach(input => {
-                                    input.addEventListener('change', function() {
-                                        this.value = Math.min(Math.max(parseInt(this.value) || 1, 1), 20);
-                                        updateKelas(this);
-                                    });
-                                });
-
-                                function updateKelas(input) {
-                                    const id = input.dataset.id;
-                                    const abbr = input.dataset.abbr;
-                                    const siswa = parseInt(input.dataset.siswa);
-                                    const jumlah = parseInt(input.value);
-                                    const kapasitas = jumlah * 40;
-                                    const pct = Math.min(Math.round((siswa / kapasitas) * 100), 100);
-
-                                    // Update kapasitas text
-                                    document.getElementById('kapasitas_' + id).textContent = kapasitas;
-                                    document.getElementById('kapasitas_label_' + id).textContent = kapasitas;
-
-                                    // Update progress bar
-                                    document.getElementById('bar_' + id).style.width = pct + '%';
-                                    document.getElementById('pct_' + id).textContent = pct + '% terisi';
-
-                                    // Update badges
-                                    const badgeContainer = document.getElementById('badges_' + id);
-                                    const pctSpan = badgeContainer.querySelector('.pct-label');
-                                    // Remove old badges
-                                    badgeContainer.querySelectorAll('.badge-kelas').forEach(b => b.remove());
-                                    // Re-add badges
-                                    for (let k = 1; k <= jumlah; k++) {
-                                        const span = document.createElement('span');
-                                        span.className = 'badge-kelas';
-                                        span.style.cssText = badgeContainer.closest('.jurusan-card')
-                                            .querySelector('.badge-kelas') ?
-                                            badgeContainer.closest('.jurusan-card').querySelector('.badge-kelas').style.cssText :
-                                            '';
-                                        span.textContent = abbr + '-' + k;
-                                        badgeContainer.insertBefore(span, pctSpan);
-                                    }
-                                    pctSpan.textContent = pct + '% terisi';
-                                }
-                            });
-                        </script>
-                    @endpush
-                </div>
-            </div>
-        </div>
-
-        {{-- RIGHT: Panel Proses --}}
-        <div class="col-xl-4">
-
-            {{-- Panduan --}}
-            <div class="card shadow-sm mb-3" style="border-radius:12px;">
-                <div class="card-body">
-                    <h5 class="card-title mb-3">
-                        <i class="ti ti-info-circle text-primary me-2"></i>Panduan Pembagian
-                    </h5>
-                    <div class="step-item">
-                        <div class="step-num" style="background:#e3f2fd; color:#1976d2;">1</div>
-                        <div>
-                            <div class="fw-semibold" style="font-size:13px;">Pastikan Kelas Tersedia</div>
-                            <div class="text-muted" style="font-size:12px;">Tiap jurusan harus sudah memiliki kelas yang
-                                dibuat</div>
-                        </div>
-                    </div>
-                    <div class="step-item">
-                        <div class="step-num" style="background:#e8f5e9; color:#2e7d32;">2</div>
-                        <div>
-                            <div class="fw-semibold" style="font-size:13px;">Klik Proses Pembagian</div>
-                            <div class="text-muted" style="font-size:12px;">Sistem akan membagi otomatis berdasarkan abjad
-                                per jurusan</div>
-                        </div>
-                    </div>
-                    <div class="step-item">
-                        <div class="step-num" style="background:#fff3e0; color:#e65100;">3</div>
-                        <div>
-                            <div class="fw-semibold" style="font-size:13px;">Review Hasil Preview</div>
-                            <div class="text-muted" style="font-size:12px;">Cek hasil pembagian sebelum disimpan permanen
-                            </div>
-                        </div>
-                    </div>
-                    <div class="step-item">
-                        <div class="step-num" style="background:#fce4ec; color:#c62828;">4</div>
-                        <div>
-                            <div class="fw-semibold" style="font-size:13px;">Finalisasi</div>
-                            <div class="text-muted" style="font-size:12px;">Simpan permanen, siswa bisa melihat kelas
-                                mereka</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Aksi --}}
-            <div class="card shadow-sm" style="border-radius:12px;">
-                <div class="card-body">
-                    <h5 class="card-title mb-1">Proses Pembagian</h5>
-                    <p class="text-muted mb-3" style="font-size:13px;">Pilih tahun ajaran lalu jalankan pembagian kelas
-                    </p>
-
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold" style="font-size:13px;">Tahun Ajaran</label>
-                        <select class="form-select form-select-sm" style="border-radius:8px;"
-                            onchange="window.location='?ppd_id='+this.value">
-                            @foreach ($ppdbList as $ppdb)
-                                <option value="{{ $ppdb->ppd_id }}"
-                                    {{ $selectedPpdb->ppd_id == $ppdb->ppd_id ? 'selected' : '' }}>
-                                    {{ $ppdb->academic->acy_year }} - {{$ppdb->academic->acy_year+1}}
-                                </option>
                             @endforeach
-                        </select>
-                    </div>
+                        </div>
 
-                    <div class="alert-info-soft p-3 mb-3" style="font-size:12px;">
-                        <i class="ti ti-alert-circle me-1"></i>
-                        Pembagian kelas dilakukan <strong>otomatis</strong> berdasarkan urutan abjad nama siswa per jurusan.
-                    </div>
+                        @push('script')
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    // Plus button
+                                    document.querySelectorAll('.kelas-plus').forEach(btn => {
+                                        btn.addEventListener('click', function() {
+                                            const id = this.dataset.id;
+                                            const input = document.getElementById('kelas_' + id);
+                                            input.value = Math.min(parseInt(input.value) + 1, 20);
+                                            updateKelas(input);
+                                        });
+                                    });
 
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-process text-white">
-                            <i class="ti ti-refresh me-2"></i>Proses Pembagian Kelas
-                        </button>
-                        <button class="btn btn-finalize text-white"
+                                    // Minus button
+                                    document.querySelectorAll('.kelas-minus').forEach(btn => {
+                                        btn.addEventListener('click', function() {
+                                            const id = this.dataset.id;
+                                            const input = document.getElementById('kelas_' + id);
+                                            input.value = Math.max(parseInt(input.value) - 1, 1);
+                                            updateKelas(input);
+                                        });
+                                    });
+
+                                    // Manual input change
+                                    document.querySelectorAll('.kelas-input').forEach(input => {
+                                        input.addEventListener('change', function() {
+                                            this.value = Math.min(Math.max(parseInt(this.value) || 1, 1), 20);
+                                            updateKelas(this);
+                                        });
+                                    });
+
+                                    function updateKelas(input) {
+                                        const id = input.dataset.id;
+                                        const abbr = input.dataset.abbr;
+                                        const siswa = parseInt(input.dataset.siswa);
+                                        const jumlah = parseInt(input.value);
+                                        const kapasitas = jumlah * 40;
+                                        const pct = Math.min(Math.round((siswa / kapasitas) * 100), 100);
+
+                                        // Update kapasitas text
+                                        document.getElementById('kapasitas_' + id).textContent = kapasitas;
+                                        document.getElementById('kapasitas_label_' + id).textContent = kapasitas;
+
+                                        // Update progress bar
+                                        document.getElementById('bar_' + id).style.width = pct + '%';
+                                        document.getElementById('pct_' + id).textContent = pct + '% terisi';
+
+                                        // Update badges
+                                        const badgeContainer = document.getElementById('badges_' + id);
+                                        const pctSpan = badgeContainer.querySelector('.pct-label');
+                                        // Remove old badges
+                                        badgeContainer.querySelectorAll('.badge-kelas').forEach(b => b.remove());
+                                        // Re-add badges
+                                        for (let k = 1; k <= jumlah; k++) {
+                                            const span = document.createElement('span');
+                                            span.className = 'badge-kelas';
+                                            span.style.cssText = badgeContainer.closest('.jurusan-card')
+                                                .querySelector('.badge-kelas') ?
+                                                badgeContainer.closest('.jurusan-card').querySelector('.badge-kelas').style.cssText :
+                                                '';
+                                            span.textContent = abbr + '-' + k;
+                                            badgeContainer.insertBefore(span, pctSpan);
+                                        }
+                                        pctSpan.textContent = pct + '% terisi';
+                                    }
+                                });
+                            </script>
+                        @endpush
+                    </div>
+                </div>
+            </div>
+
+            {{-- RIGHT: Panel Proses --}}
+            <div class="col-xl-4">
+
+                {{-- Panduan --}}
+                <div class="card shadow-sm mb-3" style="border-radius:12px;">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">
+                            <i class="ti ti-info-circle text-primary me-2"></i>Panduan Pembagian
+                        </h5>
+                        <div class="step-item">
+                            <div class="step-num" style="background:#e3f2fd; color:#1976d2;">1</div>
+                            <div>
+                                <div class="fw-semibold" style="font-size:13px;">Pastikan Kelas Tersedia</div>
+                                <div class="text-muted" style="font-size:12px;">Tiap jurusan harus sudah memiliki kelas
+                                    yang
+                                    dibuat</div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-num" style="background:#e8f5e9; color:#2e7d32;">2</div>
+                            <div>
+                                <div class="fw-semibold" style="font-size:13px;">Klik Proses Pembagian</div>
+                                <div class="text-muted" style="font-size:12px;">Sistem akan membagi otomatis berdasarkan
+                                    abjad
+                                    per jurusan</div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-num" style="background:#fff3e0; color:#e65100;">3</div>
+                            <div>
+                                <div class="fw-semibold" style="font-size:13px;">Review Hasil Preview</div>
+                                <div class="text-muted" style="font-size:12px;">Cek hasil pembagian sebelum disimpan
+                                    permanen
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-num" style="background:#fce4ec; color:#c62828;">4</div>
+                            <div>
+                                <div class="fw-semibold" style="font-size:13px;">Finalisasi</div>
+                                <div class="text-muted" style="font-size:12px;">Simpan permanen, siswa bisa melihat kelas
+                                    mereka</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if ($ppdb->ppd_status == 1)
+                    {{-- Aksi --}}
+                    <div class="card shadow-sm" style="border-radius:12px;">
+                        <div class="card-body">
+                            <h5 class="card-title mb-1">Proses Pembagian</h5>
+                            <p class="text-muted mb-3" style="font-size:13px;">Pilih tahun ajaran lalu jalankan pembagian
+                                kelas
+                            </p>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold" style="font-size:13px;">Tahun Ajaran</label>
+                                <select class="form-select form-select-sm" style="border-radius:8px;"
+                                    onchange="window.location='?ppd_id='+this.value">
+                                    @foreach ($ppdbList as $ppdb)
+                                        <option value="{{ $ppdb->ppd_id }}"
+                                            {{ $selectedPpdb->ppd_id == $ppdb->ppd_id ? 'selected' : '' }}>
+                                            {{ $ppdb->academic->acy_year }} - {{ $ppdb->academic->acy_year + 1 }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="alert-info-soft p-3 mb-3" style="font-size:12px;">
+                                <i class="ti ti-alert-circle me-1"></i>
+                                Pembagian kelas dilakukan <strong>otomatis</strong> berdasarkan urutan abjad nama siswa per
+                                jurusan.
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-process text-white">
+                                    <i class="ti ti-refresh me-2"></i>Proses Pembagian Kelas
+                                </button>
+                                {{-- <button class="btn btn-finalize text-white"
                             onclick="window.location='/administration/class-assignment/finalize'" disabled>
                             <i class="ti ti-check me-2"></i>Finalisasi Pembagian
                         </button>
                         <button class="btn btn-outline-danger btn-sm" style="border-radius:8px;" disabled>
                             <i class="ti ti-rotate me-2"></i>Reset Pembagian
-                        </button>
+                        </button> --}}
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                @endif
 
+            </div>
         </div>
-    </div>
-</form>
+    </form>
 
     {{-- Preview Table (static, akan muncul setelah diproses) --}}
     <div class="card shadow-sm mt-3" style="border-radius:12px;">

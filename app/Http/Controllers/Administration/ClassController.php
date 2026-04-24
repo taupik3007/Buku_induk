@@ -75,9 +75,11 @@ class ClassController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function students(string $id)
     {
-        //
+        $class = Classes::with('students')->where('cls_id',$id)->first();
+        // dd($class);
+        return view('administration.class.students',compact('class'));
     }
 
     /**
