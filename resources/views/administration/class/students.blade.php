@@ -143,7 +143,7 @@
                                             Perempuan
                                         @endif
                                     </td>
-                                    <td>{{ $student->std_nis }}</td>
+                                    
 
 
                                 </tr>

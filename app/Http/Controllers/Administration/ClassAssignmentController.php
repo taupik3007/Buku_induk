@@ -37,75 +37,58 @@ class ClassAssignmentController extends Controller
 
     return view('administration.class-assignment.index', compact('major', 'ppdbList', 'selectedPpdb','studentCount','ppdb'));
     }
-    public function process(Request $request)
+   public function process(Request $request)
 {
-    // dd($request->ppd_id);
-
     $request->validate([
         'ppd_id'       => 'required|exists:ppdbs,ppd_id',
-        'jumlah_kelas'  => 'required|array',
+        'jumlah_kelas' => 'required|array',
     ]);
-    // dd($request->ppd_id);
 
-    $ppdbId = $request->ppd_id;
-    $ppdb = Ppdb::where('ppd_id',$ppdbId)->first();
-    // dd($ppdb);
+    $ppdbId          = $request->ppd_id;
+    $ppdb            = Ppdb::with('academic')->where('ppd_id', $ppdbId)->first();
+    $jumlahKelasInput = $request->jumlah_kelas;
 
-    $jumlahKelasInput = $request->jumlah_kelas; // ['mjr_id' => jumlah]
-
-    // Ambil academic year dari ppdb
-
-    // dd($jumlahKelasInput);
+    // Format tahun: 2024/2025 -> "2425"
+    $tahun     = $ppdb->academic->acy_year;
+    $tahunKode = substr($tahun, 2, 2) . substr($tahun + 1, 2, 2); // "2526"
+    // dd($tahunKode);
     DB::beginTransaction();
     try {
-        // dd($request);
-        foreach ($jumlahKelasInput as $mjrId => $jumlah) {
-            $jumlah = (int) $jumlah;
 
-            // Ambil siswa diterima di jurusan ini, urut abjad by nama user
+        // ── 1. PEMBAGIAN KELAS (per jurusan) ──────────────────────
+        foreach ($jumlahKelasInput as $mjrId => $jumlah) {
+            $jumlah      = (int) $jumlah;
             $submissions = PpdbSubmission::with(['student.user'])
-    ->where('ppsu_ppdb_id', $ppdbId)
-    ->where('ppsu_major_id', $mjrId)
-    ->where('ppsu_status', 1)
-    ->get()
-    ->sortBy(function ($s) {
-        return optional($s->student->user)->usr_name;
-    })
-    ->values();
-                // dd($submissions);
+                ->where('ppsu_ppdb_id', $ppdbId)
+                ->where('ppsu_major_id', $mjrId)
+                ->where('ppsu_status', 1)
+                ->get()
+                ->sortBy(fn($s) => optional($s->student->user)->usr_name)
+                ->values();
 
             if ($submissions->isEmpty()) continue;
 
-
-            // Buat atau ambil kelas yang ada untuk jurusan ini
-            $major = Majors::find($mjrId);
+            $major   = Majors::find($mjrId);
             $classes = [];
 
-
             for ($k = 1; $k <= $jumlah; $k++) {
-                $clsCode = $major->mjr_abbr . '-' . $k;
-
                 $kelas = Classes::updateOrCreate(
                     [
                         'cls_major_id' => $mjrId,
-                        'cls_acy_id'   => $ppdb->ppd_academic_id, // sesuaikan nama kolom FK academic year di ppdb
+                        'cls_acy_id'   => $ppdb->ppd_academic_id,
                         'cls_number'   => $k,
                     ],
                     [
-                        'cls_code'        => $clsCode,
-                        'cls_level'       => '10', // sesuaikan
-                        'cls_homeroom_id' => 1,    // default dulu, bisa diubah manual nanti
+                        'cls_code'        => $major->mjr_abbr . '-' . $k,
+                        'cls_level'       => '10',
+                        'cls_homeroom_id' => 1,
                     ]
                 );
-
                 $classes[] = $kelas;
             }
-                // dd($submissions);
 
-
-            // Bagi siswa ke kelas berdasarkan abjad
-            $perKelas = ceil($submissions->count() / $jumlah);
-            $chunks = $submissions->chunk($perKelas);
+            $perKelas = (int) ceil($submissions->count() / $jumlah);
+            $chunks   = $submissions->chunk($perKelas);
 
             foreach ($chunks as $index => $chunk) {
                 $kelas = $classes[$index] ?? $classes[count($classes) - 1];
@@ -115,20 +98,36 @@ class ClassAssignmentController extends Controller
                 }
             }
         }
-    // dd($request);
+        // dd("awikwok");
 
+        // ── 2. GENERATE NIS (urut abjad global semua siswa diterima) ──
+        $semuaSiswa = PpdbSubmission::with(['student.user'])
+            ->where('ppsu_ppdb_id', $ppdbId)
+            ->where('ppsu_status', 1)
+            ->get()
+            ->sortBy(fn($s) => optional($s->student->user)->usr_name)
+            ->values();
+
+        // dd($semuaSiswa);
+
+        foreach ($semuaSiswa as $urut => $submission) {
+            $nomorUrut = str_pad($urut + 1, 3, '0', STR_PAD_LEFT); // 001, 002, dst
+            $nis       = $tahunKode . '.10.' . $nomorUrut;          // 2526.10.001
+
+           $student= Student::where('std_id', $submission->ppsu_student_id)
+                ->update(['std_nis'=> $nis]);
+        // dd($student);
+
+
+        }
+        
 
         DB::commit();
-        return redirect()->back()->with('success', 'Pembagian kelas berhasil diproses.');
-    
+        return redirect()->back()->with('success', 'Pembagian kelas dan NIS berhasil diproses.');
 
     } catch (\Exception $e) {
-    // dd($request);
-
         DB::rollBack();
         return redirect()->back()->with('error', 'Gagal memproses: ' . $e->getMessage());
     }
-    // dd($request);
-
 }
 }
