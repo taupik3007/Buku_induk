@@ -6,7 +6,7 @@
 @endpush
 
 @section('title')
-    SITAW | Daftar Jurusan
+    SiMAPUT | Daftar Mata Pelajaran
 @endsection
 
 @section('content')
@@ -15,14 +15,14 @@
             <div class="card-body px-4 py-3">
               <div class="row align-items-center">
                 <div class="col-9">
-                  <h4 class="fw-semibold mb-8">JURUSAN</h4>
+                  <h4 class="fw-semibold mb-8">MATA PELAJARAN</h4>
                   <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                    <li class="breadcrumb-item" aria-current="page">Daftar Jurusan</li>
-                    
-                      
+                      <li class="breadcrumb-item" aria-current="page">Daftar Mata Pelajaran</li>
+                      <li class="breadcrumb-item">
+                        <a class="text-muted text-decoration-none" href="/administration/subjects/create">Tambah Mata Pelajaran</a>
+                      </li>
                     </ol>
-                   
                   </nav>
                 </div>
                 <div class="col-3">
@@ -37,76 +37,54 @@
         <div class="card">
             <div class="card-body">
                 <div class="mb-5 position-relative">
-                    <h4 class="card-title mb-0">Daftar Jurusan</h4>
-                    <a href="/administration/major/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Juryusan</a>
+                    <h4 class="card-title mb-0">Daftar Mata Pelajaran</h4>
+                    <a href="/administration/subject/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Mata Pelajaran</a>
                 </div>
-                <p class="card-subtitle mb-3">
-                    
-                </p>
                 <div class="table-responsive">
                     <table id="file_export" class="table w-100 table-striped table-bordered display text-nowrap">
                         <thead>
-                            <!-- start row -->
                             <tr>
                                 <th width="10%">No</th>
-                                <th>Nama Jurusan</th>
-                                <th>Singkatan</th>
+                                <th>Nama Mata Pelajaran</th>
+                                <th>Kode</th>
                                 <th>Aksi</th>
-                                
                             </tr>
-                            <!-- end row -->
                         </thead>
                         <tbody>
-                          <!-- start row -->
-                          @foreach ( $majors as $no=> $major)
-                          <tr>
-                              
-                              <td>{{$no+1}}</td>
-                              <td>{{ $major->mjr_name}}</td>
-                              <td>{{ $major->mjr_abbr}}</td>
-                              <td>
-                                   <a href="/administration/major/{{ $major->mjr_id}}/edit" class="btn btn-primary">Edit</a>
-                                   <a href="/administration/major/{{ $major->mjr_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
-
-                              </td>
-
-
-                              
-                          </tr>
-                          @endforeach
-                          <!-- end row -->
-                          
-                      </tbody>
-                        <tfoot>
-                            <!-- start row -->
-                            
-
+                          {{-- @foreach ($subjects as $no => $subject)
                             <tr>
-                              <th width="10%">No</th>
-                              <th>Nama Jurusan</th>
-                              <th>Singkatan</th>
-                              <th>Aksi</th>
+                                <td>{{ $no + 1 }}</td>
+                                <td>{{ $subject->sbj_name }}</td>
+                                <td>{{ $subject->sbj_code }}</td>
+                                <td>
+                                    <a href="/administration/subjects/{{ $subject->sbj_id }}/edit" class="btn btn-primary">Edit</a>
+                                    <a href="/administration/subjects/{{ $subject->sbj_id }}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                                </td>
                             </tr>
-                            <!-- end row -->
+                          @endforeach --}}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th width="10%">No</th>
+                                <th>Nama Mata Pelajaran</th>
+                                <th>Kode</th>
+                                <th>Aksi</th>
+                            </tr>
                         </tfoot>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-    
 @endsection
-
-
 
 @push('script')
     <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-    {{-- <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script> --}}
-
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
     <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
 @endpush

@@ -57,6 +57,14 @@
               <span class="hide-menu">kelas</span>
             </a>
           </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="/administration/subject"  aria-expanded="false">
+              <span>
+                <i class="ti ti-users-group"></i>
+              </span>
+              <span class="hide-menu">Mata Pelajaran</span>
+            </a>
+          </li>
 
           <li class="sidebar-item">
             <a class="sidebar-link" href="/administration/academic-years/"  aria-expanded="false">

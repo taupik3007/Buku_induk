@@ -14,6 +14,8 @@ use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardControll
 use App\Http\Controllers\Administration\prospectiveTeacherController;
 use App\Http\Controllers\Administration\TeacherRequirementController;
 use App\Http\Controllers\Administration\ClassAssignmentController;
+use App\Http\Controllers\Administration\SubjectController;
+
 use App\Http\Controllers\RegionController;
 use App\Models\TeacherRequirement;
 use Illuminate\Support\Facades\Route;
@@ -135,6 +137,11 @@ Route::prefix('administration')->name('administration.')->group(function () {
         // Route::get('/rejected', [ClassAssingmentController::class, 'rejected'])->name('rejected');
         // Route::get('/{ppd_id}/rejected-list', [ClassAssingmentController::class, 'rejectedList'])->name('rejecttedList');
 
+    });
+    Route::prefix('subject')->name('subject.')->group(function () {
+        Route::get('/', [SubjectController::class, 'index'])->name('index');
+        Route::get('/create', [SubjectController::class, 'create'])->name('create');
+       
     });
 
 
