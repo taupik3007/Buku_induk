@@ -19,7 +19,7 @@ class Teacher_Bio extends Model
 
     public function address()
     {
-        return $this->hasOne(Teacher_Address::class, 'tcb_id');
+        return $this->hasOne(Teacher_Address::class, 'tca_id');
     }
 
     public function partner()
@@ -29,12 +29,11 @@ class Teacher_Bio extends Model
 
     public function history()
     {
-        return $this->hasOne(Teach_History::class, 'tcp_id');
+        return $this->hasMany(Teach_History::class, 'tcs_bio_id');
     }
-
     public function education()
     {
-        return $this->hasOne(TeacherEducation::class, 'tce_id');
+        return $this->hasMany(TeacherEducation::class, 'tce_bio_id');
     }
 
 }

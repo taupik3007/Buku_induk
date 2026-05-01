@@ -66,5 +66,9 @@ public function address()
         'usr_id'      // PK di users
     );
 }
+public function teacherBio()
+{
+    return $this->hasOne(Teacher_Bio::class, 'tcb_user_id', 'usr_id');
+}
 
 }
