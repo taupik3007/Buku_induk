@@ -13,6 +13,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Student\DashboardController;
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
 use App\Http\Controllers\Administration\prospectiveTeacherController;
+use App\Http\Controllers\Administration\TeacherReceptionController;
 use App\Http\Controllers\Administration\TeacherRequirementController;
 use App\Http\Controllers\RegionController;
 use App\Models\TeacherRequirement;
@@ -120,6 +121,18 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::get('/{ppd_id}/accepted-list', [PpdbReceptionController::class, 'acceptedList'])->name('acceptedList');
         Route::get('/rejected', [PPDBReceptionController::class, 'rejected'])->name('rejected');
         Route::get('/{ppd_id}/rejected-list', [PpdbReceptionController::class, 'rejectedList'])->name('rejecttedList');
+
+    });
+    Route::prefix('teacher-reception')->name('teacherReception.')->group(function () {
+        Route::get('/', [TeacherReceptionController::class, 'index'])->name('index');
+        Route::get('/{id}/list', [TeacherReceptionController::class, 'list'])->name('list');
+        Route::get('/{id}/show', [TeacherReceptionController::class, 'show'])->name('show');
+        Route::post('/{id}/accept', [TeacherReceptionController::class, 'accept'])->name('accept');
+        Route::get('/{id}/reject', [TeacherReceptionController::class, 'reject'])->name('reject');
+        Route::get('/accepted', [TeacherReceptionController::class, 'accepted'])->name('accepted');
+        Route::get('/{id}/accepted-list', [TeacherReceptionController::class, 'acceptedList'])->name('acceptedList');
+        Route::get('/rejected', [TeacherReceptionController::class, 'rejected'])->name('rejected');
+        Route::get('/{id}/rejected-list', [TeacherReceptionController::class, 'rejectedList'])->name('rejecttedList');
 
     });
 });

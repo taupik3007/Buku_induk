@@ -9,6 +9,7 @@ use App\Models\Teacher_Bio;
 use App\Models\Teacher_Partner;
 use App\Models\TeacherEducation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class prospectiveTeacherController extends Controller
 {
@@ -17,11 +18,12 @@ class prospectiveTeacherController extends Controller
      */
     public function biodata()
 {
+    $user = Auth::user();
     $tcb_id = session('tcb_id');
 
     // kalau session kosong, biar ga error
     if (!$tcb_id) {
-        return view('teacher.prospectiveTeacher.biodata');
+        return view('teacher.prospectiveTeacher.biodata',compact('user'));
     }
 
     $biodata = Teacher_Bio::find($tcb_id);
@@ -41,7 +43,8 @@ class prospectiveTeacherController extends Controller
             'address',
             'partner',
             'history',
-            'education'
+            'education',
+            'user'
         )
     );
 }
@@ -63,6 +66,7 @@ class prospectiveTeacherController extends Controller
             $teacher = Teacher_Bio::updateOrCreate(
                 ['tcb_id' => $tcb_id],
                 [
+                    'tcb_user_id' => Auth::user()->usr_id,
                     'tcb_user_name'   => $request->tcb_user_name,
                     'tcb_birth_place' => $request->tcb_birth_place,
                     'tcb_birth_date'  => $request->tcb_birth_date,
@@ -91,11 +95,15 @@ class prospectiveTeacherController extends Controller
     {
         try {
     
-            $request->validate([
+            $request->validate([ 
                 'tca_province' => 'required',
+                'tca_province_value'  => 'required|string',
                 'tca_regency'     => 'required',
+                'tca_regency_value'  => 'required|string',
                 'tca_district' => 'required',
+                'tca_district_value'  => 'required|string',
                 'tca_village'  => 'required',
+                'tca_village_value'  => 'required|string',
             ]);
     
             // ambil id biodata dari session step 1
@@ -115,9 +123,13 @@ class prospectiveTeacherController extends Controller
                 [
                     'tca_detail' => $request->tca_detail,
                     'tca_province' => $request->tca_province,
+                    'tca_province_value' => $request->tca_province_value,
                     'tca_regency'     => $request->tca_regency,
+                    'tca_regency_value' => $request->tca_regency_value,
                     'tca_district' => $request->tca_district,
+                    'tca_district_value' => $request->tca_district_value,
                     'tca_village'  => $request->tca_village,
+                    'tca_village_value' => $request->tca_village_value,
                     'tca_postalcode'  => $request->tca_postalcode,
                     'tca_distance'  => $request->tca_distance,
                 ]
