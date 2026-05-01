@@ -6,7 +6,7 @@
 @endpush
 
 @section('title')
-    SiMAPUT | Daftar Kelas
+    SiMAPUT | Daftar Mata Pelajaran
 @endsection
 
 @section('content')
@@ -15,16 +15,14 @@
             <div class="card-body px-4 py-3">
               <div class="row align-items-center">
                 <div class="col-9">
-                  <h4 class="fw-semibold mb-8">KELAS</h4>
+                  <h4 class="fw-semibold mb-8">MATA PELAJARAN</h4>
                   <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                    <li class="breadcrumb-item" aria-current="page">Daftar Kelas</li>
+                      <li class="breadcrumb-item" aria-current="page">Daftar Mata Pelajaran</li>
                       <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" href="/administration/classes/create">Tambah Kelas</a>
+                        <a class="text-muted text-decoration-none" href="/administration/subjects/create">Tambah Mata Pelajaran</a>
                       </li>
-                      <li class="breadcrumb-item" aria-current="page">Edit Kelas</li>
                     </ol>
-                   
                   </nav>
                 </div>
                 <div class="col-3">
@@ -39,80 +37,46 @@
         <div class="card">
             <div class="card-body">
                 <div class="mb-5 position-relative">
-                    <h4 class="card-title mb-0">Daftar Kelas</h4>
-                    <a href="/administration/classes/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Kelas</a>
+                    <h4 class="card-title mb-0">Daftar Mata Pelajaran</h4>
+                    <a href="/administration/subject/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Mata Pelajaran</a>
                 </div>
-                <p class="card-subtitle mb-3">
-                    
-                </p>
                 <div class="table-responsive">
                     <table id="file_export" class="table w-100 table-striped table-bordered display text-nowrap">
                         <thead>
-                            <!-- start row -->
                             <tr>
                                 <th width="10%">No</th>
-                                <th>Kode Kelas</th>
-                                <th>Tingkatan</th>
-                                <th>Jurusan</th>
-                                <th>Nomor</th>
-                                <th>Wali Kelas</th>
-                                <th>Jumlah Siswa</th>
+                                <th>Nama Mata Pelajaran</th>
+                                <th>Kode</th>
                                 <th>Aksi</th>
-                                
                             </tr>
-                            <!-- end row -->
                         </thead>
                         <tbody>
-                          <!-- start row -->
-                          @foreach ( $class as $no=> $class)
+                          {{-- @foreach ($subjects as $no => $subject)
                             <tr>
-                                
-                                <td>{{$no+1}}</td>
-                                <td>{{ $class->cls_code}}</td>
-                                <td>{{ $class->cls_level}}</td>
-                                <td>{{ $class->cls_major->mjr_abbr ?? '-' }}</td>
-                                <td>{{ $class->cls_number}}</td>
-                                <td>{{ $class->cls_homeroom->usr_name ?? '-' }}</td>
-                                <td>{{ $class->students->count()}}</td>
+                                <td>{{ $no + 1 }}</td>
+                                <td>{{ $subject->sbj_name }}</td>
+                                <td>{{ $subject->sbj_code }}</td>
                                 <td>
-                                     <a href="/administration/classes/{{ $class->cls_id}}/students" class="btn btn-info">Siswa</a>
-                                     <a href="/administration/classes/{{ $class->cls_id}}/edit" class="btn btn-primary">Edit</a>
-                                     <a href="/administration/classes/{{ $class->cls_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
-  
+                                    <a href="/administration/subjects/{{ $subject->sbj_id }}/edit" class="btn btn-primary">Edit</a>
+                                    <a href="/administration/subjects/{{ $subject->sbj_id }}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
                                 </td>
-  
-  
-                                
                             </tr>
-                            @endforeach
-                          <!-- end row -->
-                          
-                      </tbody>
+                          @endforeach --}}
+                        </tbody>
                         <tfoot>
-                            <!-- start row -->
-                            
-
                             <tr>
-                              <th width="10%">No</th>
-                              <th>Kode Kelas</th>
-                              <th>Tingkatan</th>
-                              <th>Jurusan</th>
-                              <th>Nomor</th>
-                              <th>Wali Kelas</th>
-                              <th>Jumlah Siswa</th>
-                              <th>Aksi</th>
+                                <th width="10%">No</th>
+                                <th>Nama Mata Pelajaran</th>
+                                <th>Kode</th>
+                                <th>Aksi</th>
                             </tr>
-                            <!-- end row -->
                         </tfoot>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-    
 @endsection
-
-
 
 @push('script')
     <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
@@ -122,6 +86,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
-
     <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
 @endpush

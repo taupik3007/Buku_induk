@@ -166,10 +166,10 @@
         function updateStatus(id, action) {
             const label = action === 'accept' ? 'menerima' : 'menolak';
             if (!confirm(`Yakin ingin ${label} peserta ini?`)) return;
-
+            console.log('/administration/ppdb-reception/' + id + '/accept');
             $.ajax({
-                url: `/administration/ppdb-participant/${id}/${action}`,
-                method: 'POST',
+                url: `/administration/ppdb-reception/${id}/${action}`,
+                method: 'GET',
                 data: {
                     _token: '{{ csrf_token() }}',
                     _method: 'PATCH'

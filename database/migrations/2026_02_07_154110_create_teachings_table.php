@@ -17,6 +17,10 @@ return new class extends Migration
             $table->foreign('tch_employee_id')->references('tce_id')->on('teacher_employees')->onDelete('cascade');
             $table->unsignedBigInteger('tch_subject_id');
             $table->foreign('tch_subject_id')->references('sbj_id')->on('subjects')->onDelete('cascade');
+            $table->unsignedBigInteger('tch_academic_id');
+            $table->foreign('tch_academic_id')->references('acy_id')->on('academic_years')->onDelete('cascade');
+            $table->bigInteger('tch_teach_time');
+            $table->bigInteger('tch_level');
             $table->timestamps();
             $table->renameColumn('updated_at', 'tch_updated_at');
             $table->renameColumn('created_at', 'tch_created_at');

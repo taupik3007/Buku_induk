@@ -19,12 +19,8 @@
                   <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                     <li class="breadcrumb-item" aria-current="page">Daftar Jurusan</li>
-                      <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" href="/administration/major/create">Tambah Jurusan</a>
-                      </li>
-                      <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" href="/administration/major/{id}/edit">Edit Jurusan</a>
-                      </li>
+                    
+                      
                     </ol>
                    
                   </nav>
@@ -42,7 +38,7 @@
             <div class="card-body">
                 <div class="mb-5 position-relative">
                     <h4 class="card-title mb-0">Daftar Jurusan</h4>
-                    <a href="/administration/major/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Kategori</a>
+                    <a href="/administration/major/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Juryusan</a>
                 </div>
                 <p class="card-subtitle mb-3">
                     
@@ -105,12 +101,12 @@
 
 @push('script')
     <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    {{-- <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script> --}}
 
     <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
 @endpush
