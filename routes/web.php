@@ -150,7 +150,7 @@ Route::prefix('administration')->name('administration.')->group(function () {
     });
     Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::get('/', [TeacherController::class, 'index'])->name('index');
-        Route::get('/create', [SubjectController::class, 'create'])->name('create');
+        Route::get('/show', [TeacherController::class, 'show'])->name('show');
        
     });
     Route::prefix('employee')->name('employee.')->group(function () {
