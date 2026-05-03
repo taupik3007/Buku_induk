@@ -48,6 +48,7 @@ class RegisteredUserController extends Controller
         $student = Student::create([
             'std_usr_id'=>$user->usr_id
         ]);
+        // dd($user);
 
         event(new Registered($user));
 

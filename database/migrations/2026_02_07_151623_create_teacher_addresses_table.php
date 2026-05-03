@@ -18,9 +18,13 @@ return new class extends Migration
             $table->foreign('tca_bio_id')->references('tcb_id')->on('teacher_bios')->onDelete('cascade');
             $table->string('tca_detail');
             $table->string('tca_province');
+            $table->string('tca_province_value');
             $table->string('tca_regency');
+            $table->string('tca_regency_value');
             $table->string('tca_district');
+            $table->string('tca_district_value');
             $table->string('tca_village');
+            $table->string('tca_village_value');
             $table->bigInteger('tca_postalcode');
             $table->bigInteger('tca_distance');
             $table->string('tca_rt')->nullable();

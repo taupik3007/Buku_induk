@@ -21,13 +21,25 @@
             @endforeach
         </select>
     </div>
-
     <div class="mb-3">
+        <label class="form-label">Kewarganegaraan</label>
+        @php
+            $guardnationality = old('fml_guardian_nationality', $family->fml_guardian_nationality ?? '');
+        @endphp
+
+        <select name="fml_guardian_nationality" class="form-select" required>
+            <option value="">Pilih ..</option>
+            <option value="WNI" {{ $guardnationality  === 'WNI' ? 'selected' : '' }}>WNI</option>
+            <option value="WNA" {{ $guardnationality  === 'WNA' ? 'selected' : '' }}>WNA</option>
+        </select>
+    </div>
+
+    {{-- <div class="mb-3">
         <label class="form-label">Kewarganegaraan</label>
         <input type="text" name="fml_guardian_nationality"
             value="{{ old('fml_guardian_nationality', $family->fml_guardian_nationality ?? '') }}"
             class="form-control" placeholder="Contoh: Indonesia">
-    </div>
+    </div> --}}
 
     <div class="mb-3">
         <label class="form-label">Pekerjaan</label>
@@ -36,11 +48,27 @@
             placeholder="Pekerjaan">
     </div>
 
-    <div class="mb-3">
+    {{-- <div class="mb-3">
         <label class="form-label">Pendidikan Terakhir</label>
         <input type="text" name="fml_guardian_education" class="form-control"
             value="{{ old('fml_guardian_education', $family->fml_guardian_education ?? '') }}"
             placeholder="Pendidikan terakhir">
+    </div> --}}
+    <div class="mb-3">
+        <label class="form-label">Pendidikan Terakhir</label>
+        @php
+            $guardianeducation = old('fml_guardian_education', $family->fml_guardian_education ?? '');
+        @endphp
+
+        <select name="fml_guardian_education" class="form-select" required>
+            <option value="">Pilih ..</option>
+            <option value="SD" {{ $guardianeducation === 'SD' ? 'selected' : 'SD' }}>SD</option>
+            <option value="SMP" {{ $guardianeducation === 'SMP' ? 'selected' : 'SMP' }}>SMP</option>
+            <option value="SMA" {{ $guardianeducation === 'SMA' ? 'selected' : 'SMA' }}>SMA</option>
+            <option value="SMK" {{ $guardianeducation === 'SMK' ? 'selected' : 'SMK' }}>SMK</option>
+            <option value="S1" {{ $guardianeducation === 'S1' ? 'selected' : 'S1' }}>S1</option>
+            <option value="S2" {{ $guardianeducation === 'S2' ? 'selected' : 'S2' }}>S2</option>
+        </select>
     </div>
 
     <div class="mb-3">
@@ -89,7 +117,7 @@ function stepSix() {
     let formData = {
         fml_guardian_name: $('[name="fml_guardian_name"]').val(),
         fml_guardian_religion_id: $('[name="fml_guardian_religion_id"]').val(),
-        fml_guardian_nationality: $('[name="fml_guardian_nationality"]').val(),
+        fml_guardian_nationality: $('select[name="fml_guardian_nationality"]').val(),
         fml_guardian_education: $('[name="fml_guardian_education"]').val(),
         fml_guardian_occupation: $('[name="fml_guardian_occupation"]').val(),
         fml_guardian_income: $('[name="fml_guardian_income"]').val(),

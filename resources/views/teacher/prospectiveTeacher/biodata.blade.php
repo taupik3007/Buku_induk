@@ -73,7 +73,8 @@
                                                 <div id="step-1" class="content">
                                                         <div class="form-group mb-2">
                                                             <label class="form-">Nama</label>
-                                                            <input type="text" name="tcb_user_name" class="form-control" id="tcb_user_name" value="{{ old('tcb_user_name', $biodata->tcb_user_name ?? '') }}" aria-describedby="nama" placeholder="Nama">
+                                                            <input type="text" name="tcb_user_name" class="form-control" id="tcb_user_name" value="{{ old('tcb_user_name', $biodata->tcb_user_name ?? $user->usr_name) }}" 
+                                                            readonly aria-describedby="nama" placeholder="Nama">
                                                         </div>
                                                         <div class="form-group mb-2">
                                                             <label class="form-">Tempat Lahir</label>
@@ -395,14 +396,16 @@
             },
             body: formData
         })
-        .then(response => {
-    
-            if(!response.ok){
-                throw new Error('Server error ' + response.status);
-            }
-    
-            return response.json();
-        })
+        .then(async response => {
+    let text = await response.text();
+
+    if (!response.ok) {
+        console.error("🔥 ERROR BACKEND:", text);
+        throw new Error('Server error ' + response.status);
+    }
+
+    return JSON.parse(text);
+})
         .then(data => {
     
             if(data.success){
@@ -456,7 +459,7 @@ console.error(err);
     
         let provinceSelect = $("#tca_province");
         let regencySelect  = $("#tca_regency");
-        let districtSelect = $("#tca_district");
+        let districtSelect = $("#tca_district"); 
         let villageSelect  = $("#tca_village");
     
         // INIT SELECT2
@@ -570,11 +573,21 @@ function getVal(name){
     let el = document.querySelector(`[name="${name}"]`);
     return el ? el.value : '';
 }
+function getText(name){
+    let el = document.querySelector(`[name="${name}"]`);
+    return el && el.selectedIndex !== -1 
+        ? el.options[el.selectedIndex].text 
+        : '';
+}
 formData.append('tca_detail', getVal('tca_detail'));
 formData.append('tca_province', getVal('tca_province'));
+formData.append('tca_province_value', getText('tca_province'));
 formData.append('tca_regency', getVal('tca_regency'));
+formData.append('tca_regency_value', getText('tca_regency'));
 formData.append('tca_district', getVal('tca_district'));
+formData.append('tca_district_value', getText('tca_district'));
 formData.append('tca_village', getVal('tca_village'));
+formData.append('tca_village_value', getText('tca_village'));
 formData.append('tca_postalcode', getVal('tca_postalcode'));
 formData.append('tca_distance', getVal('tca_distance'));
 
@@ -844,6 +857,9 @@ if (level === 'SMA' || level === 'SMK') {
 } else {
 
     container.html(`
+        <label>Jurusan</label>
+        <input type="text" class="form-control" name="major[]">
+
         <label>Gelar</label>
         <input type="text" class="form-control" name="degree[]">
     `);

@@ -57,6 +57,16 @@
                             Biodata
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link px-3 py-2 rounded fw-semibold"
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Logout
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </li>
+                    
                     @if ($ppdb && $isComplited )
                         <li class="nav-item">
                             <a class="nav-link px-3 py-2 rounded fw-semibold"

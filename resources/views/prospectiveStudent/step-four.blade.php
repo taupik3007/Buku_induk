@@ -23,17 +23,47 @@
 
     <div class="mb-3">
         <label class="form-label">Kewarganegaraan</label>
-        <input type="text" name="fml_father_nationality" value="{{ old('fml_father_nationality', $family->fml_father_nationality ?? '') }}" class="form-control" placeholder="Contoh: Indonesia">
+        @php
+            $fathernationality = old('fml_father_nationality', $family->fml_father_nationality ?? '');
+        @endphp
+
+        <select name="fml_father_nationality" class="form-select" required>
+            <option value="">Pilih ..</option>
+            <option value="WNI" {{ $fathernationality === 'WNI' ? 'selected' : '' }}>WNI</option>
+            <option value="WNA" {{ $fathernationality === 'WNA' ? 'selected' : '' }}>WNA</option>
+        </select>
     </div>
+
+    {{-- <div class="mb-3">
+        <label class="form-label">Kewarganegaraan</label>
+        <input type="text" name="fml_father_nationality" value="{{ old('fml_father_nationality', $family->fml_father_nationality ?? '') }}" class="form-control" placeholder="Contoh: Indonesia">
+    </div> --}}
 
     <div class="mb-3">
         <label class="form-label">Pekerjaan </label>
         <input type="text" name="fml_father_occupation" class="form-control" value="{{ old('fml_father_occupation', $family->fml_father_occupation ?? '') }}" placeholder="Pekerjaan">
     </div>
-    <div class="mb-3">
+    {{-- <div class="mb-3">
         <label class="form-label">Pendidikan Terakhir</label>
         <input type="text" name="fml_father_education" class="form-control" value="{{ old('fml_father_education', $family->fml_father_education ?? '') }}" placeholder="Pendidikan terakhir">
+    </div> --}}
+    <div class="mb-3">
+        <label class="form-label">Pendidikan Terakhir</label>
+        @php
+            $fathereducation = old('fml_father_education', $family->fml_father_education ?? '');
+        @endphp
+
+        <select name="fml_father_education" class="form-select" required>
+            <option value="">Pilih ..</option>
+            <option value="SD" {{ $fathereducation === 'SD' ? 'selected' : 'SD' }}>SD</option>
+            <option value="SMP" {{ $fathereducation === 'SMP' ? 'selected' : 'SMP' }}>SMP</option>
+            <option value="SMA" {{ $fathereducation === 'SMA' ? 'selected' : 'SMA' }}>SMA</option>
+            <option value="SMK" {{ $fathereducation === 'SMK' ? 'selected' : 'SMK' }}>SMK</option>
+            <option value="S1" {{ $fathereducation === 'S1' ? 'selected' : 'S1' }}>S1</option>
+            <option value="S2" {{ $fathereducation === 'S2' ? 'selected' : 'S2' }}>S2</option>
+        </select>
     </div>
+    
     <div class="mb-3">
     <label class="form-label">Penghasilan per Bulan (Rp)</label>
     @php
@@ -82,8 +112,8 @@
     let formData = {
         fml_father_name: $('input[name="fml_father_name"]').val(),
         fml_father_religion_id: $('select[name="fml_father_religion_id"]').val(),
-        fml_father_nationality: $('input[name="fml_father_nationality"]').val(),
-        fml_father_education: $('input[name="fml_father_education"]').val(),
+        fml_father_nationality: $('select[name="fml_father_nationality"]').val(),
+        fml_father_education: $('select[name="fml_father_education"]').val(),
         fml_father_occupation: $('input[name="fml_father_occupation"]').val(),
         fml_father_income: $('select[name="fml_father_income"]').val(),
         fml_father_address: $('textarea[name="fml_father_address"]').val(),
@@ -109,6 +139,7 @@
             }
         },
         error: function(xhr) {
+            console.log(xhr.responseJSON);
             if (xhr.status === 422) {
                 Swal.fire({
                     icon: 'error',

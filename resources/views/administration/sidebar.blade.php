@@ -162,6 +162,35 @@
             </a>
           </li>
           </li>
+
+          <li class="nav-small-cap">
+            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+            <span class="hide-menu">PENERIMAAN GURU</span>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="/administration/teacher-reception"  aria-expanded="false">
+              <span>
+                <i class="ti ti-user-exclamation"></i>
+              </span>
+              <span class="hide-sitemap">Daftar Calon Guru</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="/administration/teacher-reception/accepted"  aria-expanded="false">
+              <span>
+                <i class="ti ti-user-check"></i>
+              </span>
+              <span class="hide-sitemap">Daftar Diterima</span>
+            </a>
+            <li class="sidebar-item">
+            <a class="sidebar-link" href="/administration/teacher-reception/rejected"  aria-expanded="false">
+              <span>
+                <i class="ti ti-user-x"></i>
+              </span>
+              <span class="hide-sitemap">Daftar Ditolak</span>
+            </a>
+          </li>
+          </li>
       </nav>
 
       <div class="fixed-profile p-3 mx-4 mb-2 bg-secondary-subtle rounded mt-3">
