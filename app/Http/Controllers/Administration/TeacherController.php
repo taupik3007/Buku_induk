@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Administration;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\user;
 
 class TeacherController extends Controller
 {
@@ -12,7 +13,9 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        return view('administration.teacher.index');
+        $teacher = User::role('teacher')->get();
+        // dd($teacher);
+        return view('administration.teacher.index',compact(['teacher']));
     }
 
     /**

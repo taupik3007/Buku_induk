@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->bigIncrements('tcr_id');
-            $table->bigInteger('tcr_gtk');
-            $table->string('tcr_nuptk');
+            $table->unsignedBigInteger('tcr_user_id');
+            $table->foreign('tcr_user_id')->references('usr_id')->on('users')->onDelete('cascade');
+            $table->string('tcr_gtk')->unique();
+            $table->string('tcr_nuptk')->nullable();
             $table->timestamps();
             $table->renameColumn('updated_at', 'tcr_updated_at');
             $table->renameColumn('created_at', 'tcr_created_at');

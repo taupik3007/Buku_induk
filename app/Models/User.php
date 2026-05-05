@@ -70,5 +70,10 @@ public function teacherBio()
 {
     return $this->hasOne(Teacher_Bio::class, 'tcb_user_id', 'usr_id');
 }
+public function teacher()
+{
+    return $this->hasOne(Teacher::class, 'tcr_user_id', 'usr_id');
+}
+
 
 }

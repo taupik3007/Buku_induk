@@ -46,28 +46,28 @@
                             <tr>
                                 <th width="10%">No</th>
                                 <th>Nama Guru</th>
-                                <th>Jurusan</th>
+                                <th>Jabatan</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($teachers as $no => $teacher)
+                            @foreach ($teacher as $no => $teacher)
                             <tr>
                                 <td>{{ $no + 1 }}</td>
-                                <td>{{ $teacher->tch_name }}</td>
-                                <td>{{ $teacher->major->mjr_name ?? '-' }}</td>
+                                <td>{{ $teacher->usr_name }}</td>
+                                <td>{{$teacher->teacher->teacherEmployee->tce_position}}</td>
                                 <td>
-                                    <a href="/administration/teachers/{{ $teacher->tch_id }}/edit" class="btn btn-primary">Edit</a>
-                                    <a href="/administration/teachers/{{ $teacher->tch_id }}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                                    <a href="/administration/teacher/{{ $teacher->usr_id }}/show" class="btn btn-primary">detail</a>
+                                    
                                 </td>
                             </tr>
-                            @endforeach --}}
+                            @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th width="10%">No</th>
                                 <th>Nama Guru</th>
-                                <th>Jurusan</th>
+                                <th>Jabatan</th>
                                 <th>Aksi</th>
                             </tr>
                         </tfoot>
