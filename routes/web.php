@@ -16,6 +16,10 @@ use App\Http\Controllers\Administration\TeacherReceptionController;
 use App\Http\Controllers\Administration\TeacherRequirementController;
 use App\Http\Controllers\Administration\ClassAssignmentController;
 use App\Http\Controllers\Administration\SubjectController;
+use App\Http\Controllers\Administration\TeacherController;
+use App\Http\Controllers\Administration\EmployeeController;
+
+
 
 use App\Http\Controllers\RegionController;
 use App\Models\TeacherRequirement;
@@ -145,6 +149,16 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::post('/create', [SubjectController::class, 'store'])->name('store');
         Route::get('/{id}/edit', [SubjectController::class, 'edit'])->name('edit');
         Route::post('/{id}/edit', [SubjectController::class, 'update'])->name('update');
+    });
+    Route::prefix('teacher')->name('teacher.')->group(function () {
+        Route::get('/', [TeacherController::class, 'index'])->name('index');
+        Route::get('/{id}/show', [TeacherController::class, 'show'])->name('show');
+       
+    });
+    Route::prefix('employee')->name('employee.')->group(function () {
+        Route::get('/', [EmployeeController::class, 'index'])->name('index');
+        Route::get('/create', [SubjectController::class, 'create'])->name('create');
+       
     });
 
 

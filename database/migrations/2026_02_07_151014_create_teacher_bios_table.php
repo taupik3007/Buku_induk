@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('teacher_bios', function (Blueprint $table) {
             $table->bigIncrements('tcb_id');
-            $table->unsignedBigInteger('tcb_user_id');
-            $table->foreign('tcb_user_id')->references('usr_id')->on('users')->onDelete('cascade');
-            $table->string('tcb_user_name');
+            $table->unsignedBigInteger('tcb_teacher_id');
+            $table->foreign('tcb_teacher_id')->references('tcr_id')->on('teachers')->onDelete('cascade');
             $table->string('tcb_birth_place');
             $table->date('tcb_birth_date');
-            $table->string('tcb_religion');
+            $table->unsignedBigInteger('tcb_religion_id');
+            $table->foreign('tcb_religion_id')->references('rlg_id')->on('religions')->onDelete('cascade');
             $table->bigInteger('tcb_mary_status');
+            $table->bigInteger('tcb_gender');
             $table->bigInteger('tcb_telp');
             $table->timestamps();
             $table->renameColumn('updated_at', 'tcb_updated_at');
