@@ -142,7 +142,9 @@ Route::prefix('administration')->name('administration.')->group(function () {
     Route::prefix('subject')->name('subject.')->group(function () {
         Route::get('/', [SubjectController::class, 'index'])->name('index');
         Route::get('/create', [SubjectController::class, 'create'])->name('create');
-       
+        Route::post('/create', [SubjectController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [SubjectController::class, 'edit'])->name('edit');
+        Route::post('/{id}/edit', [SubjectController::class, 'update'])->name('update');
     });
 
 

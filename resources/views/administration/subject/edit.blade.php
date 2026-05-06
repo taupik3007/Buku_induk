@@ -37,7 +37,7 @@
 
                 <div class="mb-3">
                     <label for="sbj_name" class="form-label">Nama Mata Pelajaran</label>
-                    <input type="text" class="form-control" id="sbj_name" name="sbj_name" placeholder="Contoh: Matematika">
+                    <input type="text" class="form-control" value="{{$edit_subject->sbj_name}}" id="sbj_name" name="sbj_name" placeholder="Contoh: Matematika">
                 </div>
 
                 <div class="mb-3">

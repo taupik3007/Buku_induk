@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Administration;
 
 use App\Http\Controllers\Controller;
+use App\Models\Majors;
+use App\Models\Subject;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SubjectController extends Controller
 {
@@ -12,7 +15,8 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        return view('administration.subject.index');
+        $subjects = Subject::with('major')->get();
+        return view('administration.subject.index', compact('subjects'));
     }
 
     /**
@@ -20,7 +24,8 @@ class SubjectController extends Controller
      */
     public function create()
     {
-        return view('administration.subject.create');
+        $majors = Majors::all();
+        return view('administration.subject.create', compact('majors'));
         
     }
 
@@ -29,7 +34,15 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request);
+        $create_subject = Subject::create([
+            'sbj_name' => $request->sbj_name,
+            'sbj_code' => $request->sbj_code,
+            'sbj_level' => $request->sbj_level,
+            'sbj_major_id' => $request->sbj_major_id,
+        ]); 
+        Alert::success('Berhasil Menambah', 'Berhasil menambah data jurusan');
+        return redirect('/administration/subject');
     }
 
     /**
@@ -45,7 +58,9 @@ class SubjectController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $edit_subject = Subject::findOrFail($id);
+        $majors = Majors::all();
+        return view('administration.subject.edit', compact(['edit_subject', 'majors']));
     }
 
     /**
