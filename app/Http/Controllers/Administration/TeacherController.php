@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Administration;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\user;
+use App\Models\Teacher;
+
 
 class TeacherController extends Controller
 {
@@ -37,9 +39,11 @@ class TeacherController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show()
-    {
-        return view('administration.teacher.show');
+    public function show($id)
+    {   
+        $teacher = Teacher::where('tcr_user_id',$id)->first();
+        // dd($teacher->teacherBio);
+        return view('administration.teacher.show',compact('teacher'));
         
     }
 

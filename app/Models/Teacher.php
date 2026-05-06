@@ -20,4 +20,12 @@ class Teacher extends Model
 {
     return $this->hasOne(Teacher_Employee::class, 'tce_teacher_id', 'tcr_id');
 }
+public function teacherBio()
+{
+    return $this->hasOne(Teacher_Bio::class, 'tcb_teacher_id', 'tcr_id');
+}
+public function user()
+{
+    return $this->hasOne(User::class, 'usr_id','tcr_user_id');
+}
 }

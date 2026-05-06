@@ -26,6 +26,10 @@ class Teacher_Bio extends Model
     {
         return $this->hasOne(Teacher_Partner::class, 'tcp_id');
     }
+    public function religion()
+    {
+        return $this->hasOne(Religion::class, 'rlg_id','tcb_religion_id');
+    }
 
     public function history()
     {

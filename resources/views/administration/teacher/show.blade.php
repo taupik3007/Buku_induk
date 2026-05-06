@@ -46,6 +46,9 @@
                             <span class="badge bg-primary-subtle text-primary">
                                 NIP: 198504152010011005
                             </span>
+                            <span class="badge bg-info-subtle text-primary">
+                                GTK : {{ $teacher->tcr_gtk }}
+                            </span>
                             <span class="badge bg-success-subtle text-success">Aktif</span>
                         </div>
                     </div>
@@ -75,7 +78,7 @@
                             <tbody>
                                 <tr>
                                     <td class="text-muted ps-0" style="width:45%">NUPTK</td>
-                                    {{-- <td class="fw-medium">{{ $guru->nuptk ?? '-' }}</td> --}}
+                                    <td class="fw-medium">{{ $teacher->tcr_nuptk ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">NIK</td>
@@ -83,27 +86,31 @@
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Tempat Lahir</td>
-                                    {{-- <td class="fw-medium">{{ $guru->tempat_lahir ?? '-' }}</td> --}}
+                                    <td class="fw-medium">{{ $teacher->teacherBio->tcb_birth_place ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Tanggal Lahir</td>
                                     <td class="fw-medium">
-                                        {{-- {{ $guru->tanggal_lahir ? \Carbon\Carbon::parse($guru->tanggal_lahir)->translatedFormat('d F Y') : '-' }} --}}
+                                        {{ $teacher->teacherBio->tcb_birth_date
+                                            ? \Carbon\Carbon::parse($teacher->teacherBio->tcb_birth_date)->locale('id')->translatedFormat('d F Y')
+                                            : '-' }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Jenis Kelamin</td>
                                     <td class="fw-medium">
-                                        {{-- {{ $guru->jenis_kelamin == 'L' ? 'Laki-laki' : ($guru->jenis_kelamin == 'P' ? 'Perempuan' : '-') }} --}}
+                                        {{ $teacher->teacherBio->tcb_gender == 1 ? 'Laki-laki' : ($teacher->teacherBio->tcb_gender == 2 ? 'Perempuan' : '-') }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Agama</td>
-                                    {{-- <td class="fw-medium">{{ $guru->agama ?? '-' }}</td> --}}
+                                    <td class="fw-medium">{{ $teacher->teacherBio->religion->rlg_name ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Status Nikah</td>
-                                    {{-- <td class="fw-medium">{{ $guru->status_nikah ?? '-' }}</td> --}}
+                                    <td class="fw-medium">
+                                        {{ $teacher->teacherBio->tcb_mary_status == 1 ? 'Sudah Menikah' : 'Belum Menikah' }}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -125,43 +132,38 @@
                             <tbody>
                                 <tr>
                                     <td class="text-muted ps-0" style="width:45%">Alamat</td>
-                                    {{-- <td class="fw-medium">{{ $guru->alamat ?? '-' }}</td> --}}
-                                </tr>
-                                <tr>
-                                    <td class="text-muted ps-0">RT</td>
-                                    {{-- <td class="fw-medium">{{ $guru->rt ?? '-' }}</td> --}}
-                                </tr>
-                                <tr>
-                                    <td class="text-muted ps-0">RW</td>
-                                    {{-- <td class="fw-medium">{{ $guru->rw ?? '-' }}</td> --}}
+                                    <td class="fw-medium">{{ $teacher->user->address->adr_detail ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Desa / Kelurahan</td>
-                                    {{-- <td class="fw-medium">{{ $guru->kelurahan ?? '-' }}</td> --}}
+                                    <td class="fw-medium">{{ $teacher->user->address->adr_village_value ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Kecamatan</td>
-                                    {{-- <td class="fw-medium">{{ $guru->kecamatan ?? '-' }}</td> --}}
+                                    <td class="fw-medium">{{ $teacher->user->address->adr_district_value ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Kabupaten</td>
-                                    {{-- <td class="fw-medium">{{ $guru->kabupaten ?? '-' }}</td> --}}
+                                    <td class="fw-medium">{{ $teacher->user->address->adr_regency_value ?? '-' }}</td>
+
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Provinsi</td>
-                                    {{-- <td class="fw-medium">{{ $guru->provinsi ?? '-' }}</td> --}}
+                                    <td class="fw-medium">{{ $teacher->user->address->adr_province_value ?? '-' }}</td>
+
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Kode Pos</td>
-                                    {{-- <td class="fw-medium">{{ $guru->kode_pos ?? '-' }}</td> --}}
+                                    <td class="fw-medium">{{ $teacher->user->address->adr_postal_code ?? '-' }}</td>
+
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">No. Telp / HP</td>
-                                    {{-- <td class="fw-medium">{{ $guru->no_telp ?? '-' }}</td> --}}
+                                    <td class="fw-medium">{{ $teacher->teacherBio->tcb_telp ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Email</td>
-                                    {{-- <td class="fw-medium">{{ $guru->email ?? '-' }}</td> --}}
+                                    <td class="fw-medium">{{ $teacher->user->email ?? '-' }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -379,39 +381,39 @@
                 </div>
             </div>
             <div class="col-md-6 mb-4">
-    <div class="card h-100">
-        <div class="card-body">
-            <h6 class="card-title text-uppercase text-muted fw-semibold mb-3"
-                style="font-size:11px;letter-spacing:.06em;">
-                Sertifikasi
-            </h6>
-            <table class="table table-sm table-borderless mb-0">
-                <tbody>
-                    <tr>
-                        <td class="text-muted ps-0" style="width:45%">Sudah / Belum</td>
-                        {{-- <td class="fw-medium">{{ $guru->sertifikasi ?? '-' }}</td> --}}
-                    </tr>
-                    <tr>
-                        <td class="text-muted ps-0">Tahun</td>
-                        {{-- <td class="fw-medium">{{ $guru->thn_sertifikasi ?? '-' }}</td> --}}
-                    </tr>
-                    <tr>
-                        <td class="text-muted ps-0">No. Sertifikat</td>
-                        {{-- <td class="fw-medium">{{ $guru->no_sertifikat ?? '-' }}</td> --}}
-                    </tr>
-                    <tr>
-                        <td class="text-muted ps-0">Kode Bidang Studi</td>
-                        {{-- <td class="fw-medium">{{ $guru->kode_bidang_studi ?? '-' }}</td> --}}
-                    </tr>
-                    <tr>
-                        <td class="text-muted ps-0">Penyelenggara</td>
-                        {{-- <td class="fw-medium">{{ $guru->penyelenggara ?? '-' }}</td> --}}
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h6 class="card-title text-uppercase text-muted fw-semibold mb-3"
+                            style="font-size:11px;letter-spacing:.06em;">
+                            Sertifikasi
+                        </h6>
+                        <table class="table table-sm table-borderless mb-0">
+                            <tbody>
+                                <tr>
+                                    <td class="text-muted ps-0" style="width:45%">Sudah / Belum</td>
+                                    {{-- <td class="fw-medium">{{ $guru->sertifikasi ?? '-' }}</td> --}}
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Tahun</td>
+                                    {{-- <td class="fw-medium">{{ $guru->thn_sertifikasi ?? '-' }}</td> --}}
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">No. Sertifikat</td>
+                                    {{-- <td class="fw-medium">{{ $guru->no_sertifikat ?? '-' }}</td> --}}
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Kode Bidang Studi</td>
+                                    {{-- <td class="fw-medium">{{ $guru->kode_bidang_studi ?? '-' }}</td> --}}
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Penyelenggara</td>
+                                    {{-- <td class="fw-medium">{{ $guru->penyelenggara ?? '-' }}</td> --}}
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
