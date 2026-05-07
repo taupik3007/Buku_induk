@@ -183,19 +183,22 @@
                             <tbody>
                                 <tr>
                                     <td class="text-muted ps-0" style="width:45%">Nama Suami / Isteri</td>
-                                    {{-- <td class="fw-medium">{{ $guru->nama_pasangan ?? '-' }}</td> --}}
+                                    <td class="fw-medium">{{ $teacher->teacherPartner->tcp_name ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">NIK</td>
-                                    {{-- <td class="fw-medium">{{ $guru->nik_pasangan ?? '-' }}</td> --}}
+                                    <td class="fw-medium">{{ $teacher->teacherPartner->tcp_nik ?? '-' }}</td>
+
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Pekerjaan</td>
-                                    {{-- <td class="fw-medium">{{ $guru->pekerjaan_pasangan ?? '-' }}</td> --}}
+                                    <td class="fw-medium">{{ $teacher->teacherPartner->tcp_work ?? '-' }}</td>
+
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">NIP</td>
-                                    {{-- <td class="fw-medium">{{ $guru->nip_pasangan ?? '-' }}</td> --}}
+                                    <td class="fw-medium">{{ $teacher->teacherPartner->tcp_nip ?? '-' }}</td>
+
                                 </tr>
                             </tbody>
                         </table>
@@ -214,33 +217,32 @@
                             <tbody>
                                 <tr>
                                     <td class="text-muted ps-0" style="width:45%">TMT</td>
-                                    {{-- <td class="fw-medium">
-                                        {{ $guru->tmt ? \Carbon\Carbon::parse($guru->tmt)->translatedFormat('d F Y') : '-' }}
-                                    </td> --}}
+                                    <td class="fw-medium">{{ $teacher->teacherEmployee->tce_tmt ?? '-' }}</td>
+                                    
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">No. SK</td>
-                                    {{-- <td class="fw-medium">{{ $guru->no_sk ?? '-' }}</td> --}}
+                                    <td class="fw-medium">{{ $teacher->teacherEmployee->tce_no_sk ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Durasi</td>
-                                    {{-- <td class="fw-medium">{{ $guru->durasi ?? '-' }}</td> --}}
+                                    <td class="fw-medium">{{ $teacher->teacherEmployee->tce_duration ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Masa Kerja</td>
-                                    {{-- <td class="fw-medium">{{ $guru->masa_kerja ?? '-' }}</td> --}}
+                                    <td class="fw-medium">{{ $teacher->teacherEmployee->tce_length_service ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Status</td>
-                                    {{-- <td class="fw-medium">{{ $guru->status ?? '-' }}</td> --}}
+                                    <td class="fw-medium">{{ $teacher->teacherEmployee->tce_status ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Jabatan</td>
-                                    {{-- <td class="fw-medium">{{ $guru->jabatan ?? '-' }}</td> --}}
+                                    <td class="fw-medium">{{ $teacher->teacherEmployee->tce_position ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Inpassing</td>
-                                    {{-- <td class="fw-medium">{{ $guru->inpassing ?? '-' }}</td> --}}
+                                    <td class="fw-medium">{{ $teacher->teacherEmployee->tce_inpasign ?? '-' }}</td>
                                 </tr>
                             </tbody>
                         </table>

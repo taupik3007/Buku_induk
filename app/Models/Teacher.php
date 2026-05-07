@@ -28,4 +28,8 @@ public function user()
 {
     return $this->hasOne(User::class, 'usr_id','tcr_user_id');
 }
+public function teacherPartner()
+{
+    return $this->hasOne(Teacher_Partner::class, 'tcp_teacher_id','tcr_id');
+}
 }

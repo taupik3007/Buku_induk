@@ -15,10 +15,10 @@ return new class extends Migration
             $table->bigIncrements('tcp_id');
             $table->unsignedBigInteger('tcp_teacher_id');
             $table->foreign('tcp_teacher_id')->references('tcr_id')->on('teachers')->onDelete('cascade');
-            $table->string('tcp_name');
-            $table->bigInteger('tcp_nik');
-            $table->string('tcp_work');
-            $table->bigInteger('tcp_nip');
+            $table->string('tcp_name')->nullable();
+            $table->bigInteger('tcp_nik')->nullable();
+            $table->string('tcp_work')->nullable();
+            $table->bigInteger('tcp_nip')->nullable();
             $table->timestamps();
             $table->renameColumn('updated_at', 'tcp_updated_at');
             $table->renameColumn('created_at', 'tcp_created_at');
