@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('certifications', function (Blueprint $table) {
             $table->bigIncrements('cft_id');
+            $table->unsignedBigInteger('cft_teacher_id');
+            $table->foreign('cft_teacher_id')->references('tcr_id')->on('teachers')->onDelete('cascade');
             $table->bigInteger('cft_certificate');
             $table->string('cft_status');
             $table->year('cft_year');

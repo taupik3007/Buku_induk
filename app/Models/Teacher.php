@@ -32,4 +32,12 @@ public function teacherPartner()
 {
     return $this->hasOne(Teacher_Partner::class, 'tcp_teacher_id','tcr_id');
 }
+public function teacherEducation()
+{
+    return $this->hasMany(TeacherEducation::class, 'tce_teacher_id','tcr_id');
+}
+public function certification()
+{
+    return $this->hasOne(Certification::class, 'cft_teacher_id','tcr_id');
+}
 }

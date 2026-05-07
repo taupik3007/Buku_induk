@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('teacher_education', function (Blueprint $table) {
             $table->bigIncrements('tce_id');
-            $table->unsignedBigInteger('tce_bio_id');
-            $table->foreign('tce_bio_id')->references('tcb_id')->on('teacher_bios')->onDelete('cascade');
+            $table->unsignedBigInteger('tce_teacher_id');
+            $table->foreign('tce_teacher_id')->references('tcr_id')->on('teachers')->onDelete('cascade');
             $table->string('tce_level');          
             $table->string('tce_institution');    
             $table->year('tce_graduation_year'); 

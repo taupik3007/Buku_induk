@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('teach_histories', function (Blueprint $table) {
             $table->bigIncrements('tcs_id');
-            $table->unsignedBigInteger('tcs_bio_id');
-            $table->foreign('tcs_bio_id')->references('tcb_id')->on('teacher_bios')->onDelete('cascade');
+            $table->unsignedBigInteger('tcs_teacher_id');
+            $table->foreign('tcs_teacher_id')->references('tcr_id')->on('teachers')->onDelete('cascade');
             $table->string('tcs_subject_name');
             $table->string('tcs_name_school');
             $table->string('tcs_class');
