@@ -16,6 +16,9 @@ class SubjectController extends Controller
     public function index()
     {
         $subjects = Subject::with('major')->get();
+        $title = 'Hapus Mata Pelajaran!';
+        $text = "Apakah Anda yakin ingin menghapus?";
+        confirmDelete($title, $text);
         return view('administration.subject.index', compact('subjects'));
     }
 
@@ -41,7 +44,7 @@ class SubjectController extends Controller
             'sbj_level' => $request->sbj_level,
             'sbj_major_id' => $request->sbj_major_id,
         ]); 
-        Alert::success('Berhasil Menambah', 'Berhasil menambah data jurusan');
+        Alert::success('Berhasil Menambah', 'Berhasil menambah data mata pelajaran');
         return redirect('/administration/subject');
     }
 
@@ -68,7 +71,16 @@ class SubjectController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // dd($request);
+        $update_subject =Subject::findOrFail($id); 
+        $update_subject->sbj_name = $request->sbj_name;
+        $update_subject->sbj_code = $request->sbj_code;
+        $update_subject->sbj_level = $request->sbj_level;
+        $update_subject->sbj_major_id = $request->sbj_major_id;
+        $update_subject->save();
+
+        Alert::success('Berhasil Mengedit', 'Berhasil mengubah data mata pelajaran');
+        return redirect('/administration/subject');
     }
 
     /**
@@ -76,6 +88,10 @@ class SubjectController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $destroy_subject = Subject::findOrFail($id);
+        //dd ($destroyScopeCategories);
+        $destroy_subject->delete();
+        Alert::success('Berhasil Menghapus', 'Berhasil menghapus data mata pelajaran');
+        return redirect('/administration/subject');
     }
 }
