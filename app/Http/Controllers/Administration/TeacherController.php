@@ -42,7 +42,7 @@ class TeacherController extends Controller
     public function show($id)
     {   
         $teacher = Teacher::where('tcr_user_id',$id)->first();
-        // dd($teacher->teacherBio);
+        // dd($teacher->certification);
         return view('administration.teacher.show',compact('teacher'));
         
     }

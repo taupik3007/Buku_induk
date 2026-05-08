@@ -17,8 +17,8 @@ class Teacher_Partner extends Model
     const UPDATED_AT = 'tcp_updated_at';
     const DELETED_AT = 'tcp_deleted_at';
 
-    public function bio()
+    public function teacher()
     {
-        return $this->belongsTo(Teacher_Bio::class, 'tcp_bio_id', 'tcb_id');
+        return $this->belongsTo(Teacher_Bio::class, 'tcp_teacher_id', 'tcr_id');
     }
 }
