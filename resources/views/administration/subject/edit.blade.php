@@ -42,7 +42,7 @@
 
                 <div class="mb-3">
                     <label for="sbj_code" class="form-label">Kode Mata Pelajaran</label>
-                    <input type="text" class="form-control" id="sbj_code" name="sbj_code" placeholder="Contoh: MTK">
+                    <input type="text" class="form-control" value="{{$edit_subject->sbj_code}}" id="sbj_code" name="sbj_code" placeholder="Contoh: MTK">
                 </div>
 
                 <div class="mb-3">
@@ -52,9 +52,9 @@
                             oninvalid="this.setCustomValidity('Tingkatan Wajib Diisi')"
                             onchange="this.setCustomValidity('')" required>
                             <option selected value="" >Pilih Level/Tingkatan...</option>
-                            <option value="10">X</option>
-                            <option value="11">XI</option>
-                            <option value="12">XII</option>
+                            <option value="10" {{ $edit_subject->sbj_level == '10' ? 'selected' : '' }}>X</option>
+                            <option value="11" {{ $edit_subject->sbj_level == '11' ? 'selected' : '' }}>XI</option>
+                            <option value="12" {{ $edit_subject->sbj_level == '12' ? 'selected' : '' }}>XII</option>
                         </select>
                     {{-- </div> --}}
                     @error('sbj_level')
@@ -69,7 +69,8 @@
                             onchange="this.setCustomValidity('')" required>
                             <option selected value="">Pilih Jurusan...</option>
                             @foreach ($majors as $major)
-                                <option value="{{ $major->mjr_id }}">{{ $major->mjr_abbr }} - {{ $major->mjr_name }}</option>
+                                <option value="{{ $major->mjr_id }}" {{ $edit_subject->sbj_major_id == $major->mjr_id ? 'selected' : '' }}>
+                                    {{ $major->mjr_abbr }} - {{ $major->mjr_name }}</option>
                             @endforeach
                         </select>
                     {{-- </div> --}}

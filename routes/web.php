@@ -149,6 +149,7 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::post('/create', [SubjectController::class, 'store'])->name('store');
         Route::get('/{id}/edit', [SubjectController::class, 'edit'])->name('edit');
         Route::post('/{id}/edit', [SubjectController::class, 'update'])->name('update');
+        Route::delete('/{id}/destroy', [SubjectController::class, 'destroy'])->name('destroy');
     });
     Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::get('/', [TeacherController::class, 'index'])->name('index');
