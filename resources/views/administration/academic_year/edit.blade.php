@@ -53,7 +53,7 @@
                           @foreach ($years as $year)
         <option value="{{ $year }}"
             {{ $edit_academic->acy_year == $year ? 'selected' : '' }}>
-            {{ $year }}
+            {{ $year }}/{{ $year + 1 }}
         </option>
     @endforeach
                           </select>

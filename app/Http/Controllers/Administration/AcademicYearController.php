@@ -69,7 +69,7 @@ class AcademicYearController extends Controller
         ]);
     
         Alert::success('Berhasil Menambah', 'Berhasil menambah data tahun ajaran');
-        return redirect('/administration/academic_years');
+        return redirect('/administration/academic-years');
     }
 
     /**
@@ -117,7 +117,7 @@ class AcademicYearController extends Controller
         ]);
     
         Alert::success('Berhasil Update', 'Data tahun ajaran berhasil diperbarui');
-        return redirect('/administration/academic_years');
+        return redirect('/administration/academic-years');
     }
 
     /**
@@ -131,7 +131,7 @@ class AcademicYearController extends Controller
     if ($destroyAcademic->acy_status == 1) {
 
         Alert::error('Gagal', 'Tahun ajaran masih aktif');
-        return redirect('/administration/academic_years');
+        return redirect('/administration/academic-years');
     }
 
     // Kalau status 0 → boleh hapus
@@ -139,6 +139,6 @@ class AcademicYearController extends Controller
 
     Alert::success('Berhasil', 'Tahun ajaran berhasil dihapus');
 
-    return redirect('/administration/academic_years');
+    return redirect('/administration/academic-years');
     }
 }

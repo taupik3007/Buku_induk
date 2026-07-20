@@ -22,7 +22,12 @@ use App\Http\Controllers\Administration\EmployeeController;
 
 
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\Teacher\ProfileController as TeacherProfileController;
+use App\Http\Controllers\Teacher\prospectiveTeacherController as TeacherProspectiveTeacherController;
+use App\Http\Controllers\Teacher\WaitingController;
+use App\Models\Teacher_Bio;
 use App\Models\TeacherRequirement;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -30,9 +35,58 @@ Route::get('/', function () {
 });
 
 
-Route::get('/dashboard', [AdministrationDashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::get('/dashboard', function () {
+
+    $user = Auth::user();
+
+    if($user->hasRole('administration')){
+        return redirect()->route('administration.dashboard');
+    }
+
+    if($user->hasRole('student')){
+        return redirect()->route('student.dashboard.index');
+    }
+
+    if($user->hasRole('teacher')){
+        return redirect()->route('teacher.dashboard.index');
+
+        // $biodata = Teacher_Bio::where(
+        //     'tcb_teacher_id',
+        //     $user->usr_id
+        // )->first();
+
+        // Belum pernah isi biodata
+        // if(!$biodata){
+        //     return redirect()->route('teacher.prospectiveTeacher.biodata');
+        // }
+
+        // Sudah kirim lamaran
+        // if($biodata->tcb_status == 'pending'){
+        //     return redirect()->route('teacher.prospectiveTeacher.waiting');
+        // }
+
+        // Diminta revisi
+        // if($biodata->tcb_status == 'revision'){
+        //     return redirect()->route('teacher.prospectiveTeacher.edit');
+        // }
+
+        // Diterima
+        // if($biodata->tcb_status == 'accepted'){
+        //     return redirect()->route('teacher.dashboard.index');
+        // }
+
+        // Ditolak
+        // if($biodata->tcb_status == 'rejected'){
+        //     return redirect()->route('teacher.prospectiveTeacher.waiting');
+        // }
+
+        // Masih draft
+        // return redirect()->route('teacher.prospectiveTeacher.biodata');
+    }
+
+    abort(403);
+
+})->middleware(['auth'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -189,8 +243,41 @@ Route::prefix('student')->name('student.')->group(function () {
 });
 
 Route::prefix('teacher')->name('teacher.')->group(function () {
+    Route::get('/profile', [TeacherProfileController::class, 'index'])->name('teacher.profile');
+    Route::post('/profile/photo', [TeacherProfileController::class, 'updatePhoto'])->name('teacher.profile.photo');
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::get('/', [TeacherDashboardController::class, 'index'])->name('index');
+    });
+     Route::prefix('prospective-teacher')->name('prospectiveTeacher.')->group(function () {
+        Route::get('/biodata', [prospectiveTeacherController::class, 'biodata'])->name('biodata');
+        Route::post('/biodata', [prospectiveTeacherController::class,'store_biodata'])->name('store_biodata');
+        Route::get('/address', [prospectiveTeacherController::class, 'address'])->name('address');
+        Route::post('/address', [prospectiveTeacherController::class,'store_address'])->name('store_address'); 
+        Route::get('/partners', [prospectiveTeacherController::class, 'partner'])->name('partner');
+        Route::post('/partners', [prospectiveTeacherController::class,'store_partner'])->name('store_partner');
+        Route::get('/teach_history', [prospectiveTeacherController::class, 'history'])->name('history');
+        Route::post('/teach_history', [prospectiveTeacherController::class,'store_history'])->name('store_history');
+        Route::get('/education', [prospectiveTeacherController::class, 'education'])->name('education');
+        Route::post('/education', [prospectiveTeacherController::class,'store_education'])->name('store_education'); 
+        Route::post('/finish', [prospectiveTeacherController::class,'finish'])->name('finish');    
+        // Route::post('/finish', function () {
+        //     dd('MASUK ROUTE');
+        // })->name('finish');  
+        // Route::post('/finish', function () {
+        //     return response()->json([
+        //         'success' => true,
+        //         'redirect' => '/abc'
+        //     ]);
+        // })->name('finish');      
+              
+        Route::get('/physical-condition', [prospectiveTeacherController::class, 'physicalCondition'])->name('physicalCondition');
+        Route::get('/parent-father', [prospectiveTeacherController::class, 'parentFather'])->name('parentFather');
+        Route::get('/parent-mother', [prospectiveTeacherController::class, 'parentMother'])->name('parentMother');
+        Route::get('/parent-guardian', [prospectiveTeacherController::class, 'parentGuardian'])->name('parentGuardian');
+        Route::get('/waiting', [WaitingController::class, 'waiting'])->name('waiting');
+        Route::get('/preview',[WaitingController::class, 'preview'])->name('preview');
+        Route::get('/cv/download/{type}', [TeacherProspectiveTeacherController::class, 'download'])->name('cv.download');
+        Route::get('/teacher/cv/{type}', [TeacherProspectiveTeacherController::class, 'download'])->name('teacher.cv.download');
     });
 
 });

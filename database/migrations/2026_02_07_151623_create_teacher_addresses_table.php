@@ -14,8 +14,8 @@ return new class extends Migration
     {
         Schema::create('teacher_addresses', function (Blueprint $table) {
             $table->bigIncrements('tca_id');
-            $table->unsignedBigInteger('tca_bio_id');
-            $table->foreign('tca_bio_id')->references('tcb_id')->on('teacher_bios')->onDelete('cascade');
+            $table->unsignedBigInteger('tca_teacher_id');
+            $table->foreign('tca_teacher_id')->references('tcr_id')->on('teachers')->onDelete('cascade');
             $table->string('tca_detail');
             $table->string('tca_province');
             $table->string('tca_province_value');

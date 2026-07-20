@@ -73,7 +73,7 @@
                                                 <div id="step-1" class="content">
                                                         <div class="form-group mb-2">
                                                             <label class="form-">Nama</label>
-                                                            <input type="text" name="tcb_user_name" class="form-control" id="tcb_user_name" value="{{ old('tcb_user_name', $biodata->tcb_user_name ?? $user->usr_name) }}" 
+                                                            <input type="text" name="usr_name" class="form-control" id="usr_name"  value="{{ old('usr_name', $user->usr_name) }}" 
                                                             readonly aria-describedby="nama" placeholder="Nama">
                                                         </div>
                                                         <div class="form-group mb-2">
@@ -97,11 +97,20 @@
                                                             </select>
                                                         </div>
                                                         <div class="form-group mb-2">
+                                                            <label class="form-" for="inlineFormCustomSelect">Jenis Kelamin</label>
+                                                            <select name="tcb_gender" class="form-select mr-sm-2" id="tcb_gender">
+                                                                <option selected>Pilih</option>
+                                                                <option value="1" {{ old('tcb_gender', $biodata->tcb_gender ?? '') == '1' ? 'selected' : '' }} >Laki-Laki</option>
+                                                                <option value="0" {{ old('tcb_gender', $biodata->tcb_gender ?? '') == '0' ? 'selected' : '' }} >Perempuan</option>
+                                                    
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group mb-2">
                                                             <label class="form-" for="inlineFormCustomSelect">Menikah</label>
                                                             <select name="tcb_mary_status" class="form-select mr-sm-2" id="tcb_mary_status">
                                                                 <option selected>Pilih</option>
                                                                 <option value="1" {{ old('tcb_mary_status', $biodata->tcb_mary_status ?? '') == '1' ? 'selected' : '' }} >Sudah</option>
-                                                                <option value="0" {{ old('tcb_mary_status', $biodata->tcb_mary_status ?? '') == '0' ? 'selected' : '' }} >belum</option>
+                                                                <option value="0" {{ old('tcb_mary_status', $biodata->tcb_mary_status ?? '') == '0' ? 'selected' : '' }} >Belum</option>
                                                     
                                                             </select>
                                                         </div>
@@ -187,37 +196,44 @@
                                                        Kembali
                                                    </button>
                                                 </div>
-                                                <div id="step-4" class="content">
+                                                {{-- <div id="step-4" class="content">
+                                                    <div id="historyeducation-wrapper">
                                                 
+                                                        <!-- FORM PERTAMA -->
+                                                        <div class="historyeducation-item border p-3 mb-2 rounded">
+                                                            
                                                         <div class="form-group mb-2">
                                                             <label class="form-">Nama Mapel</label>
-                                                            <input type="text" class="form-control" name="tcs_subject_name" id="tcs_subject_name" value="{{ old('tcs_subject_name', $history->tcs_subject_name ?? '') }}" aria-describedby="nama" placeholder="Nama">
+                                                            <input type="text" class="form-control" name="tcs_subject_name[]" id="tcs_subject_name" value="{{ old('tcs_subject_name', $history->tcs_subject_name ?? '') }}" aria-describedby="nama" placeholder="Nama">
                                                         </div>
                                                         <div class="form-group mb-2">
                                                             <label class="form-">Nama Sekolah</label>
-                                                            <input type="text" class="form-control" name="tcs_name_school" id="tcs_name_school" value="{{ old('tcs_name_school', $history->tcs_name_school ?? '') }}" aria-describedby="nama" placeholder="Nama Sekolah">
+                                                            <input type="text" class="form-control" name="tcs_name_school[]" id="tcs_name_school" value="{{ old('tcs_name_school', $history->tcs_name_school ?? '') }}" aria-describedby="nama" placeholder="Nama Sekolah">
                                                         </div>
                                                         <div class="form-group mb-2">
                                                             <label class="form-">Kelas</label>
-                                                            <input type="number" class="form-control" name="tcs_class" id="tcs_class" value="{{ old('tcs_class', $history->tcs_class ?? '') }}" aria-describedby="nama" placeholder="Kelas">
+                                                            <input type="number" class="form-control" name="tcs_class[]" id="tcs_class" value="{{ old('tcs_class', $history->tcs_class ?? '') }}" aria-describedby="nama" placeholder="Kelas">
                                                         </div>
                                                         <div class="form-group mb-2">
                                                             <label class="form-">Jumlah Jam</label>
-                                                            <input type="number" class="form-control" name="tcs_jp" id="tcs_jp" value="{{ old('tcs_jp', $history->tcs_jp ?? '') }}" aria-describedby="nama" placeholder="Jumlah Jam">
+                                                            <input type="number" class="form-control" name="tcs_jp[]" id="tcs_jp" value="{{ old('tcs_jp', $history->tcs_jp ?? '') }}" aria-describedby="nama" placeholder="Jumlah Jam">
                                                         </div>
                                                         <div class="form-group mb-2">
                                                             <label class="form-">Tahun</label>
-                                                            <input type="number" class="form-control" name="tcs_year" id="tcs_year" value="{{ old('tcs_year', $history->tcs_year ?? '') }}" aria-describedby="nama" placeholder="Tahun">
+                                                            <input type="number" class="form-control" name="tcs_year[]" id="tcs_year" value="{{ old('tcs_year', $history->tcs_year ?? '') }}" aria-describedby="nama" placeholder="Tahun">
                                                         </div>
                                                         <div class="form-group mb-2">
                                                             <label class="form-" for="inlineFormCustomSelect">Status</label>
-                                                            <select class="form-select mr-sm-2" name="tcs_status" id="tcs_status">
+                                                            <select class="form-select mr-sm-2" name="tcs_status[]" id="tcs_status">
                                                                 <option selected>Pilih</option>
                                                                 <option value="aktif" {{ old('tcs_status', $history->tcs_status ?? '') == 'aktif' ? 'selected' : '' }} >Aktif</option>
                                                                 <option value="nonaktif" {{ old('tcs_status', $history->tcs_status ?? '') == 'nonaktif' ? 'selected' : '' }} >Non Aktif</option>
                                                             </select>
                                                         </div>
-                                                  
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                                        <div>
                                                         <button type="button" class="btn btn-primary"
                                                         onclick="saveTeach()">
                                                            Lanjut
@@ -227,8 +243,180 @@
                                                        Kembali
                                                    </button>
                                                 </div>
+                                                <button type="button"
+                                                                id="add-historyeducation"
+                                                                class="btn btn-primary">
+                                                            + Tambah Pendidikan
+                                                        </button>
+                                                </div>
+                                                </div>
+                                            
+                                                 --}}
+                                                 <div id="step-4" class="content">
 
-                                                <div id="step-5" class="content">
+                                                    <div id="historyeducation-wrapper">
+                                                
+                                                        @forelse($history as $history)
+                                                
+                                                        <div class="historyeducation-item border p-3 mb-2 rounded">
+                                                
+                                                            @if(!$loop->first)
+                                                            <div class="text-end mb-3">
+                                                                <button type="button" class="btn btn-danger btn-sm remove-historyeducation">
+                                                                    <i class="ti ti-trash"></i> Hapus
+                                                                </button>
+                                                            </div>
+                                                            @endif
+                                                
+                                                            <div class="form-group mb-2">
+                                                                <label>Nama Mapel</label>
+                                                                <input type="text"
+                                                                    class="form-control"
+                                                                    name="tcs_subject_name[]"
+                                                                    value="{{ old('tcs_subject_name', $history->tcs_subject_name) }}"
+                                                                    placeholder="Nama Mapel">
+                                                            </div>
+                                                
+                                                            <div class="form-group mb-2">
+                                                                <label>Nama Sekolah</label>
+                                                                <input type="text"
+                                                                    class="form-control"
+                                                                    name="tcs_name_school[]"
+                                                                    value="{{ old('tcs_name_school', $history->tcs_name_school) }}"
+                                                                    placeholder="Nama Sekolah">
+                                                            </div>
+                                                
+                                                            <div class="form-group mb-2">
+                                                                <label>Kelas</label>
+                                                                <input type="number"
+                                                                    class="form-control"
+                                                                    name="tcs_class[]"
+                                                                    value="{{ old('tcs_class', $history->tcs_class) }}"
+                                                                    placeholder="Kelas">
+                                                            </div>
+                                                
+                                                            <div class="form-group mb-2">
+                                                                <label>Jumlah Jam</label>
+                                                                <input type="number"
+                                                                    class="form-control"
+                                                                    name="tcs_jp[]"
+                                                                    value="{{ old('tcs_jp', $history->tcs_jp) }}"
+                                                                    placeholder="Jumlah Jam">
+                                                            </div>
+                                                
+                                                            <div class="form-group mb-2">
+                                                                <label>Tahun</label>
+                                                                <input type="number"
+                                                                    class="form-control"
+                                                                    name="tcs_year[]"
+                                                                    value="{{ old('tcs_year', $history->tcs_year) }}"
+                                                                    placeholder="Tahun">
+                                                            </div>
+                                                
+                                                            <div class="form-group mb-2">
+                                                                <label>Status</label>
+                                                                <select class="form-select" name="tcs_status[]">
+                                                                    <option value="">Pilih</option>
+                                                                    <option value="aktif"
+                                                                        {{ old('tcs_status', $history->tcs_status) == 'aktif' ? 'selected' : '' }}>
+                                                                        Aktif
+                                                                    </option>
+                                                                    <option value="nonaktif"
+                                                                        {{ old('tcs_status', $history->tcs_status) == 'nonaktif' ? 'selected' : '' }}>
+                                                                        Non Aktif
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                
+                                                        </div>
+                                                
+                                                        @empty
+                                                
+                                                        {{-- Form pertama jika belum ada data --}}
+                                                        <div class="historyeducation-item border p-3 mb-2 rounded">
+                                                
+                                                            <div class="form-group mb-2">
+                                                                <label>Nama Mapel</label>
+                                                                <input type="text"
+                                                                    class="form-control"
+                                                                    name="tcs_subject_name[]"
+                                                                    placeholder="Nama Mapel">
+                                                            </div>
+                                                
+                                                            <div class="form-group mb-2">
+                                                                <label>Nama Sekolah</label>
+                                                                <input type="text"
+                                                                    class="form-control"
+                                                                    name="tcs_name_school[]"
+                                                                    placeholder="Nama Sekolah">
+                                                            </div>
+                                                
+                                                            <div class="form-group mb-2">
+                                                                <label>Kelas</label>
+                                                                <input type="number"
+                                                                    class="form-control"
+                                                                    name="tcs_class[]"
+                                                                    placeholder="Kelas">
+                                                            </div>
+                                                
+                                                            <div class="form-group mb-2">
+                                                                <label>Jumlah Jam</label>
+                                                                <input type="number"
+                                                                    class="form-control"
+                                                                    name="tcs_jp[]"
+                                                                    placeholder="Jumlah Jam">
+                                                            </div>
+                                                
+                                                            <div class="form-group mb-2">
+                                                                <label>Tahun</label>
+                                                                <input type="number"
+                                                                    class="form-control"
+                                                                    name="tcs_year[]"
+                                                                    placeholder="Tahun">
+                                                            </div>
+                                                
+                                                            <div class="form-group mb-2">
+                                                                <label>Status</label>
+                                                                <select class="form-select" name="tcs_status[]">
+                                                                    <option value="">Pilih</option>
+                                                                    <option value="aktif">Aktif</option>
+                                                                    <option value="nonaktif">Non Aktif</option>
+                                                                </select>
+                                                            </div>
+                                                
+                                                        </div>
+                                                
+                                                        @endforelse
+                                                
+                                                    </div>
+                                                
+                                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                                
+                                                        <div>
+                                                            <button type="button"
+                                                                class="btn btn-primary"
+                                                                onclick="saveTeach()">
+                                                                Lanjut
+                                                            </button>
+                                                
+                                                            <button type="button"
+                                                                class="btn btn-secondary"
+                                                                onclick="backFromTeach()">
+                                                                Kembali
+                                                            </button>
+                                                        </div>
+                                                
+                                                        <button type="button"
+                                                            id="add-historyeducation"
+                                                            class="btn btn-primary">
+                                                            + Tambah Pendidikan
+                                                        </button>
+                                                
+                                                    </div>
+                                                
+                                                </div>
+
+                                                {{-- <div id="step-5" class="content">
 
                                                     <!-- WRAPPER PENDIDIKAN -->
                                                     <div id="education-wrapper">
@@ -295,7 +483,192 @@
                                                     
                                                 
                                                 </div>
+                                                 --}}
+                                                 <div id="step-5" class="content">
+
+                                                    <!-- WRAPPER PENDIDIKAN -->
+                                                    <div id="education-wrapper">
                                                 
+                                                        @forelse($education as $education)
+                                                
+                                                        <div class="education-item border p-3 mb-2 rounded">
+                                                
+                                                            @if(!$loop->first)
+                                                            <div class="text-end mb-3">
+                                                                <button type="button"
+                                                                    class="btn btn-danger btn-sm remove-education">
+                                                                    <i class="ti ti-trash"></i> Hapus
+                                                                </button>
+                                                            </div>
+                                                            @endif
+                                                
+                                                            <div class="form-group mb-2">
+                                                                <label>Tingkat</label>
+                                                
+                                                                <select class="form-select level-select" name="level[]">
+                                                
+                                                                    <option value="">Pilih</option>
+                                                
+                                                                    <option value="SMA"
+                                                                        {{ old('tce_level',$education->tce_level)=='SMA' ? 'selected' : '' }}>
+                                                                        SMA
+                                                                    </option>
+                                                
+                                                                    <option value="SMK"
+                                                                        {{ old('tce_level',$education->tce_level)=='SMK' ? 'selected' : '' }}>
+                                                                        SMK
+                                                                    </option>
+                                                
+                                                                    <option value="D3"
+                                                                        {{ old('tce_level',$education->tce_level)=='D3' ? 'selected' : '' }}>
+                                                                        D3
+                                                                    </option>
+                                                
+                                                                    <option value="S1"
+                                                                        {{ old('tce_level',$education->tce_level)=='S1' ? 'selected' : '' }}>
+                                                                        S1
+                                                                    </option>
+                                                
+                                                                    <option value="S2"
+                                                                        {{ old('tce_level',$education->tce_level)=='S2' ? 'selected' : '' }}>
+                                                                        S2
+                                                                    </option>
+                                                
+                                                                    <option value="S3"
+                                                                        {{ old('tce_level',$education->tce_level)=='S3' ? 'selected' : '' }}>
+                                                                        S3
+                                                                    </option>
+                                                
+                                                                </select>
+                                                
+                                                            </div>
+                                                
+                                                            <div class="form-group mb-2">
+                                                                <label>Nama Satuan Pendidikan</label>
+                                                
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    name="institution[]"
+                                                                    value="{{ old('tce_institution',$education->tce_institution) }}">
+                                                            </div>
+                                                
+                                                            <div class="form-group mb-2">
+                                                                <label>Tahun Lulus</label>
+                                                
+                                                                <input
+                                                                    type="number"
+                                                                    class="form-control"
+                                                                    name="graduation_year[]"
+                                                                    value="{{ old('tce_graduation_year',$education->tce_graduation_year) }}">
+                                                            </div>
+                                                
+                                                            <div class="form-group mb-2 dynamic-field">
+                                                
+                                                                <label>Jurusan</label>
+                                                
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    name="major[]"
+                                                                    value="{{ old('tce_major',$education->tce_major) }}">
+                                                
+                                                                @if(in_array($education->tce_level,['D3','S1','S2','S3']))
+                                                
+                                                                <label class="mt-2">Gelar</label>
+                                                
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    name="degree[]"
+                                                                    value="{{ old('tce_degree',$education->tce_degree) }}">
+                                                
+                                                                @endif
+                                                
+                                                            </div>
+                                                
+                                                        </div>
+                                                
+                                                        @empty
+                                                
+                                                        <!-- FORM KOSONG -->
+                                                        <div class="education-item border p-3 mb-2 rounded">
+                                                
+                                                            <div class="form-group mb-2">
+                                                                <label>Tingkat</label>
+                                                
+                                                                <select class="form-select level-select" name="level[]">
+                                                                    <option value="">Pilih</option>
+                                                                    <option value="SMA">SMA</option>
+                                                                    <option value="SMK">SMK</option>
+                                                                </select>
+                                                            </div>
+                                                
+                                                            <div class="form-group mb-2">
+                                                                <label>Nama Satuan Pendidikan</label>
+                                                
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    name="institution[]">
+                                                            </div>
+                                                
+                                                            <div class="form-group mb-2">
+                                                                <label>Tahun Lulus</label>
+                                                
+                                                                <input
+                                                                    type="number"
+                                                                    class="form-control"
+                                                                    name="graduation_year[]">
+                                                            </div>
+                                                
+                                                            <div class="form-group mb-2 dynamic-field">
+                                                
+                                                                <label>Jurusan</label>
+                                                
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    name="major[]">
+                                                
+                                                            </div>
+                                                
+                                                        </div>
+                                                
+                                                        @endforelse
+                                                
+                                                    </div>
+                                                
+                                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                                
+                                                        <div>
+                                                
+                                                            <button
+                                                                type="button"
+                                                                class="btn btn-primary"
+                                                                onclick="saveEducation()">
+                                                                Simpan
+                                                            </button>
+                                                
+                                                            <button
+                                                                type="button"
+                                                                class="btn btn-secondary"
+                                                                onclick="stepper.previous()">
+                                                                Kembali
+                                                            </button>
+                                                
+                                                        </div>
+                                                
+                                                        <button
+                                                            type="button"
+                                                            id="add-education"
+                                                            class="btn btn-primary">
+                                                            + Tambah Pendidikan
+                                                        </button>
+                                                
+                                                    </div>
+                                                
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
@@ -382,14 +755,15 @@
     
         let formData = new FormData();
     
-        formData.append('tcb_user_name', getVal('tcb_user_name'));
+        formData.append('usr_name', getVal('usr_name'));
     formData.append('tcb_birth_place', getVal('tcb_birth_place'));
     formData.append('tcb_birth_date', getVal('tcb_birth_date'));
     formData.append('tcb_religion', getVal('tcb_religion'));
     formData.append('tcb_mary_status', getVal('tcb_mary_status'));
+    formData.append('tcb_gender', getVal('tcb_gender'));
     formData.append('tcb_telp', getVal('tcb_telp'));
 
-        fetch("{{ route('administration.prospectiveTeacher.store_biodata') }}", {
+        fetch("{{ route('teacher.prospectiveTeacher.store_biodata') }}", {
             method: "POST",
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -591,7 +965,7 @@ formData.append('tca_village_value', getText('tca_village'));
 formData.append('tca_postalcode', getVal('tca_postalcode'));
 formData.append('tca_distance', getVal('tca_distance'));
 
-fetch("{{ route('administration.prospectiveTeacher.store_address') }}", {
+fetch("{{ route('teacher.prospectiveTeacher.store_address') }}", {
     method: "POST",
     headers: {
         'X-CSRF-TOKEN':
@@ -662,7 +1036,7 @@ console.error(err);
     formData.append('tcp_work', getVal('tcp_work'));
     formData.append('tcp_nip', getVal('tcp_nip'));
  
-    fetch("{{ route('administration.prospectiveTeacher.store_partner') }}", {
+    fetch("{{ route('teacher.prospectiveTeacher.store_partner') }}", {
     method: "POST",
     headers: {
         'X-CSRF-TOKEN':
@@ -713,76 +1087,160 @@ console.error(err);
     }
 
     </script>
-
-
 <script>
-    function saveTeach(){
+    $('#add-historyeducation').click(function () {
 
-let formData = new FormData();
+let total = $('.historyeducation-item').length;
 
-function getVal(name){
-let el = document.querySelector(`[name="${name}"]`);
-return el ? el.value : '';
-}
-formData.append('tcs_subject_name', getVal('tcs_subject_name'));
-formData.append('tcs_name_school', getVal('tcs_name_school'));
-formData.append('tcs_class', getVal('tcs_class'));
-formData.append('tcs_jp', getVal('tcs_jp'));
-formData.append('tcs_year', getVal('tcs_year'));
-formData.append('tcs_status', getVal('tcs_status'));
+let options1 = '';
+options1 = `
+        <option value="">Pilih</option>
+        <option value="aktif">Aktif</option>
+        <option value="nonaktif">Non Aktif</option>
+    `;
 
-fetch("{{ route('administration.prospectiveTeacher.store_history') }}", {
-method: "POST",
-headers: {
-    'X-CSRF-TOKEN':
-    document.querySelector('meta[name="csrf-token"]').content
-},
-body: formData
-})
-.then(res => res.json())
-.then(res => {
+let form = `
+    <div class="historyeducation-item border p-3 mb-2 rounded">
+        <div class="text-end mb-3">
+        <button
+            type="button"
+            class="btn btn-danger btn-sm remove-historyeducation">
+            <i class="ti ti-trash"></i> Hapus
+        </button>
+    </div>
 
-    if(res.success){
+        <div class="form-group mb-2">
+            <label class="form-">Nama Mapel</label>
+            <input type="text" class="form-control" name="tcs_subject_name[]" id="tcs_subject_name" value="" aria-describedby="nama" placeholder="Nama">
+        </div>
+        <div class="form-group mb-2">
+            <label class="form-">Nama Sekolah</label>
+            <input type="text" class="form-control" name="tcs_name_school[]" id="tcs_name_school" value="" aria-describedby="nama" placeholder="Nama Sekolah">
+        </div>
+        <div class="form-group mb-2">
+            <label class="form-">Kelas</label>
+            <input type="number" class="form-control" name="tcs_class[]" id="tcs_class" value="" aria-describedby="nama" placeholder="Kelas">
+        </div>
+        <div class="form-group mb-2">
+            <label class="form-">Jumlah Jam</label>
+            <input type="number" class="form-control" name="tcs_jp[]" id="tcs_jp" value="" aria-describedby="nama" placeholder="Jumlah Jam">
+        </div>
+        <div class="form-group mb-2">
+            <label class="form-">Tahun</label>
+            <input type="number" class="form-control" name="tcs_year[]" id="tcs_year" value="" aria-describedby="nama" placeholder="Tahun">
+        </div>
+        <div class="form-group mb-2">
+            <label class="form-" for="inlineFormCustomSelect">Status</label>
+            <select class="form-select mr-sm-2" name="tcs_status[]" id="tcs_status">
+                ${options1}
+            </select>
+        </div>
+                                                        
 
-Swal.fire({
-toast: true,
-position: 'top-end',
-icon: 'success',
-title: res.message,
-showConfirmButton: false,
-timer: 2000
-});
+    </div>
+`;
 
-stepper.next();
-
-}else{
-
-Swal.fire({
-icon: 'error',
-title: 'Gagal',
-text: res.message
-});
-
-}
-
-
-})
-.catch(err => {
-
-Swal.fire({
-icon: 'error',
-title: 'Server Error',
-text: 'Terjadi kesalahan sistem'
-});
-
-console.error(err);
+$('#historyeducation-wrapper').append(form);
 
 });
+$(document).on('change', '.level-select', function () {
 
-}
+let level = $(this).val();
+let container = $(this)
+    .closest('.historyeducation-item')
+    .find('.dynamic-field');
 
+
+});
+
+$(document).on('click', '.remove-historyeducation', function () {
+    $(this).closest('.historyeducation-item').remove();
+});
 </script>
 
+<script>
+function saveTeach(){
+
+    let formData = new FormData();
+
+    document.querySelectorAll('.historyeducation-item').forEach((item, i) => {
+
+        let subjectEl = item.querySelector('[name="tcs_subject_name[]"]');
+        let schoolEl  = item.querySelector('[name="tcs_name_school[]"]');
+        let classEl   = item.querySelector('[name="tcs_class[]"]');
+        let jpEl      = item.querySelector('[name="tcs_jp[]"]');
+        let yearEl    = item.querySelector('[name="tcs_year[]"]');
+        let statusEl  = item.querySelector('[name="tcs_status[]"]');
+
+        formData.append(`teach[${i}][subject_name]`,
+            subjectEl ? subjectEl.value : '');
+
+        formData.append(`teach[${i}][name_school]`,
+            schoolEl ? schoolEl.value : '');
+
+        formData.append(`teach[${i}][class]`,
+            classEl ? classEl.value : '');
+
+        formData.append(`teach[${i}][jp]`,
+            jpEl ? jpEl.value : '');
+
+        formData.append(`teach[${i}][year]`,
+            yearEl ? yearEl.value : '');
+
+        formData.append(`teach[${i}][status]`,
+            statusEl ? statusEl.value : '');
+
+    });
+
+    fetch("{{ route('teacher.prospectiveTeacher.store_history') }}", {
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN':
+            document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: formData
+    })
+    .then(res => res.json())
+    .then(res => {
+
+        if(res.success){
+
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: res.message,
+                showConfirmButton: false,
+                timer: 2000
+            });
+
+            stepper.next();
+
+        }else{
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: res.message
+            });
+
+        }
+
+    })
+    .catch(err => {
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Server Error',
+            text: 'Terjadi kesalahan sistem'
+        });
+
+        console.error(err);
+
+    });
+
+}
+</script>
 <script>
     $('#add-education').click(function () {
 
@@ -899,7 +1357,7 @@ document.querySelectorAll('.education-item').forEach((item, i) => {
 
 });
 
-fetch("{{ route('administration.prospectiveTeacher.store_education') }}", {
+fetch("{{ route('teacher.prospectiveTeacher.store_education') }}", {
     method: "POST",
     headers: {
         'X-CSRF-TOKEN':
@@ -921,9 +1379,15 @@ fetch("{{ route('administration.prospectiveTeacher.store_education') }}", {
             timer: 2000
         });
 
+        // console.log("SEBELUM FINISH");
+
         setTimeout(() => {
-                finishBiodata();
-            }, 1500);
+
+            // console.log("MASUK FINISH");
+
+            finishBiodata();
+
+        }, 1500);
 
     } else {
 
@@ -940,21 +1404,21 @@ fetch("{{ route('administration.prospectiveTeacher.store_education') }}", {
 
 function finishBiodata(){
 
-fetch("{{ route('administration.prospectiveTeacher.finish') }}", {
-    method: "POST",
-    headers: {
-        'X-CSRF-TOKEN':
-        document.querySelector('meta[name="csrf-token"]').content
-    }
-})
-.then(res => res.json())
+     fetch("{{ route('teacher.prospectiveTeacher.finish') }}",{
+        method:"POST",
+        headers:{
+            "X-CSRF-TOKEN":
+            document.querySelector('meta[name="csrf-token"]').content,
+            "Accept":"application/json"
+        }
+    })
+    .then(res => res.json())
 .then(res => {
 
+    console.log(res);
+
     if(res.success){
-
-        // redirect + reload kosong
         window.location.href = res.redirect;
-
     }
 
 });

@@ -40,4 +40,12 @@ public function certification()
 {
     return $this->hasOne(Certification::class, 'cft_teacher_id','tcr_id');
 }
+public function teachHistories()
+{
+    return $this->hasMany(Teach_History::class,'tcs_teacher_id','tcr_id');
+}
+public function teacherAddress()
+{
+    return $this->hasOne(Teacher_Address::class, 'tca_teacher_id', 'tcr_id');
+}
 }

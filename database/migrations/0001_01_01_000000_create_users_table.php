@@ -15,6 +15,7 @@ return new class extends Migration
             $table->bigIncrements('usr_id');
             $table->string('usr_name');
             $table->string('email')->unique();
+            $table->string('usr_photo')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('usr_status')->default(0);

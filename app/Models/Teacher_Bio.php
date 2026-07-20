@@ -39,6 +39,10 @@ class Teacher_Bio extends Model
     {
         return $this->hasMany(TeacherEducation::class, 'tce_bio_id');
     }
+    public function teacher()
+{
+    return $this->belongsTo(Teacher::class, 'tcb_teacher_id', 'tcr_id');
+}
 
 }
 

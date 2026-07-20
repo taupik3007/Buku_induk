@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -51,7 +52,12 @@ class RegisteredTeacherController extends Controller
             'password' => Hash::make($request->password),
         ]);
         $user->assignRole('teacher');
-        
+        $teacher = Teacher::create([
+            'tcr_user_id' => $user->usr_id,
+            'tcr_gtk'     => null,
+            'tcr_nuptk'   => null,
+        ]);
+        // dd($teacher);
 
         // $student = Student::create([
         //     'std_usr_id'=>$user->usr_id

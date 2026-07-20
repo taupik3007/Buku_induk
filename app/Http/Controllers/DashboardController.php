@@ -17,7 +17,7 @@ class DashboardController extends Controller
         }
 
         if ($user->hasRole('teacher')) {
-            return redirect()->route('administration.prospectiveTeacher.biodata');
+            return redirect()->route('teacher.prospectiveTeacher.biodata');
         }
 
         if ($user->hasRole('student')) {

@@ -21,18 +21,18 @@
   </div> --}}
   <div id="main-wrapper">
     <!-- Sidebar Start -->
-    @include('administration.sidebar')
+    @include('teacher.sidebar')
     <!--  Sidebar End -->
     <div class="page-wrapper">
       <!--  Header Start -->
-      @include('administration.navbar')
+      @include('teacher.navbar')
       <!--  Header End -->
 
       <aside class="left-sidebar with-horizontal">
         <!-- Sidebar scroll-->
         <div>
           <!-- Sidebar navigation-->
-          @include('administration.sidenav')
+          @include('teacher.sidenav')
           <!-- End Sidebar navigation -->
         </div>
         <!-- End Sidebar scroll-->
@@ -385,7 +385,7 @@
   @include('sweetalert::alert')
 
 
-  @include('administration.script')
+  @include('teacher.script')
 
 
   {{-- endscript --}}

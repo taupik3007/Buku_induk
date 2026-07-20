@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
+use App\Models\Teacher;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class prospectiveTeacherController extends Controller
 {
@@ -14,6 +17,36 @@ class prospectiveTeacherController extends Controller
     {
         //
     }
+    public function download($type)
+{
+    $teacher = Teacher::with([
+        'user',
+        'teacherBio',
+        'teacherAddress',
+        'teacherEducation',
+        'teachHistories'
+    ])
+    ->where('tcr_user_id', Auth::id())
+    ->firstOrFail();
+
+    // Pilih template
+    $view = match ($type) {
+        'creative' => 'teacher.prospectiveTeacher.creative',
+        'ats' => 'teacher.prospectiveTeacher.ats',
+        default => abort(404),
+    };
+
+    $pdf = Pdf::loadView($view, compact('teacher'))
+        ->setPaper('a4', 'portrait');
+
+    // Preview di browser jika ada ?preview=1
+    if (request()->has('preview')) {
+        return $pdf->stream("CV-{$type}.pdf");
+    }
+
+    // Download PDF
+    return $pdf->download("CV-{$type}.pdf");
+}
 
     /**
      * Show the form for creating a new resource.

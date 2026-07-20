@@ -349,7 +349,9 @@
                 <a class="nav-link pe-0" href="javascript:void(0)" id="drop1" aria-expanded="false">
                   <div class="d-flex align-items-center">
                     <div class="user-profile-img">
-                      <img src="{{asset('assets/images/profile/user-1.jpg')}}" class="rounded-circle" width="35" height="35" alt="modernize-img" />
+                      <img   id="navbarAvatar" src="{{ Auth::user()?->usr_photo
+                        ? asset('storage/'.Auth::user()->usr_photo)
+                        : asset('assets/images/profile/user-1.jpg') }}" class="rounded-circle" width="35" height="35" alt="modernize-img" />
                     </div>
                   </div>
                 </a>
@@ -359,9 +361,11 @@
                       <h5 class="mb-0 fs-5 fw-semibold">User Profile</h5>
                     </div>
                     <div class="d-flex align-items-center py-9 mx-7 border-bottom">
-                      <img src="./assets/images/profile/user-1.jpg" class="rounded-circle" width="80" height="80" alt="modernize-img" />
+                      <img id="dropdownAvatar" src="{{ Auth::user()?->usr_photo
+                        ? asset('storage/'.Auth::user()->usr_photo)
+                        : asset('assets/images/profile/user-1.jpg') }}" class="rounded-circle" width="80" height="80" alt="modernize-img" />
                       <div class="ms-3">
-                        <h5 class="mb-1 fs-3">Mathew Anderson</h5>
+                        <h5 class="mb-1 fs-3">{{Auth::user()?->usr_name}}</h5>
                         <span class="mb-1 d-block">Designer</span>
                         <p class="mb-0 d-flex align-items-center gap-2">
                           <i class="ti ti-mail fs-4"></i> info@modernize.com
@@ -369,7 +373,7 @@
                       </div>
                     </div>
                     <div class="message-body">
-                      <a href="/profile/" class="py-8 px-7 mt-8 d-flex align-items-center">
+                      <a href="/teacher/profile" class="py-8 px-7 mt-8 d-flex align-items-center">
                         <span class="d-flex align-items-center justify-content-center text-bg-light rounded-1 p-6">
                           <img src="./assets/images/svgs/icon-account.svg" alt="modernize-img" width="24" height="24" />
                         </span>

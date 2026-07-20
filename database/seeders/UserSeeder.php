@@ -57,7 +57,7 @@ class UserSeeder extends Seeder
             'tcb_teacher_id'  => $teacher_data->tcr_id,
                 'tcb_birth_place' => 'Jakarta',
                 'tcb_birth_date'  => '1985-03-15',
-                'tcb_religion_id' => 1,
+                'tcb_religion' => 'islam',
                 'tcb_mary_status' => 1, // 1 = Menikah
                 'tcb_gender'      => 1, // 1 = Laki-laki
                 'tcb_telp'        => 6281234567890,

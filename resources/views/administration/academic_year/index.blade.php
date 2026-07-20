@@ -49,7 +49,7 @@
                     <h4 class="card-title mb-0">Daftar Kategori</h4>
 
                     {{-- <a href="/administration/academic_years/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Kategori</a> --}}
-                    @if ($academic_year->contains('acy_status', 0))
+                    @if ($academic_year->isEmpty() || $academic_year->contains('acy_status', 1))
     <button class="btn btn-primary position-absolute top-0 end-0" disabled>
         Tambah Kategori
     </button>

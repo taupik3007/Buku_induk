@@ -15,7 +15,7 @@ return new class extends Migration
             $table->bigIncrements('tcr_id');
             $table->unsignedBigInteger('tcr_user_id');
             $table->foreign('tcr_user_id')->references('usr_id')->on('users')->onDelete('cascade');
-            $table->string('tcr_gtk')->unique();
+            $table->string('tcr_gtk')->unique()->nullable();
             $table->string('tcr_nuptk')->nullable();
             $table->timestamps();
             $table->renameColumn('updated_at', 'tcr_updated_at');
