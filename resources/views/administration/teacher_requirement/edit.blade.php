@@ -47,7 +47,7 @@
                 <div class="mb-4 row align-items-center">
                     <label for="exampleInputText1" class="form-label col-sm-3 col-form-label">Nama Persyaratan</label>
                     <div class="col-sm-9">
-                      <input type="text" name="tcr_name" value="{{$edit_req->tcr_name}}" class="form-control" id="exampleInputText1" placeholder="Contoh: Akta Kelahiran, Kartu Keluarga..." required oninvalid="this.setCustomValidity('Nama Jurusan Wajib Diisi')" 
+                      <input type="text" name="tcq_name" value="{{$edit_req->tcq_name}}" class="form-control" id="exampleInputText1" placeholder="Contoh: Akta Kelahiran, Kartu Keluarga..." required oninvalid="this.setCustomValidity('Nama Jurusan Wajib Diisi')" 
                       onchange="this.setCustomValidity('')">
                     </div>
                     @error('')
@@ -57,15 +57,15 @@
                   <div class="mb-4 row align-items-center">
                     <label for="exampleInputText1" class="form-label col-sm-3 col-form-label">Singkatan</label>
                     <div class="col-sm-9">
-                        <select name="tcr_type" class="form-select @error('pdr_type') is-invalid @enderror">
+                        <select name="tcq_type" class="form-select @error('pdr_type') is-invalid @enderror">
                             <option value="" disabled selected>-- Pilih Jenis --</option>
-                            <option value="text" {{ $edit_req->tcr_type == 'text' ? 'selected' : '' }}>Text</option>
-                            <option value="file" {{ $edit_req->tcr_type == 'file' ? 'selected' : '' }}>File Upload</option>
-                            <option value="number" {{ $edit_req->tcr_type == 'number' ? 'selected' : '' }}>Angka</option>
-                            <option value="date" {{ $edit_req->tcr_type == 'date' ? 'selected' : '' }}>Tanggal</option>
+                            <option value="text" {{ $edit_req->tcq_type == 'text' ? 'selected' : '' }}>Text</option>
+                            <option value="file" {{ $edit_req->tcq_type == 'file' ? 'selected' : '' }}>File Upload</option>
+                            <option value="number" {{ $edit_req->tcq_type == 'number' ? 'selected' : '' }}>Angka</option>
+                            <option value="date" {{ $edit_req->tcq_type == 'date' ? 'selected' : '' }}>Tanggal</option>
                         </select>
                     </div>
-                    @error('tcr_type')
+                    @error('tcq_type')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                   </div>

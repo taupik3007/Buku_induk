@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
+use App\Models\Teacher;
+use App\Models\TeacherRequirement;
+use App\Models\TeacherSubmission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,9 +17,29 @@ class DashboardController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $teacher = Teacher::where('tcr_user_id', Auth::id())->first();
 
+        if ($teacher) {
+        
+            $totalRequirement = TeacherRequirement::count();
+        
+            $completed = TeacherSubmission::where(
+                'tsb_teacher_id',
+                $teacher->tcr_id
+            )->count();
+        
+        } else {
+        
+            $totalRequirement = 0;
+            $completed = 0;
+        
+        }
+        
+        $percent = $totalRequirement > 0
+            ? round(($completed / $totalRequirement) * 100)
+            : 0;
         // $needPhoto = empty($user->usr_photo);
-        return view('teacher.dashboard', compact('user'));
+        return view('teacher.dashboard', compact('user', 'completed','totalRequirement','percent'));
     }
 
     /**

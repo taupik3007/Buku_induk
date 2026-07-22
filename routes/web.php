@@ -24,6 +24,7 @@ use App\Http\Controllers\Administration\EmployeeController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\Teacher\ProfileController as TeacherProfileController;
 use App\Http\Controllers\Teacher\prospectiveTeacherController as TeacherProspectiveTeacherController;
+use App\Http\Controllers\Teacher\RequirementController;
 use App\Http\Controllers\Teacher\WaitingController;
 use App\Models\Teacher_Bio;
 use App\Models\TeacherRequirement;
@@ -279,6 +280,13 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::get('/cv/download/{type}', [TeacherProspectiveTeacherController::class, 'download'])->name('cv.download');
         Route::get('/teacher/cv/{type}', [TeacherProspectiveTeacherController::class, 'download'])->name('teacher.cv.download');
     });
+    Route::prefix('teacher-requirement')->name('teacherRequirement.')->group(function () {
+        Route::get('/', [RequirementController::class, 'index'])->name('index');
+        Route::get('/create', [RequirementController::class, 'create'])->name('create');
+        Route::post('/create', [RequirementController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [RequirementController::class, 'edit'])->name('edit');
+        Route::post('/{id}/edit', [RequirementController::class, 'update'])->name('update');
+        Route::delete('/{id}/destroy', [RequirementController::class, 'destroy'])->name('classes.destroy');
 
 });
     Route::prefix('prospective-student')->name('prospectiveStudent.')->group(function () {
@@ -298,6 +306,7 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::post('/ppdb-registration/stepTwo', [ProspectiveStudentController::class, 'stepEight'])->name('ppdbRegistration.stepTwo');
         Route::post('/ppdb-registration/step-three', [ProspectiveStudentController::class, 'stepNine'])->name('ppdbRegistration.stepThree');
     });
+});
 
 
 

@@ -50,6 +50,27 @@ width:240px;
 height:240px;
 
 }
+.progress-bar{
+
+animation:pulse 2s infinite;
+
+}
+
+@keyframes pulse{
+
+0%{
+filter:brightness(100%);
+}
+
+50%{
+filter:brightness(120%);
+}
+
+100%{
+filter:brightness(100%);
+}
+
+}
 </style>
 <div class="d-flex align-items-center gap-4 mb-4">
   <div class="position-relative">
@@ -214,6 +235,95 @@ height:240px;
 
 @endif
 
+<div class="card border-0 shadow-sm mb-4">
+
+    <div class="card-body p-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+
+                <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill mb-2">
+                    📑 Persyaratan
+                </span>
+
+                <h4 class="fw-bold mb-1">
+                    Persyaratan Pendaftaran
+                </h4>
+
+                <p class="text-muted mb-0">
+                    Lengkapi seluruh dokumen agar proses pendaftaran dapat diproses.
+                </p>
+
+            </div>
+
+            <div class="text-end">
+
+                <h2 class="fw-bold text-primary mb-0">
+                    {{ $completed }}/{{ $totalRequirement }}
+                </h2>
+
+                <small class="text-muted">
+                    Persyaratan
+                </small>
+
+            </div>
+
+        </div>
+
+        @php
+            $percent = $totalRequirement == 0
+                ? 0
+                : round(($completed / $totalRequirement) * 100);
+        @endphp
+
+        <div class="progress mb-3" style="height:12px; border-radius:30px;">
+
+            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated"
+                 style="width: {{ $percent }}%">
+
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div>
+
+                <span class="fw-semibold">
+                    Progress {{ $percent }}%
+                </span>
+
+                <br>
+
+                <small class="text-muted">
+
+                    {{ $completed }}
+                    dari
+                    {{ $totalRequirement }}
+                    persyaratan telah diisi.
+
+                </small>
+
+            </div>
+
+            <a href="{{ route('teacher.teacherRequirement.create') }}"
+               class="btn btn-primary rounded-pill px-4">
+
+                <i class="ti ti-arrow-right me-1"></i>
+
+                {{ $completed == $totalRequirement
+                    ? 'Lihat Persyaratan'
+                    : 'Lanjut Lengkapi'
+                }}
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
 
 
 @endsection

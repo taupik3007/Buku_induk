@@ -12,18 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('teacher_requirements', function (Blueprint $table) {
-            $table->bigIncrements('tcr_id');
-            $table->string('tcr_name');
-            $table->string('tcr_type');
+            $table->bigIncrements('tcq_id');
+            $table->string('tcq_name');
+            $table->string('tcq_type');
             $table->timestamps();
-            $table->renameColumn('updated_at', 'tcr_updated_at');
-            $table->renameColumn('created_at', 'tcr_created_at');
-            $table->unsignedBigInteger('tcr_created_by')->nullable();
-            $table->unsignedBigInteger('tcr_deleted_by')->nullable();
-            $table->unsignedBigInteger('tcr_updated_by')->nullable();
+            $table->renameColumn('updated_at', 'tcq_updated_at');
+            $table->renameColumn('created_at', 'tcq_created_at');
+            $table->unsignedBigInteger('tcq_created_by')->nullable();
+            $table->unsignedBigInteger('tcq_deleted_by')->nullable();
+            $table->unsignedBigInteger('tcq_updated_by')->nullable();
             $table->softDeletes(); // gunakan deleted_at
-            $table->renameColumn('deleted_at', 'tcr_deleted_at');
-            $table->string('tcr_sys_note')->nullable();
+            $table->renameColumn('deleted_at', 'tcq_deleted_at');
+            $table->string('tcq_sys_note')->nullable();
         });
     }
 

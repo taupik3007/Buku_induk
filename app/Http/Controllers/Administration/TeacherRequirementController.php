@@ -35,14 +35,14 @@ class TeacherRequirementController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'tcr_name' => 'required|string|max:255',
-            'tcr_type' => 'required|in:text,file,number,date',
+            'tcq_name' => 'required|string|max:255',
+            'tcq_type' => 'required|in:text,file,number,date',
         ]);
         // dd($request);
     
         TeacherRequirement::create([
-            'tcr_name'    => $request->tcr_name,
-            'tcr_type'    => $request->tcr_type,
+            'tcq_name'    => $request->tcq_name,
+            'tcq_type'    => $request->tcq_type,
         ]);
         
         Alert::success('Berhasil Menambah', 'Berhasil menambah data persyaratan guru');
@@ -72,8 +72,8 @@ class TeacherRequirementController extends Controller
     public function update(Request $request, string $id)
     {
         $update_req =TeacherRequirement::findOrFail($id); 
-        $update_req->tcr_name = $request->tcr_name;
-        $update_req->tcr_type = $request->tcr_type;
+        $update_req->tcq_name = $request->tcq_name;
+        $update_req->tcq_type = $request->tcq_type;
         $update_req->save();
 
         Alert::success('Berhasil Mengedit', 'Berhasil mengubah data jurusan');

@@ -102,7 +102,7 @@
         </li>
 
         <li class="sidebar-item">
-          <a class="sidebar-link" href="/administration/major"  aria-expanded="false">
+          <a class="sidebar-link" href="/teacher/teacher-requirement"  aria-expanded="false">
             <span>
               <i class="ti ti-aperture"></i>
             </span>

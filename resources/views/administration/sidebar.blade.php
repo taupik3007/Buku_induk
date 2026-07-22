@@ -168,6 +168,14 @@
             <span class="hide-menu">PENERIMAAN GURU</span>
           </li>
           <li class="sidebar-item">
+            <a class="sidebar-link" href="/administration/teacher-requirement"  aria-expanded="false">
+              <span>
+                <i class="ti ti-list-check"></i>
+              </span>
+              <span class="hide-sitemap">Persyaratan</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
             <a class="sidebar-link" href="/administration/teacher-reception"  aria-expanded="false">
               <span>
                 <i class="ti ti-user-exclamation"></i>

@@ -10,10 +10,10 @@ class TeacherRequirement extends Model
 {
     use HasFactory, SoftDeletes ;
     protected $table = 'teacher_requirements';
-    protected $primaryKey = 'tcr_id';
+    protected $primaryKey = 'tcq_id';
     protected $guarded = [];
 
-    const CREATED_AT = 'tcr_created_at';
-    const UPDATED_AT = 'tcr_updated_at';
-    const DELETED_AT = 'tcr_deleted_at';
+    const CREATED_AT = 'tcq_created_at';
+    const UPDATED_AT = 'tcq_updated_at';
+    const DELETED_AT = 'tcq_deleted_at';
 }

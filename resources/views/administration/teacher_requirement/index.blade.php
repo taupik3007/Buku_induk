@@ -62,13 +62,13 @@
 
                                     <td>{{ $no + 1 }}</td>
 
-                                    <td>{{ $requirements->tcr_name }}</td>
-                                    <td>{{ $requirements->tcr_type }}</td>
+                                    <td>{{ $requirements->tcq_name }}</td>
+                                    <td>{{ $requirements->tcq_type }}</td>
 
 
                                     <td>
-                                        <a href="/administration/teacher-requirement/{{ $requirements->tcr_id}}/edit" class="btn btn-primary">Edit</a>
-                                        <a href="/administration/teacher-requirement/{{ $requirements->tcr_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                                        <a href="/administration/teacher-requirement/{{ $requirements->tcq_id}}/edit" class="btn btn-primary">Edit</a>
+                                        <a href="/administration/teacher-requirement/{{ $requirements->tcq_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
      
                                    </td>
 

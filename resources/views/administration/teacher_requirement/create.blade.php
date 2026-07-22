@@ -47,7 +47,7 @@
                 <div class="mb-4 row align-items-center">
                     <label for="exampleInputText1" class="form-label col-sm-3 col-form-label">Nama Persyaratan</label>
                     <div class="col-sm-9">
-                      <input type="text" name="tcr_name" class="form-control" id="exampleInputText1" placeholder="Contoh: Akta Kelahiran, Kartu Keluarga..." required oninvalid="this.setCustomValidity('Nama Jurusan Wajib Diisi')" 
+                      <input type="text" name="tcq_name" class="form-control" id="exampleInputText1" placeholder="Contoh: Akta Kelahiran, Kartu Keluarga..." required oninvalid="this.setCustomValidity('Nama Jurusan Wajib Diisi')" 
                       onchange="this.setCustomValidity('')">
                     </div>
                     @error('')
@@ -55,9 +55,9 @@
                     @enderror
                   </div>
                   <div class="mb-4 row align-items-center">
-                    <label for="exampleInputText1" class="form-label col-sm-3 col-form-label">Singkatan</label>
+                    <label for="exampleInputText1" class="form-label col-sm-3 col-form-label">Jenis File</label>
                     <div class="col-sm-9">
-                        <select name="tcr_type" class="form-select @error('pdr_type') is-invalid @enderror">
+                        <select name="tcq_type" class="form-select @error('pdr_type') is-invalid @enderror">
                             <option value="" disabled selected>-- Pilih Jenis --</option>
                             <option value="text" {{ old('pdr_type') == 'text' ? 'selected' : '' }}>Text</option>
                             <option value="file" {{ old('pdr_type') == 'file' ? 'selected' : '' }}>File Upload</option>
@@ -65,7 +65,7 @@
                             <option value="date" {{ old('pdr_type') == 'date' ? 'selected' : '' }}>Tanggal</option>
                         </select>
                     </div>
-                    @error('tcr_type')
+                    @error('tcq_type')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                   </div>
