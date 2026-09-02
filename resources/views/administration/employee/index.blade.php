@@ -51,17 +51,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($staffs as $no => $staff)
+                            @foreach ($employee as $no => $staff)
                             <tr>
                                 <td>{{ $no + 1 }}</td>
-                                <td>{{ $staff->stf_name }}</td>
-                                <td>{{ $staff->stf_position ?? '-' }}</td>
+                                <td>{{ $staff->usr_name }}</td>
+                                <td></td>
                                 <td>
                                     <a href="/administration/staffs/{{ $staff->stf_id }}/edit" class="btn btn-primary">Edit</a>
                                     <a href="/administration/staffs/{{ $staff->stf_id }}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
                                 </td>
                             </tr>
-                            @endforeach --}}
+                            @endforeach
                         </tbody>
                         <tfoot>
                             <tr>

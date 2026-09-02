@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Administration;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class EmployeeController extends Controller
 {
@@ -12,7 +13,9 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return view('administration.employee.index');
+        $employee = User::role('administration')->get();
+        // dd($employee);
+        return view('administration.employee.index',compact('employee'));
     }
 
     /**

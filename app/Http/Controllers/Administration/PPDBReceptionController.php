@@ -31,10 +31,11 @@ class PPDBReceptionController extends Controller
 {
     $participants = PpdbSubmission::with(['student.user', 'major'])
         ->where('ppsu_ppdb_id', $ppdbId)
+        ->where('ppsu_status',0)
         ->get()
         ->map(function ($item) {
             return [
-                'id'     => $item->ppsu_id,
+                'id'     => $item->student->std_id,
                 'name'   => $item->student->user->usr_name ?? '-',
                 'major'  => $item->major->mjr_name ?? '-',
                 'status' => $item->ppsu_status,
@@ -65,7 +66,7 @@ class PPDBReceptionController extends Controller
         ->get()
         ->map(function ($item) {
             return [
-                'id'     => $item->ppsu_id,
+                'id'     => $item->student->std_id,
                 'name'   => $item->student->user->usr_name ?? '-',
                 'major'  => $item->major->mjr_name ?? '-',
                 'status' => $item->ppsu_status,
@@ -112,7 +113,8 @@ public function rejected(){
      */
     public function accept($id)
     {
-        $accept = PpdbSubmission::where('ppsu_student_id', 1)
+        // dd('beli');
+        $accept = PpdbSubmission::where('ppsu_student_id', $id)
     ->update([
         'ppsu_status' => 1
     ]);
@@ -139,7 +141,8 @@ public function rejected(){
     public function show(string $id)
     {
 
-         $student   = PpdbSubmission::where('ppsu_student_id',$id)->first();
+         $student   = PpdbSubmission::where('ppsu_student_id',$id)->firstOrFail();
+        //  dd($student);
          $documents = PpdbRequirement::with(['upload' => fn($q) => $q->where('psr_std_id', $id)])
                     ->where('pdr_ppdb_id', $student->ppsu_ppdb_id)
                     ->get()

@@ -80,14 +80,19 @@
 
 @push('script')
     <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     {{-- HAPUS datatable-advanced.init.js karena bentrok --}}
 
     <script>
         let table;
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             table = $('#file_export').DataTable({
-                columnDefs: [{ orderable: false, targets: -1 }],
+                columnDefs: [{
+                    orderable: false,
+                    targets: -1
+                }],
                 language: {
                     emptyTable: "Tidak ada calon peserta didik",
                     zeroRecords: "Tidak ada data yang cocok",
@@ -107,7 +112,7 @@
             loadParticipants($('#ppdbSelect').val());
         });
 
-        $('#ppdbSelect').on('change', function () {
+        $('#ppdbSelect').on('change', function() {
             loadParticipants($(this).val());
         });
 
@@ -127,13 +132,15 @@
             $.ajax({
                 url: '/administration/ppdb-reception/' + ppdbId + '/list',
                 method: 'GET',
-                success: function (data) {
+                success: function(data) {
                     table.clear();
 
-                    data.forEach(function (item, index) {
+                    data.forEach(function(item, index) {
                         let badge = '';
+                        console.log(item);
                         if (item.status == 1) badge = `<span class="badge bg-success">Diterima</span>`;
-                        else if (item.status == 2) badge = `<span class="badge bg-danger">Ditolak</span>`;
+                        else if (item.status == 2) badge =
+                            `<span class="badge bg-danger">Ditolak</span>`;
                         else badge = `<span class="badge bg-warning text-dark">Pending</span>`;
 
                         const aksi = `
@@ -152,7 +159,7 @@
 
                     table.draw();
                 },
-                error: function () {
+                error: function() {
                     table.clear().draw();
                     $('#file_export tbody').html(`
                         <tr>
@@ -164,22 +171,56 @@
         }
 
         function updateStatus(id, action) {
-            const label = action === 'accept' ? 'menerima' : 'menolak';
-            if (!confirm(`Yakin ingin ${label} peserta ini?`)) return;
-            console.log('/administration/ppdb-reception/' + id + '/accept');
-            $.ajax({
-                url: `/administration/ppdb-reception/${id}/${action}`,
-                method: 'GET',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    _method: 'PATCH'
-                },
-                success: function () {
-                    loadParticipants($('#ppdbSelect').val());
-                },
-                error: function () {
-                    alert('Gagal memperbarui status.');
-                }
+            const isAccept = action === 'accept';
+
+            Swal.fire({
+                title: isAccept ? 'Terima peserta?' : 'Tolak peserta?',
+                text: isAccept ?
+                    'Peserta ini akan diterima.' :
+                    'Peserta ini akan ditolak.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: isAccept ? 'Ya, Terima' : 'Ya, Tolak',
+                cancelButtonText: 'Batal',
+                reverseButtons: true
+            }).then((result) => {
+
+                if (!result.isConfirmed) return;
+
+                $.ajax({
+                    url: `/administration/ppdb-reception/${id}/${action}`,
+                    method: 'Patch',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        _method: 'PATCH'
+                    },
+
+                    success: function() {
+
+                        Swal.fire({
+                            title: 'Berhasil!',
+                            text: isAccept ?
+                                'Peserta berhasil diterima.' :
+                                'Peserta berhasil ditolak.',
+                            icon: 'success',
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+
+                        loadParticipants($('#ppdbSelect').val());
+                    },
+
+                    error: function() {
+
+                        Swal.fire({
+                            title: 'Gagal!',
+                            text: 'Gagal memperbarui status peserta.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+
+                    }
+                });
             });
         }
     </script>

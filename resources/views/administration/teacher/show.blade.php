@@ -91,7 +91,7 @@
                                 <tr>
                                     <td class="text-muted ps-0">Tanggal Lahir</td>
                                     <td class="fw-medium">
-                                        {{ $teacher->teacherBio->tcb_birth_date
+                                        {{ $teacher->teacherBio?->tcb_birth_date
                                             ? \Carbon\Carbon::parse($teacher->teacherBio->tcb_birth_date)->locale('id')->translatedFormat('d F Y')
                                             : '-' }}
                                     </td>
@@ -99,7 +99,11 @@
                                 <tr>
                                     <td class="text-muted ps-0">Jenis Kelamin</td>
                                     <td class="fw-medium">
-                                        {{ $teacher->teacherBio->tcb_gender == 1 ? 'Laki-laki' : ($teacher->teacherBio->tcb_gender == 2 ? 'Perempuan' : '-') }}
+                                        {{ match ($teacher->teacherBio?->tcb_gender) {
+                                            1 => 'Laki-laki',
+                                            2 => 'Perempuan',
+                                            default => '-',
+                                        } }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -109,7 +113,11 @@
                                 <tr>
                                     <td class="text-muted ps-0">Status Nikah</td>
                                     <td class="fw-medium">
-                                        {{ $teacher->teacherBio->tcb_mary_status == 1 ? 'Sudah Menikah' : 'Belum Menikah' }}
+                                        {{ match ($teacher->teacherBio?->tcb_mary_status) {
+                                            1 => 'Sudah Menikah',
+                                            2 => 'Belum Menikah',
+                                            default => '-',
+                                        } }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -297,22 +305,22 @@
                                 @foreach ($teacher->teacherEducation as $education)
                                     <tr>
                                         <td class="text-muted ps-0" style="width:45%">{{ $education->tce_level }}</td>
-                                        <td class="fw-medium">{{ $education->tce_institution }}</td>
+                                        <td class="fw-medium">{{ $education->tce_institution ?? '-' }}</td>
                                     </tr>
                                     <tr>
                                         <td class="text-muted ps-0" style="width:45%">Tahun Lulus</td>
-                                        <td class="fw-medium">{{ $education->tce_graduation_year }}</td>
+                                        <td class="fw-medium">{{ $education->tce_graduation_year ?? '-' }}</td>
                                     </tr>
                                     @if ($education->tce_major != null)
                                         <tr>
                                             <td class="text-muted ps-0" style="width:45%">Jurusan </td>
-                                            <td class="fw-medium">{{ $education->tce_major }}</td>
+                                            <td class="fw-medium">{{ $education->tce_major ?? '-' }}</td>
                                         </tr>
                                     @endif
                                     @if ($education->tce_degree != null)
                                         <tr>
                                             <td class="text-muted ps-0" style="width:45%">Gelar </td>
-                                            <td class="fw-medium">{{ $education->tce_degree }}</td>
+                                            <td class="fw-medium">{{ $education->tce_degree ?? '-' }}</td>
                                         </tr>
                                     @endif
                                 @endforeach

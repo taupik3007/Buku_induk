@@ -109,14 +109,14 @@ class ClassAssignmentController extends Controller
             ->values();
 
         // dd($semuaSiswa);
-
+        // dd($semuaSiswa);
         foreach ($semuaSiswa as $urut => $submission) {
             $nomorUrut = str_pad($urut + 1, 3, '0', STR_PAD_LEFT); // 001, 002, dst
-            $nis       = $tahunKode . '.10.' . $nomorUrut;          // 2526.10.001
-
+            $nis       = $tahunKode . '10' . $nomorUrut;          // 2526.10.001
+            // dd($nis);
            $student= Student::where('std_id', $submission->ppsu_student_id)
                 ->update(['std_nis'=> $nis]);
-        // dd($student);
+        dd($student->std_nis);
 
 
         }

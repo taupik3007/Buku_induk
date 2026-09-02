@@ -50,23 +50,30 @@
                     <div class="flex-grow-1">
                         <h5 class="fw-semibold mb-1">{{ $student->student->user->usr_name }}</h5>
                         <div class="d-flex flex-wrap gap-2 align-items-center">
-                            <span class="badge bg-primary-subtle text-primary">
+
+                            {{-- <span class="badge bg-primary-subtle text-primary">
                                 No. Daftar: {{ $student->reg_number ?? '-' }}
-                            </span>
+                            </span> --}}
+
                             @php
                                 $statusMap = [
-                                    'pending' => ['bg-warning-subtle text-warning', 'Menunggu Verifikasi'],
-                                    'verified' => ['bg-success-subtle text-success', 'Terverifikasi'],
-                                    'rejected' => ['bg-danger-subtle text-danger', 'Ditolak'],
-                                    'accepted' => ['bg-info-subtle text-info', 'Diterima'],
+                                    0 => ['bg-warning-subtle text-warning', 'Menunggu Verifikasi'],
+                                    1 => ['bg-success-subtle text-success', 'Diterima'],
+                                    2 => ['bg-danger-subtle text-danger', 'Ditolak'],
                                 ];
-                                $statusKey = $student->reg_status ?? 'pending';
+
+                                $statusKey = $student->ppsu_status ?? 0;
+
                                 [$badgeClass, $badgeLabel] = $statusMap[$statusKey] ?? [
                                     'bg-secondary-subtle text-secondary',
-                                    ucfirst($statusKey),
+                                    'Status Tidak Diketahui',
                                 ];
                             @endphp
-                            <span class="badge {{ $badgeClass }}">{{ $badgeLabel }}</span>
+
+                            <span class="badge {{ $badgeClass }}">
+                                {{ $badgeLabel }}
+                            </span>
+
                         </div>
                     </div>
                     <div class="d-flex gap-2 flex-wrap">
@@ -158,7 +165,7 @@
                                         '4' => 'Cerai',
                                     ];
                                 @endphp
-                               
+
                                 <tr>
                                     <td class="text-muted ps-0">Status Keluarga</td>
                                     <td class="fw-medium">
@@ -173,7 +180,7 @@
                                     <td class="text-muted ps-0">No Telepon</td>
                                     <td class="fw-medium">{{ $student->student->biodata->stb_telp ?? '-' }}</td>
                                 </tr>
-                                 @php
+                                @php
                                     $livingLabels = [
                                         '1' => 'Bersama Orangtua',
                                         '2' => 'Tinggal bersama Ayah',
@@ -184,7 +191,9 @@
                                 @endphp
                                 <tr>
                                     <td class="text-muted ps-0">Tinggal</td>
-                                    <td class="fw-medium">{{ $livingLabels[(string) $student->student->biodata->stb_living_with] ?? '-' }}</td>
+                                    <td class="fw-medium">
+                                        {{ $livingLabels[(string) $student->student->biodata->stb_living_with] ?? '-' }}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -444,7 +453,8 @@
                             <tbody>
                                 <tr>
                                     <td class="text-muted ps-0" style="width:45%">Nama Sekolah</td>
-                                    <td class="fw-medium">{{ $student->student->previousEducation->prv_school_name ?? '-' }}</td>
+                                    <td class="fw-medium">
+                                        {{ $student->student->previousEducation->prv_school_name ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">NPSN</td>
@@ -452,9 +462,10 @@
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Nomor Ijazah</td>
-                                    <td class="fw-medium">{{ $student->student->previousEducation->prv_certificate_number ?? '-' }}</td>
+                                    <td class="fw-medium">
+                                        {{ $student->student->previousEducation->prv_certificate_number ?? '-' }}</td>
                                 </tr>
-                                
+
                             </tbody>
                         </table>
                     </div>
@@ -542,7 +553,6 @@
                                             </td>
                                             <td>
                                                 @if ($doc->upload)
-                                               
                                                     <a href="{{ asset('storage/' . $doc->file_path) }}" target="_blank"
                                                         class="btn btn-outline-primary btn-sm">
                                                         <i class="ti ti-eye me-1"></i>Lihat

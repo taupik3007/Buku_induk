@@ -6,6 +6,7 @@ use App\Http\Controllers\Administration\MajorController;
 use App\Http\Controllers\Administration\PPDBController;
 use App\Http\Controllers\Administration\PPDBRequirementController;
 use App\Http\Controllers\Administration\PPDBReceptionController;
+use App\Http\Controllers\Administration\StudentController;
 use App\Http\Controllers\prospectiveStudentController;
 use App\Http\Controllers\DashboardController as AdministrationDashboardController;
 use App\Http\Controllers\ProfileController;
@@ -178,7 +179,7 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::get('/', [PPDBReceptionController::class, 'index'])->name('index');
         Route::get('/{ppd_id}/list', [PpdbReceptionController::class, 'list'])->name('list');
         Route::get('/{student_id}/show', [PPDBReceptionController::class, 'show'])->name('show');
-        Route::get('/{student_id}/accept', [PPDBReceptionController::class, 'accept'])->name('accept');
+        Route::patch('/{student_id}/accept', [PPDBReceptionController::class, 'accept'])->name('accept');
         Route::post('/{student_id}/reject', [PPDBReceptionController::class, 'reject'])->name('reject');
         Route::get('/accepted', [PPDBReceptionController::class, 'accepted'])->name('accepted');
         Route::get('/{ppd_id}/accepted-list', [PpdbReceptionController::class, 'acceptedList'])->name('acceptedList');
@@ -219,6 +220,7 @@ Route::prefix('administration')->name('administration.')->group(function () {
 
 
 
+
 //     Route::get('/kelas', function () {
 //     return view('administration.class-assignment.index');
 // });
@@ -234,6 +236,15 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::get('/{id}/rejected-list', [TeacherReceptionController::class, 'rejectedList'])->name('rejecttedList');
 
     });
+
+    Route::prefix('student')->name('teacherReception.')->group(function () {
+        Route::get('/', [StudentController::class, 'index'])->name('index');
+        Route::get('/{level}', [StudentController::class, 'studentWithLevel'])->name('level');
+        
+
+
+    });
+
 
 });
 
@@ -289,7 +300,9 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::delete('/{id}/destroy', [RequirementController::class, 'destroy'])->name('classes.destroy');
 
 });
-    Route::prefix('prospective-student')->name('prospectiveStudent.')->group(function () {
+    
+});
+Route::prefix('prospective-student')->name('prospectiveStudent.')->group(function () {
         Route::get('/biodata', [prospectiveStudentController::class, 'biodata'])->name('biodata');
         Route::post('/register/stepOne', [prospectiveStudentController::class, 'stepOne'])->name('register.stepOne');
         Route::post('/register/stepTwo', [prospectiveStudentController::class, 'stepTwo'])->name('register.stepTwo');
@@ -306,7 +319,6 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::post('/ppdb-registration/stepTwo', [ProspectiveStudentController::class, 'stepEight'])->name('ppdbRegistration.stepTwo');
         Route::post('/ppdb-registration/step-three', [ProspectiveStudentController::class, 'stepNine'])->name('ppdbRegistration.stepThree');
     });
-});
 
 
 

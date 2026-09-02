@@ -55,7 +55,7 @@
                             <tr>
                                 <td>{{ $no + 1 }}</td>
                                 <td>{{ $teacher->usr_name }}</td>
-                                <td>{{$teacher->teacher->teacherEmployee->tce_position}}</td>
+                                <td>{{$teacher->teacher->teacherEmployee->tce_position??'-'}}</td>
                                 <td>
                                     <a href="/administration/teacher/{{ $teacher->usr_id }}/show" class="btn btn-primary">detail</a>
                                     
