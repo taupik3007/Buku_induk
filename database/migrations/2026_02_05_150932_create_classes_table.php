@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('cls_major_id');
             $table->foreign('cls_major_id')->references('mjr_id')->on('majors')->onDelete('cascade');
             $table->bigInteger('cls_number');
-            $table->unsignedBigInteger('cls_homeroom_id');
+            $table->unsignedBigInteger('cls_homeroom_id')->nullable();
             $table->foreign('cls_homeroom_id')->references('usr_id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('cls_acy_id');
             $table->foreign('cls_acy_id')->references('acy_id')->on('academic_years')->onDelete('cascade');

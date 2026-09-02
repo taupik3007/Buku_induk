@@ -44,6 +44,7 @@ class ClassAssignmentController extends Controller
         'jumlah_kelas' => 'required|array',
     ]);
 
+
     $ppdbId          = $request->ppd_id;
     $ppdb            = Ppdb::with('academic')->where('ppd_id', $ppdbId)->first();
     $jumlahKelasInput = $request->jumlah_kelas;
@@ -114,9 +115,30 @@ class ClassAssignmentController extends Controller
             $nomorUrut = str_pad($urut + 1, 3, '0', STR_PAD_LEFT); // 001, 002, dst
             $nis       = $tahunKode . '10' . $nomorUrut;          // 2526.10.001
             // dd($nis);
-           $student= Student::where('std_id', $submission->ppsu_student_id)
-                ->update(['std_nis'=> $nis]);
-        dd($student->std_nis);
+// dd(Student::where('std_id',1)->first());
+
+
+//             dd([
+//     'ppsu_student_id' => $submission->ppsu_student_id,
+//     'type_ppsu' => gettype($submission->ppsu_student_id),
+
+//     'student' => Student::where('std_id', $submission->ppsu_student_id)->first(),
+
+//     'student_1' => Student::where('std_id', 1)->first(),
+
+//     'connection' => (new Student)->getConnectionName(),
+//     'table' => (new Student)->getTable(),
+// ]);
+// dd( $submission->ppsu_student_id);
+           $student= Student::where('std_id', $submission->ppsu_student_id)->first();
+        // dd($student->std_id);
+        if ($student) {
+        $student->update([
+            'std_nis' => $nis
+        ]);
+
+        // dd($student->std_nis);
+    }
 
 
         }

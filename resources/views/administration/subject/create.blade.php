@@ -13,7 +13,8 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a class="text-muted text-decoration-none" href="/administration/subjects">Daftar Mata Pelajaran</a>
+                                <a class="text-muted text-decoration-none" href="/administration/subjects">Daftar Mata
+                                    Pelajaran</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Tambah Mata Pelajaran</li>
                         </ol>
@@ -21,7 +22,8 @@
                 </div>
                 <div class="col-3">
                     <div class="text-center mb-n5">
-                        <img src="{{ asset('assets/images/breadcrumb/ChatBc.png') }}" alt="modernize-img" class="img-fluid mb-n4" />
+                        <img src="{{ asset('assets/images/breadcrumb/ChatBc.png') }}" alt="modernize-img"
+                            class="img-fluid mb-n4" />
                     </div>
                 </div>
             </div>
@@ -33,58 +35,31 @@
             <h4 class="card-title mb-4">Tambah Mata Pelajaran</h4>
 
             <form action="" method="POST">
-                @csrf
+    @csrf
+    @method('PATCH')
 
-                <div class="mb-3">
-                    <label for="sbj_name" class="form-label">Nama Mata Pelajaran</label>
-                    <input type="text" class="form-control" id="sbj_name" name="sbj_name" placeholder="Contoh: Matematika">
-                </div>
+    <div class="mb-3">
+        <label for="teacher_id" class="form-label">Wali Kelas</label>
 
-                <div class="mb-3">
-                    <label for="sbj_code" class="form-label">Kode Mata Pelajaran</label>
-                    <input type="text" class="form-control" id="sbj_code" name="sbj_code" placeholder="Contoh: MTK">
-                </div>
+        <select name="teacher_id" id="teacher_id" class="form-select" required>
+            <option value="">-- Pilih Guru --</option>
 
-                <div class="mb-3">
-                    <label for="exampleInputText1" class="form-label">Tingkatan</label>
-                    {{-- <div class="col-sm-9"> --}}
-                        <select class="form-select mr-sm-2" name="sbj_level"
-                            oninvalid="this.setCustomValidity('Tingkatan Wajib Diisi')"
-                            onchange="this.setCustomValidity('')" required>
-                            <option selected value="" >Pilih Level/Tingkatan...</option>
-                            <option value="10">X</option>
-                            <option value="11">XI</option>
-                            <option value="12">XII</option>
-                        </select>
-                    {{-- </div> --}}
-                    @error('sbj_level')
-                        <div>error</div>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputText1" class="form-label">Jurusan</label>
-                    {{-- <div class="col-sm-9"> --}}
-                        <select class="form-select mr-sm-2"  name="sbj_major_id"
-                            oninvalid="this.setCustomValidity('Jurusan wajib diisi')"
-                            onchange="this.setCustomValidity('')" required>
-                            <option selected value="">Pilih Jurusan...</option>
-                            @foreach ($majors as $major)
-                                <option value="{{ $major->mjr_id }}">{{ $major->mjr_abbr }} - {{ $major->mjr_name }}</option>
-                            @endforeach
-                        </select>
-                    {{-- </div> --}}
-                    @error('sbj_major_id')
-                        <div class="text-danger small">{{ $message }}</div>
-                    @enderror
-                </div>
-                
+            @foreach ($teachers as $teacher)
+                <option value="{{ $teacher->usr_id }}"
+                    {{ $class->cls_homeroom_teacher_id == $teacher->usr_id ? 'selected' : '' }}>
+                    {{ $teacher->usr_name }}
+                </option>
+            @endforeach
+        </select>
+    </div>
 
-                <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                    <a href="/administration/subject" class="btn btn-secondary">Batal</a>
-                </div>
-
-            </form>
+    <button type="submit" class="btn btn-primary">
+        Simpan
+    </button>
+</form>
         </div>
     </div>
+
+    
+
 @endsection

@@ -76,6 +76,7 @@
                                 <td>{{ $class->students->count()}}</td>
                                 <td>
                                      <a href="/administration/classes/{{ $class->cls_id}}/students" class="btn btn-info">Siswa</a>
+                                     <a href="/administration/classes/{{ $class->cls_id}}/homeroom" class="btn btn-info">wali</a>
                                      <a href="/administration/classes/{{ $class->cls_id}}/edit" class="btn btn-primary">Edit</a>
                                      <a href="/administration/classes/{{ $class->cls_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
   
@@ -124,4 +125,5 @@
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 
     <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
+   
 @endpush
