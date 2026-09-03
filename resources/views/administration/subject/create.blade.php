@@ -33,33 +33,49 @@
     <div class="card">
         <div class="card-body">
             <h4 class="card-title mb-4">Tambah Mata Pelajaran</h4>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <form action="{{ route('administration.subject.store') }}" method="POST">
+                @csrf
 
-            <form action="" method="POST">
-    @csrf
-    @method('PATCH')
+                <div class="mb-3">
+                    <label for="sbj_name" class="form-label">Nama Mata Pelajaran</label>
+                    <input type="text" name="sbj_name" id="sbj_name" class="form-control"
+                        placeholder="Contoh: Pemrograman Web" required>
+                </div>
 
-    <div class="mb-3">
-        <label for="teacher_id" class="form-label">Wali Kelas</label>
+                <div class="mb-3">
+                    <label for="sbj_level" class="form-label">Tingkat Kelas</label>
+                    <select name="sbj_level" id="sbj_level" class="form-select" required>
+                        <option value="">-- Pilih Tingkat --</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                </div>
 
-        <select name="teacher_id" id="teacher_id" class="form-select" required>
-            <option value="">-- Pilih Guru --</option>
+                <div class="mb-3">
+                    <label for="sbj_major_id" class="form-label">Jurusan</label>
+                    <select name="sbj_major_id" id="sbj_major_id" class="form-select" required>
+                        <option value="">-- Pilih Jurusan --</option>
+                        @foreach ($majors as $major)
+                            <option value="{{ $major->mjr_id }}">{{ $major->mjr_abbr }}</option>
+                        @endforeach
+                        <option value="">Normatif</option>
+                    </select>
+                </div>
 
-            @foreach ($teachers as $teacher)
-                <option value="{{ $teacher->usr_id }}"
-                    {{ $class->cls_homeroom_teacher_id == $teacher->usr_id ? 'selected' : '' }}>
-                    {{ $teacher->usr_name }}
-                </option>
-            @endforeach
-        </select>
-    </div>
-
-    <button type="submit" class="btn btn-primary">
-        Simpan
-    </button>
-</form>
+                <button type="submit" class="btn btn-primary">
+                    Simpan
+                </button>
+            </form>
         </div>
     </div>
-
-    
-
 @endsection

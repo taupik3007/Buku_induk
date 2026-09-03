@@ -187,9 +187,12 @@ class ClassController extends Controller
         $class->cls_homeroom_id = $request->teacher_id;
         $class->save();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Wali kelas berhasil diperbarui.'
-        ]);
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Wali kelas berhasil diperbarui.'
+        // ]);
+        Alert::success('Berhasil Mengubah Wali Kelas', 'Wali kelas berhasil diperbarui');
+
+        return redirect('/administration/classes');
     }
 }

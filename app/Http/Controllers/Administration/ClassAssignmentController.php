@@ -9,6 +9,7 @@ use App\Models\Majors;
 use App\Models\Ppdb;
 use App\Models\Classes;
 use App\Models\Student;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 
@@ -82,7 +83,7 @@ class ClassAssignmentController extends Controller
                     [
                         'cls_code'        => $major->mjr_abbr . '-' . $k,
                         'cls_level'       => '10',
-                        'cls_homeroom_id' => 1,
+                        // 'cls_homeroom_id' => 1,
                     ]
                 );
                 $classes[] = $kelas;
@@ -136,8 +137,11 @@ class ClassAssignmentController extends Controller
         $student->update([
             'std_nis' => $nis
         ]);
-
         // dd($student->std_nis);
+        $user = User::where('usr_id',$student->std_usr_id)->first();
+        // dd($user);
+        $user->syncRoles(['student']);
+
     }
 
 

@@ -208,6 +208,9 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::get('/{id}/edit', [SubjectController::class, 'edit'])->name('edit');
         Route::post('/{id}/edit', [SubjectController::class, 'update'])->name('update');
         Route::delete('/{id}/destroy', [SubjectController::class, 'destroy'])->name('destroy');
+        Route::get('/{id}/subject-teachers',[SubjectController::class, 'subjectTeachers'])->name('subjectTeachers');
+        Route::get( '/{id}/subject-teachers/create', [SubjectController::class, 'createSubjectTeacher'] )->name('subjectTeacher.create');
+        Route::post( '/{id}/subject-teachers/create', [SubjectController::class, 'storeSubjectTeacher'] )->name('subjectTeacher.store');
     });
     Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::get('/', [TeacherController::class, 'index'])->name('index');

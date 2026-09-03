@@ -59,18 +59,11 @@
                                 <td>{{ $subject->sbj_name }}</td>
                                 <td>{{ $subject->sbj_code }}</td>
                                 <td>
-                                  @if($subject->sbj_level == 10)
-                                      X
-                                  @elseif($subject->sbj_level == 11)
-                                      XI
-                                  @elseif($subject->sbj_level == 12)
-                                      XII
-                                  @else
-                                     -
-                                  @endif
+                                 {{$subject->sbj_level}}
                                 </td>
-                                <td>{{ $subject->major->mjr_abbr ?? '-' }}</td>
+                                <td>{{ $subject->major->mjr_abbr ?? "Normatif" }}</td>
                                 <td>
+                                    <a href="/administration/subject/{{ $subject->sbj_id }}/subject-teachers" class="btn btn-primary">Pengampu</a>
                                     <a href="/administration/subject/{{ $subject->sbj_id }}/edit" class="btn btn-primary">Edit</a>
                                     <a href="/administration/subject/{{ $subject->sbj_id }}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
                                 </td>

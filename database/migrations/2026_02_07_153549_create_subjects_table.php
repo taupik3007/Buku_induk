@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('sbj_name');
             $table->string('sbj_code');
             $table->bigInteger('sbj_level');
-            $table->unsignedBigInteger('sbj_major_id');
+            $table->unsignedBigInteger('sbj_major_id')->nullable();
             $table->foreign('sbj_major_id')->references('mjr_id')->on('majors')->onDelete('cascade');
             $table->timestamps();
             $table->renameColumn('updated_at', 'sbj_updated_at');
