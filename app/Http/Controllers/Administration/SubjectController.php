@@ -144,30 +144,72 @@ class SubjectController extends Controller
         return redirect('/administration/subject');
     }
 
-    public function subjectTeachers($id)
+    public function subjectTeachers(Request $request, $id)
     {
-        return view('administration.subject.subjectTeachers');
+        $subject = Subject::findOrFail($id);
+
+    $academicYears = Academic_Year::orderByDesc('acy_id')->get();
+
+    $activeAcademicYear = Academic_Year::where('acy_status', 1)
+        ->firstOrFail();
+
+    $academicYearId = $request->acy_id
+        ?? $activeAcademicYear->acy_id;
+
+    $subjectTeachers = SubjectTeacher::with([
+        'teacher.user',
+        'class.cls_major',
+        'academicYear',
+    ])
+        ->where('subt_subject_id', $subject->sbj_id)
+        ->where('subt_academic_year_id', $academicYearId)
+        ->get();
+
+    return view(
+        'administration.subject.subjectTeachers',
+        compact(
+            'subject',
+            'academicYears',
+            'academicYearId',
+            'subjectTeachers'
+        )
+    );
     }
 
     public function createSubjectTeacher($id)
     {
         $subject = Subject::findOrFail($id);
-        // dd($subject);
 
         $teachers = Teacher::with('user')->get();
-        // dd($teachers);s
+
+        // Ambil tahun ajaran aktif
+        $academicYear = Academic_Year::where('acy_status', 1)->firstOrFail();
+
+        // Ambil ID kelas yang sudah memiliki pengampu
+        // untuk mata pelajaran ini di tahun ajaran aktif
+        $usedClassIds = SubjectTeacher::where('subt_subject_id', $subject->sbj_id)
+            ->where('subt_academic_year_id', $academicYear->acy_id)
+            ->pluck('subt_class_id');
+
+        // Ambil kelas sesuai tingkatan mapel
+        // dan keluarkan kelas yang sudah punya pengampu
         $classes = Classes::with('cls_major')
             ->where('cls_level', $subject->sbj_level)
+            ->whereNotIn('cls_id', $usedClassIds)
             ->get();
-        // dd($classes);
-        return view('administration.subject.createSubjectTeacher', compact(['subject', 'teachers', 'classes']));
+
+        return view(
+            'administration.subject.createSubjectTeacher',
+            compact('subject', 'teachers', 'classes')
+        );
     }
 
     public function storeSubjectTeacher(Request $request, $id)
     {
         $validated = $request->validate([
             'teacher_id' => 'required|exists:teachers,tcr_id',
-            'class_id' => 'required|exists:classes,cls_id',
+            'class_id' => 'required|array|min:1',
+            'class_id.*' => 'exists:classes,cls_id',
             'total_hours' => 'required|integer|min:2|max:20',
         ], [
             'teacher_id.required' => 'Guru pengampu wajib dipilih.',
@@ -203,14 +245,17 @@ class SubjectController extends Controller
             return redirect()->back()->withInput();
         }
 
-        SubjectTeacher::create([
-            'subt_subject_id' => $subject->sbj_id,
-            'subt_class_id' => $validated['class_id'],
-            'subt_teacher_id' => $validated['teacher_id'],
-            'subt_academic_year_id' => $academicYear->acy_id,
-            'subt_total_hours' => $validated['total_hours'],
-            'subt_created_by' => auth()->id(),
-        ]);
+        foreach ($validated['class_id'] as $classId) {
+
+            SubjectTeacher::create([
+                'subt_subject_id' => $subject->sbj_id,
+                'subt_class_id' => $classId,
+                'subt_teacher_id' => $validated['teacher_id'],
+                'subt_academic_year_id' => $academicYear->acy_id,
+                'subt_total_hours' => $validated['total_hours'],
+                'subt_created_by' => auth()->id(),
+            ]);
+        }
 
         Alert::success(
             'Berhasil Menambah',
@@ -218,7 +263,7 @@ class SubjectController extends Controller
         );
 
         return redirect()->route(
-            'administration.subjectTeacher',
+            'administration.subject.subjectTeacher',
             $subject->sbj_id
         );
     }

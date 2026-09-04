@@ -3,7 +3,9 @@
 @section('title')
     SiMAPUT | Tambah Pengampu
 @endsection
-
+@push('link')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@endpush
 @section('content')
     <div class="datatables">
 
@@ -136,17 +138,24 @@
                                 Kelas
                             </label>
 
-                            <select name="class_id" id="class" class="form-select" required>
-                                <option value="">-- Pilih Kelas --</option>
+                            <select name="class_id[]" id="class" class="form-select" multiple required>
+
                                 @foreach ($classes as $class)
                                     <option value="{{ $class->cls_id }}"
-                                        {{ old('class_id') == $class->cls_id ? 'selected' : '' }}>
+                                        {{ in_array($class->cls_id, old('class_id', [])) ? 'selected' : '' }}>
                                         {{ $class->cls_level }}
                                         {{ $class->cls_major?->mjr_abbr ?? '' }}
                                         {{ $class->cls_number }}
                                     </option>
                                 @endforeach
+
                             </select>
+
+                            @error('class_id')
+                                <small class="text-danger">
+                                    {{ $message }}
+                                </small>
+                            @enderror
                         </div>
 
                         {{-- Jumlah Jam --}}
@@ -194,3 +203,14 @@
 
     </div>
 @endsection
+@push('script')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $('#class').select2({
+            placeholder: 'Pilih Kelas',
+            width: '100%',
+            closeOnSelect: false
+        });
+    </script>
+@endpush
