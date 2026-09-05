@@ -302,13 +302,12 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::post('/create', [RequirementController::class, 'store'])->name('store');
         Route::get('/{id}/edit', [RequirementController::class, 'edit'])->name('edit');
         Route::post('/{id}/edit', [RequirementController::class, 'update'])->name('update');
-
         Route::delete('/{id}/destroy', [RequirementController::class, 'destroy'])->name('classes.destroy');
-
 });
-    
+
 });
 Route::prefix('prospective-student')->name('prospectiveStudent.')->group(function () {
+    Route::get('/', [prospectiveStudentController::class, 'index'])->name('index');
         Route::get('/biodata', [prospectiveStudentController::class, 'biodata'])->name('biodata');
         Route::post('/register/stepOne', [prospectiveStudentController::class, 'stepOne'])->name('register.stepOne');
         Route::post('/register/stepTwo', [prospectiveStudentController::class, 'stepTwo'])->name('register.stepTwo');

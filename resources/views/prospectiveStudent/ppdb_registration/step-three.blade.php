@@ -51,46 +51,80 @@
             return;
         }
 
-        let formData = {
-            ppsu_major_id: $('[name="ppsu_major_id"]').val(),
-            ppsu_reason: $('[name="ppsu_reason"]').val(),
-            _token: '{{ csrf_token() }}'
-        };
+        Swal.fire({
+            icon: 'question',
+            title: 'Konfirmasi Pendaftaran',
+            text: 'Apakah data yang Anda isi sudah sesuai dan yakin ingin mengirim pendaftaran?',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Kirim Pendaftaran',
+            cancelButtonText: 'Periksa Kembali',
+            reverseButtons: true,
+            allowOutsideClick: false
+        }).then((result) => {
 
-        $.ajax({
-            url: "{{ route('prospectiveStudent.ppdbRegistration.stepThree') }}",
-            type: "POST",
-            data: formData,
-            success: function(response) {
-                if (response.status) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Berhasil!',
-                        text: response.message,
-                        timer: 1500,
-                        showConfirmButton: false
-                    }).then(() => {
-                        stepper.next();
-                    });
-                }
-            },
-            error: function(xhr) {
-                if (xhr.status === 422) {
-                    let errors = xhr.responseJSON.errors;
-                    let msg = Object.values(errors).flat().join('\n');
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Validasi Gagal!',
-                        text: msg,
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops!',
-                        text: 'Terjadi kesalahan server.',
-                    });
-                }
+            if (result.isConfirmed) {
+
+                let formData = {
+                    ppsu_major_id: $('[name="ppsu_major_id"]').val(),
+                    ppsu_reason: $('[name="ppsu_reason"]').val(),
+                    _token: '{{ csrf_token() }}'
+                };
+
+                $.ajax({
+                    url: "{{ route('prospectiveStudent.ppdbRegistration.stepThree') }}",
+                    type: "POST",
+                    data: formData,
+
+                    success: function(response) {
+
+                        if (response.status) {
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil!',
+                                text: response.message,
+                                timer: 1500,
+                                showConfirmButton: false
+                            }).then(() => {
+
+                                window.location.href = '/prospective-student/';
+
+                            });
+
+                        }
+                    },
+
+                    error: function(xhr) {
+
+                        if (xhr.status === 422) {
+
+                            let errors = xhr.responseJSON.errors;
+                            let msg = Object.values(errors).flat().join('\n');
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Validasi Gagal!',
+                                text: msg,
+                            });
+
+                        } else {
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops!',
+                                text: 'Terjadi kesalahan server.',
+                            });
+
+                        }
+                    }
+                });
+
             }
+
+            // Kalau klik "Periksa Kembali"
+            // tidak ada proses AJAX.
+            // User tetap berada di step 3.
+
         });
     }
 </script>

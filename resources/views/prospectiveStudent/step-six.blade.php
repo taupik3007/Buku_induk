@@ -112,46 +112,71 @@
 </div>
 
 <script>
-function stepSix() {
-
-    let formData = {
-        fml_guardian_name: $('[name="fml_guardian_name"]').val(),
-        fml_guardian_religion_id: $('[name="fml_guardian_religion_id"]').val(),
-        fml_guardian_nationality: $('select[name="fml_guardian_nationality"]').val(),
-        fml_guardian_education: $('[name="fml_guardian_education"]').val(),
-        fml_guardian_occupation: $('[name="fml_guardian_occupation"]').val(),
-        fml_guardian_income: $('[name="fml_guardian_income"]').val(),
-        fml_guardian_address: $('[name="fml_guardian_address"]').val(),
-        fml_guardian_phone: $('[name="fml_guardian_phone"]').val(),
-        _token: '{{ csrf_token() }}'
-    };
-
-    $.ajax({
-        url: "{{ route('prospectiveStudent.register.stepSix') }}",
-        type: "POST",
-        data: formData,
-        success: function(response) {
-
-             if (response.status) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil!',
-                    text: response.message,
-                    timer: 1500,
-                    showConfirmButton: false
-                }).then(() => {
-                    stepper.next();
-                });
+    function stepSix() {
+    
+        let formData = {
+            fml_guardian_name: $('[name="fml_guardian_name"]').val(),
+            fml_guardian_religion_id: $('[name="fml_guardian_religion_id"]').val(),
+            fml_guardian_nationality: $('select[name="fml_guardian_nationality"]').val(),
+            fml_guardian_education: $('[name="fml_guardian_education"]').val(),
+            fml_guardian_occupation: $('[name="fml_guardian_occupation"]').val(),
+            fml_guardian_income: $('[name="fml_guardian_income"]').val(),
+            fml_guardian_address: $('[name="fml_guardian_address"]').val(),
+            fml_guardian_phone: $('[name="fml_guardian_phone"]').val(),
+            _token: '{{ csrf_token() }}'
+        };
+    
+        $.ajax({
+            url: "{{ route('prospectiveStudent.register.stepSix') }}",
+            type: "POST",
+            data: formData,
+    
+            success: function(response) {
+    
+                if (response.status) {
+    
+                    Swal.fire({
+                        icon: 'question',
+                        title: 'Periksa Kembali Data',
+                        text: 'Apakah seluruh data yang Anda isi sudah sesuai?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Ya, Sudah Sesuai',
+                        cancelButtonText: 'Periksa Kembali',
+                        reverseButtons: true,
+                        allowOutsideClick: false
+                    }).then((result) => {
+    
+                        if (result.isConfirmed) {
+    
+                            window.location.href = '/prospective-student/';
+    
+                        }
+    
+                    });
+    
+                }
+            },
+    
+            error: function(xhr) {
+    
+                if (xhr.status === 422) {
+    
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Validasi Gagal',
+                        text: 'Cek kembali data yang Anda masukkan.'
+                    });
+    
+                } else {
+    
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Terjadi Kesalahan',
+                        text: 'Terjadi kesalahan pada server.'
+                    });
+    
+                }
             }
-        },
-        error: function(xhr) {
-
-            if (xhr.status === 422) {
-                alert('Validasi gagal. Cek kembali inputan.');
-            } else {
-                alert('Terjadi kesalahan server.');
-            }
-        }
-    });
-}
-</script>
+        });
+    }
+    </script>
