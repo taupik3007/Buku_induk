@@ -11,374 +11,202 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
     <link rel="stylesheet" href="{{ asset('assets/libs/owl.carousel/dist/assets/owl.carousel.min.css') }}" />
     <title>PPDB - Pendaftaran Peserta Didik Baru</title>
+
+    <style>
+        :root {
+            --nav-blue: #2f5cf0;
+            --ppdb-a: #ff9a5a;
+            --ppdb-b: #ff6f4d;
+        }
+    
+        body { background: #f6f8fc; }
+    
+        /* ===== NAVBAR (tetap) ===== */
+        .app-header {
+            background: #ffffff;
+            border-bottom: 1px solid #eef1f7;
+            box-shadow: 0 2px 10px rgba(16, 40, 100, 0.05);
+        }
+        .app-navbar {
+            width: 100%;
+            padding: 0.65rem 1.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .app-logo { display: flex; align-items: center; position: relative; overflow: visible; }
+        .app-logo img { width: 60px !important; height: auto !important; }
+        .simapput-text {
+            margin-left: 8px; font-size: 22px; font-weight: 700; letter-spacing: 1px;
+            opacity: 0; transform: translateX(-20px);
+            animation: simapputSlide 0.8s ease forwards;
+        }
+        @keyframes simapputSlide { to { opacity: 1; transform: translateX(0); } }
+        .leaf-popup {
+            margin-left: 5px; font-size: 22px;
+            opacity: 0; transform: scale(0) rotate(-30deg);
+            animation: leafPop 0.6s ease 0.7s forwards;
+        }
+        @keyframes leafPop {
+            0% { opacity: 0; transform: scale(0) rotate(-30deg); }
+            70% { opacity: 1; transform: scale(1.3) rotate(10deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0); }
+        }
+        .app-nav-link {
+            color: #4b5768; font-weight: 500; font-size: 0.9rem;
+            padding: 0.45rem 0.9rem !important; border-radius: 8px; transition: all .15s ease;
+        }
+        .app-nav-link:hover { background: #eef3ff; color: var(--nav-blue); }
+        .app-nav-link.active { background: var(--nav-blue); color: #fff !important; }
+        .app-nav-logout { color: #d64545 !important; }
+        .app-nav-logout:hover { background: #fdeaea !important; color: #b93030 !important; }
+    
+        /* ===== PAGE HEADER ===== */
+        .ppdb-hero { max-width: 720px; margin: 0 auto; text-align: center; }
+        .ppdb-hero h2 { font-weight: 800; font-size: 1.5rem; color: #26314a; margin-bottom: 0.25rem; }
+        .ppdb-hero p { font-size: 0.88rem; color: #7a8296; }
+    
+        /* ===== WRAPPER FORM ===== */
+        .ppdb-wrapper { max-width: 640px; margin: 0 auto; }
+        .ppdb-card {
+            background: #ffffff; border: none; border-radius: 22px;
+            box-shadow: 0 10px 30px rgba(16, 40, 100, 0.08);
+            padding: 2rem 1.75rem;
+        }
+    
+        /* ===== RESKIN BS-STEPPER (pakai struktur & class aslinya) ===== */
+        .bs-stepper-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 2.2rem;
+            padding: 0;
+        }
+    
+        .bs-stepper .step {
+            flex: 1;
+        }
+    
+        .bs-stepper .step-trigger {
+            background: none;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0;
+            width: 100%;
+        }
+    
+        .bs-stepper-circle {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            background: #eceff5 !important;
+            color: #9aa4bb !important;
+            transition: all .25s ease;
+            margin: 0;
+        }
+    
+        .bs-stepper-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #9aa4bb;
+            text-align: center;
+            margin-top: 0.35rem;
+        }
+    
+        .step.active .bs-stepper-circle {
+            background: linear-gradient(135deg, var(--ppdb-a), var(--ppdb-b)) !important;
+            color: #fff !important;
+            box-shadow: 0 4px 12px rgba(255, 111, 77, 0.35);
+        }
+    
+        .step.active .bs-stepper-label { color: #ff6f4d; }
+    
+        .step.crossed .bs-stepper-circle {
+            background: #22c55e !important;
+            color: #fff !important;
+        }
+    
+        .step.crossed .bs-stepper-label { color: #22c55e; }
+    
+        /* garis penghubung antar step */
+        .bs-stepper-header .line {
+            flex: 1;
+            height: 3px;
+            background: #eceff5;
+            border-radius: 3px;
+            margin: 17px 6px 0;
+            min-width: 20px;
+            transition: background .25s ease;
+        }
+    
+        .step.crossed + .line,
+        .line.crossed {
+            background: linear-gradient(90deg, var(--ppdb-a), var(--ppdb-b));
+        }
+    
+        /* ===== FORM ELEMENTS ===== */
+        .ppdb-wrapper .form-label {
+            font-size: 0.83rem; font-weight: 600; color: #384056; margin-bottom: 0.35rem;
+        }
+        .ppdb-wrapper .form-control,
+        .ppdb-wrapper .form-select {
+            border: 1.5px solid #e7eaf2; border-radius: 12px; padding: 0.6rem 0.9rem;
+            font-size: 0.88rem; background: #fbfcfe; transition: all .15s ease;
+        }
+        .ppdb-wrapper .form-control:focus,
+        .ppdb-wrapper .form-select:focus {
+            border-color: var(--ppdb-b);
+            box-shadow: 0 0 0 3px rgba(255, 111, 77, 0.12);
+            background: #fff;
+        }
+        .ppdb-wrapper .form-text { font-size: 0.74rem; }
+        .ppdb-field { margin-bottom: 1.15rem; }
+    
+        /* ===== BUTTONS ===== */
+        .ppdb-btn-next, .ppdb-btn-submit {
+            border: none; border-radius: 12px; padding: 0.65rem 1.4rem;
+            font-weight: 700; font-size: 0.85rem; color: #fff;
+            background: linear-gradient(135deg, var(--ppdb-a), var(--ppdb-b));
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            transition: transform .15s ease, filter .15s ease;
+        }
+        .ppdb-btn-next:hover, .ppdb-btn-submit:hover {
+            transform: translateY(-2px); filter: brightness(1.05); color: #fff;
+        }
+        .ppdb-btn-back {
+            border: 1.5px solid #e7eaf2; background: #fff; border-radius: 12px;
+            padding: 0.65rem 1.4rem; font-weight: 700; font-size: 0.85rem;
+            color: #6b7488; transition: all .15s ease;
+        }
+        .ppdb-btn-back:hover { background: #f4f6fb; color: #384056; }
+        .ppdb-actions {
+            display: flex; justify-content: space-between; align-items: center; margin-top: 1.6rem;
+        }
+    
+        /* ===== REQUIREMENT CARD (step 2) ===== */
+        .req-item {
+            border: 1.5px solid #eef0f6; border-radius: 14px;
+            padding: 1rem 1.1rem; margin-bottom: 0.9rem; background: #fbfcfe;
+        }
+        .req-item .form-label { display: flex; align-items: center; gap: 0.4rem; }
+        .req-item .form-label::before { content: '📄'; font-size: 0.8rem; }
+    
+        /* ===== AGREEMENT BOX (step 3) ===== */
+        .agreement-box {
+            background: #fff7f2; border: 1.5px dashed #ffc9a8; border-radius: 14px;
+            padding: 0.9rem 1rem; margin-top: 0.5rem;
+        }
+        .agreement-box .form-check-label { font-size: 0.82rem; color: #4b5768; }
+    </style>
 </head>
-<style>
-    :root {
-        --nav-blue: #2f5cf0;
-        --biodata-a: #6a8dff;
-        --biodata-b: #3d5df2;
-        --ppdb-a: #ff9a5a;
-        --ppdb-b: #ff6f4d;
-    }
-
-    body {
-        background: #f2f5fc;
-    }
-
-    /* ===== NAVBAR ===== */
-    .app-header {
-        background: #ffffff;
-        border-bottom: 1px solid #eef1f7;
-        box-shadow: 0 2px 10px rgba(16, 40, 100, 0.05);
-    }
-
-    .app-navbar {
-        width: 100%;
-        padding: 0.65rem 1.75rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .app-logo img {
-        height: 32px;
-    }
-
-    .app-nav-link {
-        color: #4b5768;
-        font-weight: 500;
-        font-size: 0.9rem;
-        padding: 0.45rem 0.9rem !important;
-        border-radius: 8px;
-        transition: all .15s ease;
-    }
-
-    .app-nav-link:hover {
-        background: #eef3ff;
-        color: var(--nav-blue);
-    }
-
-    .app-nav-link.active {
-        background: var(--nav-blue);
-        color: #fff !important;
-    }
-
-    .app-nav-logout {
-        color: #d64545 !important;
-    }
-
-    .app-nav-logout:hover {
-        background: #fdeaea !important;
-        color: #b93030 !important;
-    }
-
-    /* ===== HERO GREETING ===== */
-    .hero-greeting {
-        max-width: 880px;
-        margin: 0 auto;
-    }
-
-    .hero-greeting h2 {
-        font-weight: 800;
-        font-size: 1.5rem;
-    }
-
-    .hero-emoji {
-        display: inline-block;
-        animation: wave 1.8s infinite;
-        transform-origin: 70% 70%;
-    }
-
-    @keyframes wave {
-        0%, 60%, 100% { transform: rotate(0deg); }
-        10% { transform: rotate(14deg); }
-        20% { transform: rotate(-8deg); }
-        30% { transform: rotate(14deg); }
-        40% { transform: rotate(-4deg); }
-        50% { transform: rotate(10deg); }
-    }
-
-    /* ===== FUN CARD (compact + aligned buttons) ===== */
-    .cards-row {
-        max-width: 800px;
-        margin: 0 auto;
-    }
-
-    .fun-card {
-        border: none;
-        border-radius: 18px;
-        overflow: hidden;
-        position: relative;
-        box-shadow: 0 8px 22px rgba(16, 40, 100, 0.09);
-        transition: transform .25s ease, box-shadow .25s ease;
-        max-width: 380px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .fun-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 14px 28px rgba(16, 40, 100, 0.15);
-    }
-
-    .fun-card-header {
-        padding: 1rem 1.1rem 2.4rem;
-        color: #fff;
-        position: relative;
-        overflow: hidden;
-        flex-shrink: 0;
-    }
-
-    .fun-card-header.biodata {
-        background: linear-gradient(135deg, var(--biodata-a), var(--biodata-b));
-    }
-
-    .fun-card-header.ppdb {
-        background: linear-gradient(135deg, var(--ppdb-a), var(--ppdb-b));
-    }
-
-    .fun-card-header .blob {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.15);
-    }
-
-    .fun-card-header .blob-1 {
-        width: 90px; height: 90px;
-        top: -30px; right: -25px;
-    }
-
-    .fun-card-header .blob-2 {
-        width: 50px; height: 50px;
-        bottom: -15px; right: 45px;
-    }
-
-    .fun-card-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 12px;
-        background: rgba(255,255,255,0.22);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.25rem;
-    }
-
-    .fun-card-title {
-        font-weight: 800;
-        font-size: 1.02rem;
-        margin: 0.5rem 0 0.1rem;
-    }
-
-    .fun-card-sub {
-        font-size: 0.74rem;
-        opacity: 0.9;
-    }
-
-    .ring-wrap {
-        position: absolute;
-        right: 1.1rem;
-        bottom: -24px;
-        width: 50px;
-        height: 50px;
-    }
-
-    .progress-ring {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #fff;
-        box-shadow: 0 5px 12px rgba(16, 40, 100, 0.18);
-    }
-
-    .progress-ring::before {
-        content: '';
-        position: absolute;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background: conic-gradient(var(--ring-color, #2f5cf0) calc(var(--pct, 0) * 1%), #e9edf7 0);
-        -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 5px));
-        mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 5px));
-    }
-
-    .progress-ring span {
-        position: relative;
-        font-weight: 800;
-        font-size: 0.7rem;
-        color: #26314a;
-    }
-
-    /* body ngisi sisa tinggi card, checklist yang "makan" ruang kosong,
-       tombol otomatis kedorong rata bawah */
-    .fun-card-body {
-        padding: 1.9rem 1.1rem 1.1rem;
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-    }
-
-    .checklist-wrap {
-        display: flex;
-        flex-direction: column;
-        gap: 0.15rem;
-        flex: 1;
-        margin-bottom: 1rem;
-    }
-
-    .check-item {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.3rem 0.4rem;
-        border-radius: 8px;
-        font-size: 0.83rem;
-        transition: background .15s ease;
-    }
-
-    .check-item:hover {
-        background: #f4f6fb;
-    }
-
-    .check-dot {
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.6rem;
-        flex-shrink: 0;
-    }
-
-    .check-dot.done {
-        background: #22c55e;
-        color: #fff;
-    }
-
-    .check-dot.pending {
-        background: #e9edf7;
-        color: #9aa4bb;
-        border: 1.5px dashed #cfd6e6;
-    }
-
-    .fun-btn {
-        border: none;
-        border-radius: 12px;
-        padding: 0.55rem 1rem;
-        font-weight: 700;
-        font-size: 0.83rem;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.4rem;
-        width: 100%;
-        flex-shrink: 0;
-        transition: transform .15s ease, filter .15s ease;
-    }
-
-    .fun-btn:hover {
-        transform: translateY(-2px);
-        filter: brightness(1.05);
-        color: #fff;
-    }
-
-    .fun-btn.biodata-btn {
-        background: linear-gradient(135deg, var(--biodata-a), var(--biodata-b));
-    }
-
-    .fun-btn.ppdb-btn {
-        background: linear-gradient(135deg, var(--ppdb-a), var(--ppdb-b));
-    }
-
-    .fun-btn.disabled-btn {
-        background: #e2e6ef;
-        color: #9aa4bb;
-        cursor: not-allowed;
-    }
-
-    .fun-btn .arrow {
-        transition: transform .15s ease;
-    }
-
-    .fun-btn:hover .arrow {
-        transform: translateX(3px);
-    }
-
-    .confetti-badge {
-        position: absolute;
-        top: 0.75rem;
-        right: 0.75rem;
-        background: rgba(255,255,255,0.25);
-        padding: 0.2rem 0.55rem;
-        border-radius: 999px;
-        font-size: 0.65rem;
-        font-weight: 700;
-    }
-    .app-logo {
-    display: flex;
-    align-items: center;
-    position: relative;
-    overflow: visible;
-}
-
-.app-logo img {
-    width: 60px !important;
-    height: auto !important;
-}
-
-/* Tulisan SIMAPPUT */
-.simapput-text {
-    margin-left: 8px;
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: 1px;
-
-    opacity: 0;
-    transform: translateX(-20px);
-
-    animation: simapputSlide 0.8s ease forwards;
-}
-
-@keyframes simapputSlide {
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-/* Daun di ujung tulisan */
-.leaf-popup {
-    margin-left: 5px;
-    font-size: 22px;
-
-    opacity: 0;
-    transform: scale(0) rotate(-30deg);
-
-    animation: leafPop 0.6s ease 0.7s forwards;
-}
-
-@keyframes leafPop {
-    0% {
-        opacity: 0;
-        transform: scale(0) rotate(-30deg);
-    }
-
-    70% {
-        opacity: 1;
-        transform: scale(1.3) rotate(10deg);
-    }
-
-    100% {
-        opacity: 1;
-        transform: scale(1) rotate(0);
-    }
-}
-</style>
 
 <body>
 
@@ -389,19 +217,12 @@
     <header class="app-header w-100">
         <nav class="navbar navbar-expand-lg app-navbar">
             <a href="../main/frontend-landingpage.html" class="app-logo text-nowrap">
-                <img src="{{ asset('assets/images/logos/1.png') }}" 
-                     class="dark-logo" 
-                     alt="Logo-Dark" />
-            
-                <img src="{{ asset('assets/images/logos/1.png') }}" 
-                     class="light-logo" 
-                     alt="Logo-light" />
-            
+                <img src="{{ asset('assets/images/logos/1.png') }}" class="dark-logo" alt="Logo-Dark" />
+                <img src="{{ asset('assets/images/logos/1.png') }}" class="light-logo" alt="Logo-light" />
                 <span class="simapput-text">SIMAPPUT</span>
-            
                 <span class="leaf-popup">🍃</span>
             </a>
-    
+
             <ul class="navbar-nav d-none d-lg-flex flex-row align-items-center gap-1 mb-0">
                 <li class="nav-item">
                     <a class="nav-link app-nav-link active" href="/prospective-student/">Dashboard</a>
@@ -416,7 +237,7 @@
                     </form>
                 </li>
             </ul>
-    
+
             <button class="navbar-toggler border-0 p-0 shadow-none d-lg-none" type="button"
                 data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                 <i class="ti ti-menu-2 fs-6"></i>
@@ -432,77 +253,66 @@
         <div class="offcanvas-body">
             <ul class="navbar-nav gap-1">
                 <li class="nav-item">
-                    <a class="nav-link px-3 py-2 rounded fw-semibold" href="/prospective-student/biodata">
-                        Biodata
-                    </a>
+                    <a class="nav-link px-3 py-2 rounded fw-semibold" href="/prospective-student/biodata">Biodata</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-3 py-2 rounded fw-semibold" href="/prospective-student/ppdb">
-                        PPDB
-                    </a>
+                    <a class="nav-link px-3 py-2 rounded fw-semibold" href="/prospective-student/ppdb">PPDB</a>
                 </li>
             </ul>
         </div>
     </div>
 
     <div class="main-wrapper overflow-hidden">
-        <section class="pt-5 pt-md-14 pt-lg-12 pb-4 pb-md-5 pb-lg-14">
+        <section class="pt-5 pt-md-8 pt-lg-8 pb-4 pb-md-5 pb-lg-10">
             <div class="container-fluid">
-                <div class="card data-shadow rounded-3 mb-7">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="p-7 p-lg-5 border flex-grow-1 rounded-3">
-                                <div class="py-4 d-flex flex-column gap-4">
 
-                                    <div id="stepper" class="bs-stepper">
-                                        <div class="bs-stepper-header">
-                                            <div class="step" data-target="#step-1">
-                                                <button class="step-trigger">
-                                                    <span class="bs-stepper-circle">1</span>
-                                                    <span class="bs-stepper-label">Sekolah Asal</span>
-                                                </button>
-                                            </div>
-                                            <div class="line"></div>
-                                            <div class="step" data-target="#step-2">
-                                                <button class="step-trigger">
-                                                    <span class="bs-stepper-circle">2</span>
-                                                    <span class="bs-stepper-label">Persyaratan</span>
-                                                </button>
-                                            </div>
-                                            <div class="line"></div>
-                                            <div class="step" data-target="#step-3">
-                                                <button class="step-trigger">
-                                                    <span class="bs-stepper-circle">3</span>
-                                                    <span class="bs-stepper-label">Jurusan</span>
-                                                </button>
-                                            </div>
-                                        </div>
+                <div class="ppdb-hero mb-4">
+                    <h2>🎒 Pendaftaran PPDB</h2>
+                    <p>Lengkapi 3 langkah mudah ini untuk menyelesaikan pendaftaranmu</p>
+                </div>
 
-                                        <form method="POST" action="/prospective-student/ppdb">
-                                            <input type="hidden" id="registration_id" value="">
-                                            @csrf
-
-                                            <div class="bs-stepper-content">
-
-                                                {{-- Step 1: Sekolah Asal --}}
-                                                @include('prospectiveStudent.ppdb_registration.step-one')
-
-                                                {{-- Step 2: Persyaratan --}}
-                                                @include('prospectiveStudent.ppdb_registration.step-two')
-                                                
-                                                {{-- Step 3: Jurusan --}}
-                                                @include('prospectiveStudent.ppdb_registration.step-three')
-                                                
-
-                                            </div>
-                                        </form>
-                                    </div>
-
+                <div class="ppdb-wrapper">
+                    <div class="ppdb-card">
+                
+                        <div id="stepper" class="bs-stepper">
+                            <div class="bs-stepper-header" role="tablist">
+                                <div class="step" data-target="#step-1">
+                                    <button type="button" class="step-trigger">
+                                        <span class="bs-stepper-circle">1</span>
+                                        <span class="bs-stepper-label">Sekolah Asal</span>
+                                    </button>
+                                </div>
+                                <div class="line"></div>
+                                <div class="step" data-target="#step-2">
+                                    <button type="button" class="step-trigger">
+                                        <span class="bs-stepper-circle">2</span>
+                                        <span class="bs-stepper-label">Persyaratan</span>
+                                    </button>
+                                </div>
+                                <div class="line"></div>
+                                <div class="step" data-target="#step-3">
+                                    <button type="button" class="step-trigger">
+                                        <span class="bs-stepper-circle">3</span>
+                                        <span class="bs-stepper-label">Jurusan</span>
+                                    </button>
                                 </div>
                             </div>
+                
+                            <form method="POST" action="/prospective-student/ppdb">
+                                <input type="hidden" id="registration_id" value="">
+                                @csrf
+                
+                                <div class="bs-stepper-content">
+                                    @include('prospectiveStudent.ppdb_registration.step-one')
+                                    @include('prospectiveStudent.ppdb_registration.step-two')
+                                    @include('prospectiveStudent.ppdb_registration.step-three')
+                                </div>
+                            </form>
                         </div>
+                
                     </div>
                 </div>
+
             </div>
         </section>
     </div>
@@ -513,29 +323,28 @@
     </a>
 
     <script>
-        function saveStep(step) {
-            let formData = new FormData(document.querySelector('form'));
-            formData.append('_token', '{{ csrf_token() }}');
-            formData.append('registration_id', document.getElementById('registration_id').value);
-
-            fetch(`/prospective-student/ppdb/step/${step}`, {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(res => res.json())
-                .then(res => {
-                    if (res.success) {
-                        document.getElementById('registration_id').value = res.id;
-                        stepper.next();
-                    }
-                });
-        }
-    </script>
-
-    <script>
         document.addEventListener('DOMContentLoaded', function() {
-            window.stepper = new Stepper(document.querySelector('#stepper'))
-        })
+            window.stepper = new Stepper(document.querySelector('#stepper'));
+
+            const steps = document.querySelectorAll('.elegant-step');
+            const lineFill = document.getElementById('stepperLineFill');
+
+            function updateStepperUI(index) {
+                steps.forEach((el, i) => {
+                    el.classList.remove('active', 'done');
+                    if (i < index) el.classList.add('done');
+                    if (i === index) el.classList.add('active');
+                });
+                let pct = (index / (steps.length - 1)) * 100;
+                lineFill.style.width = pct + '%';
+            }
+
+            document.querySelector('#stepper').addEventListener('shown.bs-stepper', function(e) {
+                updateStepperUI(e.detail.indexStep);
+            });
+
+            updateStepperUI(0);
+        });
     </script>
 
     <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
@@ -551,8 +360,7 @@
     <script src="{{ asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
     <script src="{{ asset('assets/js/forms/select2.init.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 </html>

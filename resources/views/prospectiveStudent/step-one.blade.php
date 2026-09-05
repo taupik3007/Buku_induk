@@ -62,39 +62,40 @@
     </div>
 
     {{-- Data Saudara --}}
-    <div class="row">
-        <div class="col-md-3">
-            <div class="mb-3">
-                <label class="form-label">Anak ke</label>
-                <input type="number" name="fml_birth_order" class="form-control" required
-                    value="{{ old('fml_birth_order', $family->fml_birth_order ?? '') }}">
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="mb-3">
-                <label class="form-label">Jumlah Saudara Kandung</label>
-                <input type="number" name="fml_sibling" class="form-control" required
-                    value="{{ old('fml_sibling', $family->fml_sibling ?? '') }}">
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="mb-3">
-                <label class="form-label">Saudara Tiri</label>
-                <input type="number" name="fml_step_sibling" class="form-control"
-                    value="{{ old('fml_step_sibling', $family->fml_step_sibling ?? '') }}">
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="mb-3">
-                <label class="form-label">Saudara Angkat</label>
-                <input type="number" name="fml_adoptive_sibling" class="form-control"
-                    value="{{ old('fml_adoptive_sibling', $family->fml_adoptive_sibling ?? '') }}">
-            </div>
+  {{-- Data Saudara --}}
+<div class="row saudara-row">
+    <div class="col-md-3 col-6 mb-3">
+        <div class="d-flex flex-column h-100">
+            <label class="form-label">Anak ke</label>
+            <input type="number" name="fml_birth_order" class="form-control mt-auto" required
+                value="{{ old('fml_birth_order', $family->fml_birth_order ?? '') }}">
         </div>
     </div>
+
+    <div class="col-md-3 col-6 mb-3">
+        <div class="d-flex flex-column h-100">
+            <label class="form-label">Jumlah Saudara Kandung</label>
+            <input type="number" name="fml_sibling" class="form-control mt-auto" required
+                value="{{ old('fml_sibling', $family->fml_sibling ?? '') }}">
+        </div>
+    </div>
+
+    <div class="col-md-3 col-6 mb-3">
+        <div class="d-flex flex-column h-100">
+            <label class="form-label">Saudara Tiri</label>
+            <input type="number" name="fml_step_sibling" class="form-control mt-auto"
+                value="{{ old('fml_step_sibling', $family->fml_step_sibling ?? '') }}">
+        </div>
+    </div>
+
+    <div class="col-md-3 col-6 mb-3">
+        <div class="d-flex flex-column h-100">
+            <label class="form-label">Saudara Angkat</label>
+            <input type="number" name="fml_adoptive_sibling" class="form-control mt-auto"
+                value="{{ old('fml_adoptive_sibling', $family->fml_adoptive_sibling ?? '') }}">
+        </div>
+    </div>
+</div>
 
 
     {{-- Status Keluarga --}}
