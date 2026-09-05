@@ -303,27 +303,30 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::post('/create', [RequirementController::class, 'store'])->name('store');
         Route::get('/{id}/edit', [RequirementController::class, 'edit'])->name('edit');
         Route::post('/{id}/edit', [RequirementController::class, 'update'])->name('update');
-
         Route::delete('/{id}/destroy', [RequirementController::class, 'destroy'])->name('classes.destroy');
-    });
+
+});
+
 });
 Route::prefix('prospective-student')->name('prospectiveStudent.')->group(function () {
-    Route::get('/biodata', [prospectiveStudentController::class, 'biodata'])->name('biodata');
-    Route::post('/register/stepOne', [prospectiveStudentController::class, 'stepOne'])->name('register.stepOne');
-    Route::post('/register/stepTwo', [prospectiveStudentController::class, 'stepTwo'])->name('register.stepTwo');
-    Route::post('/register/stepThree', [prospectiveStudentController::class, 'stepThree'])->name('register.stepThree');
-    Route::post('/register/stepFour', [prospectiveStudentController::class, 'stepFour'])->name('register.stepFour');
-    Route::post('/register/stepFive', [prospectiveStudentController::class, 'stepFive'])->name('register.stepFive');
-    Route::post('/register/stepSix', [prospectiveStudentController::class, 'stepSix'])->name('register.stepSix');
-    Route::get('/api/provinces', [regionController::class, 'provinces']);
-    Route::get('/api/regencies/{province}', [regionController::class, 'regencies']);
-    Route::get('/api/districts/{province}', [regionController::class, 'districts']);
-    Route::get('/api/villages/{province}', [regionController::class, 'villages']);
-    Route::get('/ppdb-registration', [prospectiveStudentController::class, 'ppdbRegistration'])->name('ppdbRegistration');
-    Route::post('/ppdb-registration/stepOne', [ProspectiveStudentController::class, 'stepSeven'])->name('ppdbRegistration.stepOne');
-    Route::post('/ppdb-registration/stepTwo', [ProspectiveStudentController::class, 'stepEight'])->name('ppdbRegistration.stepTwo');
-    Route::post('/ppdb-registration/step-three', [ProspectiveStudentController::class, 'stepNine'])->name('ppdbRegistration.stepThree');
-});
+    Route::get('/', [prospectiveStudentController::class, 'index'])->name('index');
+        Route::get('/biodata', [prospectiveStudentController::class, 'biodata'])->name('biodata');
+        Route::post('/register/stepOne', [prospectiveStudentController::class, 'stepOne'])->name('register.stepOne');
+        Route::post('/register/stepTwo', [prospectiveStudentController::class, 'stepTwo'])->name('register.stepTwo');
+        Route::post('/register/stepThree', [prospectiveStudentController::class, 'stepThree'])->name('register.stepThree');
+        Route::post('/register/stepFour', [prospectiveStudentController::class, 'stepFour'])->name('register.stepFour');
+        Route::post('/register/stepFive', [prospectiveStudentController::class, 'stepFive'])->name('register.stepFive');
+        Route::post('/register/stepSix', [prospectiveStudentController::class, 'stepSix'])->name('register.stepSix');
+        Route::get('/api/provinces', [regionController::class, 'provinces']);
+        Route::get('/api/regencies/{province}', [regionController::class, 'regencies']);
+        Route::get('/api/districts/{province}', [regionController::class, 'districts']);
+        Route::get('/api/villages/{province}', [regionController::class, 'villages']);
+        Route::get('/ppdb-registration', [prospectiveStudentController::class, 'ppdbRegistration'])->name('ppdbRegistration');
+        Route::post('/ppdb-registration/stepOne', [ProspectiveStudentController::class, 'stepSeven'])->name('ppdbRegistration.stepOne');
+        Route::post('/ppdb-registration/stepTwo', [ProspectiveStudentController::class, 'stepEight'])->name('ppdbRegistration.stepTwo');
+        Route::post('/ppdb-registration/step-three', [ProspectiveStudentController::class, 'stepNine'])->name('ppdbRegistration.stepThree');
+    });
+
 
 
 

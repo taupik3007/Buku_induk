@@ -15,15 +15,70 @@ use App\Models\PpdbRequirement;
 use App\Models\PhysicalCondition;
 use App\Models\ProspectiveStudentRequirement;
 use App\Models\Previous_Education;
-
-
 use Illuminate\Support\Facades\DB;
-
-
-
 class prospectiveStudentController extends Controller
 {
- 
+
+    public function index()
+{
+    $userId    = auth()->user()->usr_id;
+    $studentId = auth()->user()->student->std_id;
+
+    $biodata           = StudentBiodata::where('stb_student_id', $studentId)->first();
+    $address           = Address::where('adr_user_id', $userId)->first();
+    $physicalCondition = PhysicalCondition::where('phy_student_id', $studentId)->first();
+    $family            = Family::where('fml_student_id', $studentId)->first();
+
+    $previousEducation = Previous_Education::where('prv_student_id', $studentId)->first();
+    $ppdbSubmission     = PpdbSubmission::where('ppsu_student_id', $studentId)->first();
+
+    $activePpdb = Ppdb::where('ppd_start_date', '<=', now())
+        ->where('ppd_end_date', '>=', now())
+        ->first();
+
+    $requirementsComplete = false;
+    if ($activePpdb) {
+        $requirements = PpdbRequirement::where('pdr_ppdb_id', $activePpdb->ppd_id)->get();
+        $filledIds = ProspectiveStudentRequirement::where('psr_std_id', $studentId)
+            ->pluck('psr_requirement_id')
+            ->toArray();
+
+        $requirementsComplete = $requirements->count() > 0
+            && $requirements->every(fn($req) => in_array($req->pdr_id, $filledIds));
+    }
+
+    $biodataChecklist = [
+        'Data Diri'     => !is_null($biodata),
+        'Alamat'        => !is_null($address),
+        'Kondisi Fisik' => !is_null($physicalCondition),
+        'Data Ayah'     => !is_null($family) && !empty($family->fml_father_name),
+        'Data Ibu'      => !is_null($family) && !empty($family->fml_mother_name),
+        'Data Wali'     => !is_null($family) && !empty($family->fml_guardian_name),
+    ];
+
+    $ppdbChecklist = [
+        'Sekolah Asal' => !is_null($previousEducation),
+        'Persyaratan'  => $requirementsComplete,
+        'Jurusan'      => !is_null($ppdbSubmission) && !is_null($ppdbSubmission->ppsu_major_id),
+    ];
+
+    $biodataProgress = $this->calcProgress($biodataChecklist);
+    $ppdbProgress    = $this->calcProgress($ppdbChecklist);
+
+    $ppdbOpen = !is_null($activePpdb);
+
+    return view('prospectiveStudent.index', compact(
+        'biodataChecklist', 'ppdbChecklist', 'biodataProgress', 'ppdbProgress', 'ppdbOpen'
+    ));
+}
+
+private function calcProgress(array $checklist)
+{
+    $total = count($checklist);
+    $done  = count(array_filter($checklist));
+    return $total > 0 ? round(($done / $total) * 100) : 0;
+}
+
     public function biodata(){
         $studentId = auth()->user()->student->std_id;
         $biodata = StudentBiodata::where('stb_student_id',$studentId)->first();
@@ -34,23 +89,6 @@ class prospectiveStudentController extends Controller
             ->where('ppd_end_date', '>=', now())
             ->first();
         $isComplited = PpdbSubmission::where('ppsu_student_id',$studentId)->first();
-        // dd($isComplited);
-            // if($ppdb == null){
-            //     dd("tidak aktif");
-            // }
-            // dd($ppdb);
-        // dd($address);
-        // dd($physicalCondition);
-
-        // dd($studentId);
-            // dd($userId);
-
-
-        /*
-            Step 2
-        */
-            
-
         $religion = Religion::all();
         return view('prospectiveStudent.biodata',compact(['religion','biodata','family','address','physicalCondition','ppdb','isComplited']));
     }
@@ -66,7 +104,6 @@ class prospectiveStudentController extends Controller
             'stb_language'      => 'required|string',
             'stb_telp'          => 'required|string',
             'stb_living_with'   => 'required|integer',
-
             // families
             'fml_birth_order'       => 'required|integer',
             'fml_sibling'           => 'required|integer',
@@ -74,14 +111,9 @@ class prospectiveStudentController extends Controller
             'fml_adoptive_sibling'  => 'nullable|integer',
             'fml_status'            => 'required|integer',
         ]);
-        // dd($request->all());
-        // DB::beginTransaction();
-
         try {
             $userId = auth()->user()->usr_id;
-
             $studentId = auth()->user()->student->std_id;
-
             // // =====================
             // // student__biodatas
             // // =====================
@@ -100,7 +132,6 @@ class prospectiveStudentController extends Controller
                     'stb_updated_by'    => $userId,
                 ]
             );
-
             // // =====================
             // // families
             // // =====================
@@ -116,9 +147,7 @@ class prospectiveStudentController extends Controller
                     'fml_updated_by'       => $userId,
                 ]
             );
-
             // // DB::commit();
-
             return response()->json([
                 'success' => true,
                 'message' => 'Step 1 berhasil disimpan'
@@ -127,18 +156,12 @@ class prospectiveStudentController extends Controller
         } catch (\Throwable $e) {
 
             DB::rollBack();
-
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage()
             ], 500);
         }
-          
     }
-
-
-
-
     public function stepTwo(Request $request){
         $userId = auth()->user()->usr_id;
 
@@ -157,9 +180,7 @@ class prospectiveStudentController extends Controller
 ]);
 
     DB::beginTransaction();
-
     try {
-
        $student = Address::updateOrCreate(
     ['adr_user_id' => $userId],
     [
@@ -176,8 +197,6 @@ class prospectiveStudentController extends Controller
         'adr_detail'          => $request->adr_detail,
     ]
 );
-
-
         DB::commit();
 
         return response()->json([
@@ -197,12 +216,9 @@ class prospectiveStudentController extends Controller
         ], 500);
     }
     }
-
     public function stepThree(Request $request){
           $userId = auth()->user()->usr_id;
         $studentId = auth()->user()->student->std_id;
-
-
     $validated = $request->validate([
         'phy_blood_type' => 'required|string|max:3',
         'phy_illness'    => 'nullable|string|max:255',
@@ -210,11 +226,8 @@ class prospectiveStudentController extends Controller
         'phy_height'     => 'required|numeric|min:0|max:300',
         'phy_weight'     => 'required|numeric|min:0|max:300',
     ]);
-
     DB::beginTransaction();
-
     try {
-
         $physical = PhysicalCondition::updateOrCreate(
             ['phy_student_id' => $studentId],
             [
