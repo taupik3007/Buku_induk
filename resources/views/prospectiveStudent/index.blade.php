@@ -340,6 +340,45 @@
     
         animation: simapputSlide 0.8s ease forwards;
     }
+ /* ===== WAITING STATE (progress 100%) ===== */
+.fun-card.ppdb-waiting {
+    position: relative;
+}
+
+.fun-card-body {
+    position: relative;
+    overflow: hidden;
+}
+
+.hourglass-watermark {
+    position: absolute;
+    top: 0;
+    right: -35px;
+    height: 100%;
+    width: auto;
+    opacity: 0.12;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+}
+
+.checklist-wrap,
+.fun-btn {
+    position: relative;
+    z-index: 1;
+}
+
+.fun-btn.waiting-btn {
+    background: #fff3ec;
+    color: #ff6f4d;
+    cursor: not-allowed;
+    border: 1.5px dashed #ffb98f;
+}
+
+.fun-btn.waiting-btn:hover {
+    transform: none;
+    filter: none;
+}
     
     @keyframes simapputSlide {
         to {
@@ -495,55 +534,87 @@
                         </div>
                     </div>
 
-                    {{-- CARD PPDB --}}
-                    <div class="col-sm-6 col-lg-5 d-flex justify-content-center">
-                        <div class="fun-card w-100">
-                            <div class="fun-card-header ppdb">
-                                <div class="blob blob-1"></div>
-                                <div class="blob blob-2"></div>
-                                @if($ppdbProgress == 100)
-                                    <div class="confetti-badge">🎉 Lengkap!</div>
-                                @elseif(!$ppdbOpen)
-                                    <div class="confetti-badge">🔒 Belum Buka</div>
-                                @endif
-                                <div class="fun-card-icon">🏫</div>
-                                <div class="fun-card-title">PPDB / SPMB</div>
-                                <div class="fun-card-sub">Sekolah asal, persyaratan, & jurusan</div>
+{{-- CARD PPDB --}}
+<div class="col-sm-6 col-lg-5 d-flex justify-content-center">
+    <div class="fun-card w-100 {{ $ppdbProgress == 100 ? 'ppdb-waiting' : '' }}">
+        <div class="fun-card-header ppdb">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            @if($ppdbProgress == 100)
+                <div class="confetti-badge">⏳ Menunggu</div>
+            @elseif(!$ppdbOpen)
+                <div class="confetti-badge">🔒 Belum Buka</div>
+            @endif
+            <div class="fun-card-icon">🏫</div>
+            <div class="fun-card-title">PPDB / SPMB</div>
+            <div class="fun-card-sub">Sekolah asal, persyaratan, & jurusan</div>
 
-                                <div class="ring-wrap">
-                                    <div class="progress-ring" style="--pct: {{ $ppdbProgress }}; --ring-color: #ff6f4d;">
-                                        <span>{{ $ppdbProgress }}%</span>
-                                    </div>
-                                </div>
-                            </div>
+            <div class="ring-wrap">
+                <div class="progress-ring" style="--pct: {{ $ppdbProgress }}; --ring-color: #ff6f4d;">
+                    <span>{{ $ppdbProgress }}%</span>
+                </div>
+            </div>
+        </div>
 
-                            <div class="fun-card-body">
-                                <div class="checklist-wrap">
-                                    @foreach ($ppdbChecklist as $label => $isDone)
-                                        <div class="check-item">
-                                            <span class="check-dot {{ $isDone ? 'done' : 'pending' }}">
-                                                @if($isDone)
-                                                    <i class="ti ti-check"></i>
-                                                @endif
-                                            </span>
-                                            <span class="{{ $isDone ? 'fw-semibold' : 'text-muted' }}">{{ $label }}</span>
-                                        </div>
-                                    @endforeach
-                                </div>
+        <div class="fun-card-body">
 
-                                @if ($ppdbOpen)
-                                    <a href="/prospective-student/ppdb-registration" class="fun-btn ppdb-btn">
-                                        {{ $ppdbProgress == 100 ? 'Lihat / Ubah PPDB' : 'Lengkapi PPDB' }}
-                                        <span class="arrow">→</span>
-                                    </a>
-                                @else
-                                    <button class="fun-btn disabled-btn" disabled>
-                                        🔒 SPMB Belum Dibuka
-                                    </button>
-                                @endif
-                            </div>
-                        </div>
+            @if($ppdbProgress == 100)
+                <svg class="hourglass-watermark" viewBox="0 0 100 220" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 10 
+                             L90 10 
+                             L90 30 
+                             Q90 60 60 90 
+                             Q50 100 50 110 
+                             Q50 120 60 130 
+                             Q90 160 90 190 
+                             L90 210 
+                             L10 210 
+                             L10 190 
+                             Q10 160 40 130 
+                             Q50 120 50 110 
+                             Q50 100 40 90 
+                             Q10 60 10 30 
+                             Z"
+                          fill="none" 
+                          stroke="#ff6f4d" 
+                          stroke-width="4" 
+                          stroke-linejoin="round" 
+                          stroke-linecap="round"/>
+                    <line x1="10" y1="10" x2="90" y2="10" stroke="#ff6f4d" stroke-width="4" stroke-linecap="round"/>
+                    <line x1="10" y1="210" x2="90" y2="210" stroke="#ff6f4d" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+            @endif
+
+            <div class="checklist-wrap">
+                @foreach ($ppdbChecklist as $label => $isDone)
+                    <div class="check-item">
+                        <span class="check-dot {{ $isDone ? 'done' : 'pending' }}">
+                            @if($isDone)
+                                <i class="ti ti-check"></i>
+                            @endif
+                        </span>
+                        <span class="{{ $isDone ? 'fw-semibold' : 'text-muted' }}">{{ $label }}</span>
                     </div>
+                @endforeach
+            </div>
+
+            @if ($ppdbProgress == 100)
+                <button class="fun-btn waiting-btn" disabled>
+                    ⏳ Menunggu Persetujuan
+                </button>
+            @elseif ($ppdbOpen)
+                <a href="/prospective-student/ppdb-registration" class="fun-btn ppdb-btn">
+                    Lengkapi PPDB
+                    <span class="arrow">→</span>
+                </a>
+            @else
+                <button class="fun-btn disabled-btn" disabled>
+                    🔒 SPMB Belum Dibuka
+                </button>
+            @endif
+        </div>
+    </div>
+</div>
 
                 </div>
             </div>

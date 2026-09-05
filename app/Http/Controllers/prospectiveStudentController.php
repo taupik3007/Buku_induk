@@ -79,6 +79,32 @@ private function calcProgress(array $checklist)
     return $total > 0 ? round(($done / $total) * 100) : 0;
 }
 
+private function isPpdbComplete($studentId)
+{
+    $previousEducation = Previous_Education::where('prv_student_id', $studentId)->first();
+    $ppdbSubmission     = PpdbSubmission::where('ppsu_student_id', $studentId)->first();
+
+    $activePpdb = Ppdb::where('ppd_start_date', '<=', now())
+        ->where('ppd_end_date', '>=', now())
+        ->first();
+
+    $requirementsComplete = false;
+    if ($activePpdb) {
+        $requirements = PpdbRequirement::where('pdr_ppdb_id', $activePpdb->ppd_id)->get();
+        $filledIds = ProspectiveStudentRequirement::where('psr_std_id', $studentId)
+            ->pluck('psr_requirement_id')
+            ->toArray();
+
+        $requirementsComplete = $requirements->count() > 0
+            && $requirements->every(fn($req) => in_array($req->pdr_id, $filledIds));
+    }
+
+    $sekolahAsalDone = !is_null($previousEducation);
+    $jurusanDone     = !is_null($ppdbSubmission) && !is_null($ppdbSubmission->ppsu_major_id);
+
+    return $sekolahAsalDone && $requirementsComplete && $jurusanDone;
+}
+
     public function biodata(){
         $studentId = auth()->user()->student->std_id;
         $biodata = StudentBiodata::where('stb_student_id',$studentId)->first();
@@ -426,6 +452,10 @@ try {
 
             if($ppdb == null || $isComplited == null){
                 return redirect('/prospective-student/biodata');
+            }
+            if ($this->isPpdbComplete($studentId)) {
+                return redirect('/prospective-student/')
+                    ->with('info', 'Pendaftaran PPDB kamu sudah lengkap dan sedang menunggu persetujuan.');
             }
         $activePpdb = Ppdb::latest('ppd_created_at')->firstOrFail();
         // dd($activePpdb);
