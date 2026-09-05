@@ -43,7 +43,6 @@
 @endsection
 
 @section('content')
-
     <div class="datatables">
 
         {{-- Header --}}
@@ -74,9 +73,8 @@
 
                         <div class="text-center mb-n5">
 
-                            <img src="{{ asset('assets/images/breadcrumb/ChatBc.png') }}"
-                                 alt="modernize-img"
-                                 class="img-fluid mb-n4">
+                            <img src="{{ asset('assets/images/breadcrumb/ChatBc.png') }}" alt="modernize-img"
+                                class="img-fluid mb-n4">
 
                         </div>
 
@@ -93,98 +91,48 @@
 
             <div class="card-body">
 
-                <div class="row align-items-end">
+                <form method="GET" action="{{ route('administration.schedule.index') }}">
 
-                    {{-- Tahun Ajaran --}}
-                    <div class="col-md-4 mb-3 mb-md-0">
+                    <div class="row align-items-end">
 
-                        <label for="academic_year"
-                               class="form-label fw-semibold">
-                            Tahun Ajaran
-                        </label>
+                        <div class="col-md-4">
+                            <label for="academic_year" class="form-label fw-semibold">
+                                Tahun Ajaran
+                            </label>
 
-                        <select id="academic_year"
-                                class="form-select">
+                            <select name="acy_id" id="academic_year" class="form-select" onchange="this.form.submit()">
 
-                            <option selected>
-                                2026 / 2027
-                            </option>
+                                @foreach ($academicYears as $academicYear)
+                                    <option value="{{ $academicYear->acy_id }}"
+                                        {{ $academicYearId == $academicYear->acy_id ? 'selected' : '' }}>
+                                        {{ $academicYear->acy_year }}/{{ $academicYear->acy_year + 1 }}
+                                    </option>
+                                @endforeach
 
-                            <option>
-                                2025 / 2026
-                            </option>
+                            </select>
+                        </div>
 
-                            <option>
-                                2024 / 2025
-                            </option>
+                        <div class="col-md-4">
+                            <label for="class" class="form-label fw-semibold">
+                                Kelas
+                            </label>
 
-                        </select>
+                            <select name="class_id" id="class" class="form-select" onchange="this.form.submit()">
 
-                    </div>
+                                @foreach ($classes as $class)
+                                    <option value="{{ $class->cls_id }}" {{ $classId == $class->cls_id ? 'selected' : '' }}>
+                                        {{ $class->cls_level }}
+                                        {{ $class->cls_major?->mjr_abbr ?? '' }}
+                                        {{ $class->cls_number }}
+                                    </option>
+                                @endforeach
 
-
-                    {{-- Kelas --}}
-                    <div class="col-md-4 mb-3 mb-md-0">
-
-                        <label for="class"
-                               class="form-label fw-semibold">
-                            Kelas
-                        </label>
-
-                        <select id="class"
-                                class="form-select">
-
-                            <option selected>
-                                X RPL 1
-                            </option>
-
-                            <option>
-                                X RPL 2
-                            </option>
-
-                            <option>
-                                X RPL 3
-                            </option>
-
-                            <option>
-                                XI RPL 1
-                            </option>
-
-                            <option>
-                                XI RPL 2
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    {{-- Button --}}
-                    <div class="col-md-4">
-
-                        <div class="d-flex gap-2">
-
-                            <button type="button"
-                                    class="btn btn-primary">
-
-                                <i class="ti ti-wand me-1"></i>
-                                Generate Jadwal
-
-                            </button>
-
-                            <button type="button"
-                                    class="btn btn-light">
-
-                                <i class="ti ti-refresh me-1"></i>
-                                Reset
-
-                            </button>
-
+                            </select>
                         </div>
 
                     </div>
 
-                </div>
+                </form>
 
             </div>
 
@@ -212,8 +160,7 @@
                     Jadwal Tersedia
                 </span>
 
-                <button type="button"
-                        class="btn btn-outline-primary btn-sm">
+                <button type="button" class="btn btn-outline-primary btn-sm">
 
                     <i class="ti ti-printer me-1"></i>
                     Cetak
@@ -227,7 +174,6 @@
 
         {{-- Jadwal --}}
         <div class="card">
-
             <div class="card-body">
 
                 <div class="table-responsive">
@@ -235,464 +181,107 @@
                     <table class="table table-bordered text-center align-middle schedule-table">
 
                         <thead>
-
                             <tr>
-
                                 <th style="width: 120px;">
                                     Jam
                                 </th>
 
-                                <th>
-                                    Senin
-                                </th>
-
-                                <th>
-                                    Selasa
-                                </th>
-
-                                <th>
-                                    Rabu
-                                </th>
-
-                                <th>
-                                    Kamis
-                                </th>
-
-                                <th>
-                                    Jumat
-                                </th>
-
+                                <th>Senin</th>
+                                <th>Selasa</th>
+                                <th>Rabu</th>
+                                <th>Kamis</th>
+                                <th>Jumat</th>
+                               
                             </tr>
-
                         </thead>
 
                         <tbody>
 
-
-                            {{-- Jam 1 --}}
-                            <tr>
-
-                                <td>
-                                    <span class="fw-semibold">
-                                        Jam 1
-                                    </span>
-
-                                    <br>
-
-                                    <span class="text-muted time">
-                                        07:00 - 07:45
-                                    </span>
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        Matematika
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Budi Santoso
-                                    </div>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        Bahasa Inggris
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Siti Aminah
-                                    </div>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        Pendidikan Agama
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Andi Wijaya
-                                    </div>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        Produktif RPL
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Budi Santoso
-                                    </div>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        Bahasa Indonesia
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Siti Aminah
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-
-                            {{-- Jam 2 --}}
-                            <tr>
-
-                                <td>
-                                    <span class="fw-semibold">
-                                        Jam 2
-                                    </span>
-
-                                    <br>
-
-                                    <span class="text-muted time">
-                                        07:45 - 08:30
-                                    </span>
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        Matematika
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Budi Santoso
-                                    </div>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        Bahasa Inggris
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Siti Aminah
-                                    </div>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        Pendidikan Agama
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Andi Wijaya
-                                    </div>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        Produktif RPL
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Budi Santoso
-                                    </div>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        Bahasa Indonesia
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Siti Aminah
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-
-                            {{-- Jam 3 --}}
-                            <tr>
-
-                                <td>
-
-                                    <span class="fw-semibold">
-                                        Jam 3
-                                    </span>
-
-                                    <br>
-
-                                    <span class="text-muted time">
-                                        08:30 - 09:15
-                                    </span>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        IPA
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Andi Wijaya
-                                    </div>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        Matematika
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Budi Santoso
-                                    </div>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        Produktif RPL
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Siti Aminah
-                                    </div>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        Bahasa Inggris
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Andi Wijaya
-                                    </div>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        IPA
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Budi Santoso
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-
-                            {{-- Istirahat --}}
-                            <tr class="break-row">
-
-                                <td>
-
-                                    <span class="fw-semibold text-muted">
-                                        Istirahat
-                                    </span>
-
-                                    <br>
-
-                                    <span class="text-muted time">
-                                        09:15 - 09:30
-                                    </span>
-
-                                </td>
-
-                                <td colspan="5"
-                                    class="bg-light">
-
-                                    <span class="fw-semibold text-muted">
-                                        ISTIRAHAT
-                                    </span>
-
-                                </td>
-
-                            </tr>
-
-
-                            {{-- Jam 4 --}}
-                            <tr>
-
-                                <td>
-
-                                    <span class="fw-semibold">
-                                        Jam 4
-                                    </span>
-
-                                    <br>
-
-                                    <span class="text-muted time">
-                                        09:30 - 10:15
-                                    </span>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        IPA
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Andi Wijaya
-                                    </div>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        Matematika
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Budi Santoso
-                                    </div>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        Produktif RPL
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Siti Aminah
-                                    </div>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        Bahasa Inggris
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Andi Wijaya
-                                    </div>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        IPA
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Budi Santoso
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-
-                            {{-- Jam 5 --}}
-                            <tr>
-
-                                <td>
-
-                                    <span class="fw-semibold">
-                                        Jam 5
-                                    </span>
-
-                                    <br>
-
-                                    <span class="text-muted time">
-                                        10:15 - 11:00
-                                    </span>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        Bahasa Indonesia
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Siti Aminah
-                                    </div>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        IPA
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Andi Wijaya
-                                    </div>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        Matematika
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Budi Santoso
-                                    </div>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        Produktif RPL
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Budi Santoso
-                                    </div>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="subject-name">
-                                        Pendidikan Agama
-                                    </div>
-
-                                    <div class="text-muted teacher-name">
-                                        Andi Wijaya
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
+                            @php
+                                $days = [
+                                    1 => 'Senin',
+                                    2 => 'Selasa',
+                                    3 => 'Rabu',
+                                    4 => 'Kamis',
+                                    5 => 'Jumat',
+                                 
+                                ];
+
+                                $allSlots = $slots->flatten()->unique('slt_id');
+                            @endphp
+
+                            @foreach ($allSlots as $slot)
+                                <tr>
+
+                                    {{-- Jam --}}
+                                    <td>
+
+                                        @if ($slot->slt_type === 'break')
+                                            <span class="fw-semibold text-muted">
+                                                Istirahat
+                                            </span>
+                                        @else
+                                            <span class="fw-semibold">
+                                                Jam {{ $slot->slt_number }}
+                                            </span>
+                                        @endif
+
+                                        <br>
+
+                                        <span class="text-muted time">
+                                            {{ \Carbon\Carbon::parse($slot->slt_start_time)->format('H:i') }}
+                                            -
+                                            {{ \Carbon\Carbon::parse($slot->slt_end_time)->format('H:i') }}
+                                        </span>
+
+                                    </td>
+
+
+                                    {{-- Hari --}}
+                                    @foreach ($days as $dayNumber => $dayName)
+                                        @php
+                                            $daySlot = $slots
+                                                ->get($dayNumber, collect())
+                                                ->firstWhere('slt_id', $slot->slt_id);
+                                        @endphp
+
+                                        <td>
+
+                                            @if ($daySlot)
+                                                @if ($daySlot->slt_type === 'break')
+                                                    <span class="fw-semibold text-muted">
+                                                        ISTIRAHAT
+                                                    </span>
+                                                @else
+                                                    @php
+                                                        $schedule = $schedules->get($daySlot->slt_id);
+                                                    @endphp
+
+                                                    @if ($schedule)
+                                                        <div class="subject-name">
+                                                            {{ $schedule->subjectTeacher?->subject?->sbj_name ?? '-' }}
+                                                        </div>
+
+                                                        <div class="text-muted teacher-name">
+                                                            {{ $schedule->subjectTeacher?->teacher?->user?->usr_name ?? '-' }}
+                                                        </div>
+                                                    @else
+                                                        <span class="text-muted">
+                                                            -
+                                                        </span>
+                                                    @endif
+                                                @endif
+                                            @else
+                                                <span class="text-muted">
+                                                    -
+                                                </span>
+                                            @endif
+
+                                        </td>
+                                    @endforeach
+
+                                </tr>
+                            @endforeach
 
                         </tbody>
 
@@ -701,9 +290,7 @@
                 </div>
 
             </div>
-
         </div>
 
     </div>
-
 @endsection
