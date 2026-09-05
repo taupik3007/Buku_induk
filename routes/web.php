@@ -1,4 +1,4 @@
-<?php
+\<?php
 
 use App\Http\Controllers\Administration\AcademicYearController;
 use App\Http\Controllers\Administration\ClassController;
@@ -7,6 +7,7 @@ use App\Http\Controllers\Administration\PPDBController;
 use App\Http\Controllers\Administration\PPDBRequirementController;
 use App\Http\Controllers\Administration\PPDBReceptionController;
 use App\Http\Controllers\Administration\StudentController;
+use App\Http\Controllers\Administration\ScheduleController;
 use App\Http\Controllers\prospectiveStudentController;
 use App\Http\Controllers\DashboardController as AdministrationDashboardController;
 use App\Http\Controllers\ProfileController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\Administration\ClassAssignmentController;
 use App\Http\Controllers\Administration\SubjectController;
 use App\Http\Controllers\Administration\TeacherController;
 use App\Http\Controllers\Administration\EmployeeController;
+
 
 
 
@@ -41,15 +43,15 @@ Route::get('/dashboard', function () {
 
     $user = Auth::user();
 
-    if($user->hasRole('administration')){
+    if ($user->hasRole('administration')) {
         return redirect()->route('administration.dashboard');
     }
 
-    if($user->hasRole('student')){
+    if ($user->hasRole('student')) {
         return redirect()->route('student.dashboard.index');
     }
 
-    if($user->hasRole('teacher')){
+    if ($user->hasRole('teacher')) {
         return redirect()->route('teacher.dashboard.index');
 
         // $biodata = Teacher_Bio::where(
@@ -87,7 +89,6 @@ Route::get('/dashboard', function () {
     }
 
     abort(403);
-
 })->middleware(['auth'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -97,7 +98,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::prefix('administration')->name('administration.')->group(function () {
-     Route::get('/', [AdministrationDashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/', [AdministrationDashboardController::class, 'dashboard'])->name('dashboard');
 
     Route::prefix('major')->name('major.')->group(function () {
         Route::get('/', [MajorController::class, 'index'])->name('index');
@@ -145,17 +146,17 @@ Route::prefix('administration')->name('administration.')->group(function () {
     // });
     Route::prefix('prospective-teacher')->name('prospectiveTeacher.')->group(function () {
         Route::get('/biodata', [prospectiveTeacherController::class, 'biodata'])->name('biodata');
-        Route::post('/biodata', [prospectiveTeacherController::class,'store_biodata'])->name('store_biodata');
+        Route::post('/biodata', [prospectiveTeacherController::class, 'store_biodata'])->name('store_biodata');
         Route::get('/address', [prospectiveTeacherController::class, 'address'])->name('address');
-        Route::post('/address', [prospectiveTeacherController::class,'store_address'])->name('store_address'); 
+        Route::post('/address', [prospectiveTeacherController::class, 'store_address'])->name('store_address');
         Route::get('/partners', [prospectiveTeacherController::class, 'partner'])->name('partner');
-        Route::post('/partners', [prospectiveTeacherController::class,'store_partner'])->name('store_partner');
+        Route::post('/partners', [prospectiveTeacherController::class, 'store_partner'])->name('store_partner');
         Route::get('/teach_history', [prospectiveTeacherController::class, 'history'])->name('history');
-        Route::post('/teach_history', [prospectiveTeacherController::class,'store_history'])->name('store_history');
+        Route::post('/teach_history', [prospectiveTeacherController::class, 'store_history'])->name('store_history');
         Route::get('/education', [prospectiveTeacherController::class, 'education'])->name('education');
-        Route::post('/education', [prospectiveTeacherController::class,'store_education'])->name('store_education'); 
-        Route::post('/finish', [prospectiveTeacherController::class,'finish'])->name('finish');            
-              
+        Route::post('/education', [prospectiveTeacherController::class, 'store_education'])->name('store_education');
+        Route::post('/finish', [prospectiveTeacherController::class, 'finish'])->name('finish');
+
         Route::get('/physical-condition', [prospectiveTeacherController::class, 'physicalCondition'])->name('physicalCondition');
         Route::get('/parent-father', [prospectiveTeacherController::class, 'parentFather'])->name('parentFather');
         Route::get('/parent-mother', [prospectiveTeacherController::class, 'parentMother'])->name('parentMother');
@@ -187,7 +188,6 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::get('/{ppd_id}/accepted-list', [PpdbReceptionController::class, 'acceptedList'])->name('acceptedList');
         Route::get('/rejected', [PPDBReceptionController::class, 'rejected'])->name('rejected');
         Route::get('/{ppd_id}/rejected-list', [PpdbReceptionController::class, 'rejectedList'])->name('rejecttedList');
-
     });
     Route::prefix('class-assignment')->name('classAssignment.')->group(function () {
         Route::get('/', [ClassAssignmentController::class, 'index'])->name('index');
@@ -208,27 +208,34 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::get('/{id}/edit', [SubjectController::class, 'edit'])->name('edit');
         Route::post('/{id}/edit', [SubjectController::class, 'update'])->name('update');
         Route::delete('/{id}/destroy', [SubjectController::class, 'destroy'])->name('destroy');
-        Route::get('/{id}/subject-teachers',[SubjectController::class, 'subjectTeachers'])->name('subjectTeacher');
-        Route::get( '/{id}/subject-teachers/create', [SubjectController::class, 'createSubjectTeacher'] )->name('subjectTeacher.create');
-        Route::post( '/{id}/subject-teachers/create', [SubjectController::class, 'storeSubjectTeacher'] )->name('subjectTeacher.store');
+        Route::get('/{id}/subject-teachers', [SubjectController::class, 'subjectTeachers'])->name('subjectTeacher');
+        Route::get('/{id}/subject-teachers/create', [SubjectController::class, 'createSubjectTeacher'])->name('subjectTeacher.create');
+        Route::post('/{id}/subject-teachers/create', [SubjectController::class, 'storeSubjectTeacher'])->name('subjectTeacher.store');
     });
+  
+      Route::prefix('schedule')->name('schedule.')->group(function () {
+
+        Route::get('/', [ScheduleController::class, 'index'])
+            ->name('index');
+
+    });
+
+
     Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::get('/', [TeacherController::class, 'index'])->name('index');
         Route::get('/{id}/show', [TeacherController::class, 'show'])->name('show');
-       
     });
     Route::prefix('employee')->name('employee.')->group(function () {
         Route::get('/', [EmployeeController::class, 'index'])->name('index');
         Route::get('/create', [SubjectController::class, 'create'])->name('create');
-       
     });
 
 
 
 
-//     Route::get('/kelas', function () {
-//     return view('administration.class-assignment.index');
-// });
+    //     Route::get('/kelas', function () {
+    //     return view('administration.class-assignment.index');
+    // });
     Route::prefix('teacher-reception')->name('teacherReception.')->group(function () {
         Route::get('/', [TeacherReceptionController::class, 'index'])->name('index');
         Route::get('/{id}/list', [TeacherReceptionController::class, 'list'])->name('list');
@@ -239,18 +246,12 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::get('/{id}/accepted-list', [TeacherReceptionController::class, 'acceptedList'])->name('acceptedList');
         Route::get('/rejected', [TeacherReceptionController::class, 'rejected'])->name('rejected');
         Route::get('/{id}/rejected-list', [TeacherReceptionController::class, 'rejectedList'])->name('rejecttedList');
-
     });
 
     Route::prefix('student')->name('teacherReception.')->group(function () {
         Route::get('/', [StudentController::class, 'index'])->name('index');
         Route::get('/{level}', [StudentController::class, 'studentWithLevel'])->name('level');
-        
-
-
     });
-
-
 });
 
 Route::prefix('student')->name('student.')->group(function () {
@@ -265,18 +266,18 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::get('/', [TeacherDashboardController::class, 'index'])->name('index');
     });
-     Route::prefix('prospective-teacher')->name('prospectiveTeacher.')->group(function () {
+    Route::prefix('prospective-teacher')->name('prospectiveTeacher.')->group(function () {
         Route::get('/biodata', [prospectiveTeacherController::class, 'biodata'])->name('biodata');
-        Route::post('/biodata', [prospectiveTeacherController::class,'store_biodata'])->name('store_biodata');
+        Route::post('/biodata', [prospectiveTeacherController::class, 'store_biodata'])->name('store_biodata');
         Route::get('/address', [prospectiveTeacherController::class, 'address'])->name('address');
-        Route::post('/address', [prospectiveTeacherController::class,'store_address'])->name('store_address'); 
+        Route::post('/address', [prospectiveTeacherController::class, 'store_address'])->name('store_address');
         Route::get('/partners', [prospectiveTeacherController::class, 'partner'])->name('partner');
-        Route::post('/partners', [prospectiveTeacherController::class,'store_partner'])->name('store_partner');
+        Route::post('/partners', [prospectiveTeacherController::class, 'store_partner'])->name('store_partner');
         Route::get('/teach_history', [prospectiveTeacherController::class, 'history'])->name('history');
-        Route::post('/teach_history', [prospectiveTeacherController::class,'store_history'])->name('store_history');
+        Route::post('/teach_history', [prospectiveTeacherController::class, 'store_history'])->name('store_history');
         Route::get('/education', [prospectiveTeacherController::class, 'education'])->name('education');
-        Route::post('/education', [prospectiveTeacherController::class,'store_education'])->name('store_education'); 
-        Route::post('/finish', [prospectiveTeacherController::class,'finish'])->name('finish');    
+        Route::post('/education', [prospectiveTeacherController::class, 'store_education'])->name('store_education');
+        Route::post('/finish', [prospectiveTeacherController::class, 'finish'])->name('finish');
         // Route::post('/finish', function () {
         //     dd('MASUK ROUTE');
         // })->name('finish');  
@@ -286,13 +287,13 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
         //         'redirect' => '/abc'
         //     ]);
         // })->name('finish');      
-              
+
         Route::get('/physical-condition', [prospectiveTeacherController::class, 'physicalCondition'])->name('physicalCondition');
         Route::get('/parent-father', [prospectiveTeacherController::class, 'parentFather'])->name('parentFather');
         Route::get('/parent-mother', [prospectiveTeacherController::class, 'parentMother'])->name('parentMother');
         Route::get('/parent-guardian', [prospectiveTeacherController::class, 'parentGuardian'])->name('parentGuardian');
         Route::get('/waiting', [WaitingController::class, 'waiting'])->name('waiting');
-        Route::get('/preview',[WaitingController::class, 'preview'])->name('preview');
+        Route::get('/preview', [WaitingController::class, 'preview'])->name('preview');
         Route::get('/cv/download/{type}', [TeacherProspectiveTeacherController::class, 'download'])->name('cv.download');
         Route::get('/teacher/cv/{type}', [TeacherProspectiveTeacherController::class, 'download'])->name('teacher.cv.download');
     });
@@ -304,28 +305,26 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::post('/{id}/edit', [RequirementController::class, 'update'])->name('update');
 
         Route::delete('/{id}/destroy', [RequirementController::class, 'destroy'])->name('classes.destroy');
-
-});
-    
+    });
 });
 Route::prefix('prospective-student')->name('prospectiveStudent.')->group(function () {
-        Route::get('/biodata', [prospectiveStudentController::class, 'biodata'])->name('biodata');
-        Route::post('/register/stepOne', [prospectiveStudentController::class, 'stepOne'])->name('register.stepOne');
-        Route::post('/register/stepTwo', [prospectiveStudentController::class, 'stepTwo'])->name('register.stepTwo');
-        Route::post('/register/stepThree', [prospectiveStudentController::class, 'stepThree'])->name('register.stepThree');
-        Route::post('/register/stepFour', [prospectiveStudentController::class, 'stepFour'])->name('register.stepFour');
-        Route::post('/register/stepFive', [prospectiveStudentController::class, 'stepFive'])->name('register.stepFive');
-        Route::post('/register/stepSix', [prospectiveStudentController::class, 'stepSix'])->name('register.stepSix');
-        Route::get('/api/provinces', [regionController::class, 'provinces']);
-        Route::get('/api/regencies/{province}', [regionController::class, 'regencies']);
-        Route::get('/api/districts/{province}', [regionController::class, 'districts']);
-        Route::get('/api/villages/{province}', [regionController::class, 'villages']);
-        Route::get('/ppdb-registration', [prospectiveStudentController::class, 'ppdbRegistration'])->name('ppdbRegistration');
-        Route::post('/ppdb-registration/stepOne', [ProspectiveStudentController::class, 'stepSeven'])->name('ppdbRegistration.stepOne');
-        Route::post('/ppdb-registration/stepTwo', [ProspectiveStudentController::class, 'stepEight'])->name('ppdbRegistration.stepTwo');
-        Route::post('/ppdb-registration/step-three', [ProspectiveStudentController::class, 'stepNine'])->name('ppdbRegistration.stepThree');
-    });
+    Route::get('/biodata', [prospectiveStudentController::class, 'biodata'])->name('biodata');
+    Route::post('/register/stepOne', [prospectiveStudentController::class, 'stepOne'])->name('register.stepOne');
+    Route::post('/register/stepTwo', [prospectiveStudentController::class, 'stepTwo'])->name('register.stepTwo');
+    Route::post('/register/stepThree', [prospectiveStudentController::class, 'stepThree'])->name('register.stepThree');
+    Route::post('/register/stepFour', [prospectiveStudentController::class, 'stepFour'])->name('register.stepFour');
+    Route::post('/register/stepFive', [prospectiveStudentController::class, 'stepFive'])->name('register.stepFive');
+    Route::post('/register/stepSix', [prospectiveStudentController::class, 'stepSix'])->name('register.stepSix');
+    Route::get('/api/provinces', [regionController::class, 'provinces']);
+    Route::get('/api/regencies/{province}', [regionController::class, 'regencies']);
+    Route::get('/api/districts/{province}', [regionController::class, 'districts']);
+    Route::get('/api/villages/{province}', [regionController::class, 'villages']);
+    Route::get('/ppdb-registration', [prospectiveStudentController::class, 'ppdbRegistration'])->name('ppdbRegistration');
+    Route::post('/ppdb-registration/stepOne', [ProspectiveStudentController::class, 'stepSeven'])->name('ppdbRegistration.stepOne');
+    Route::post('/ppdb-registration/stepTwo', [ProspectiveStudentController::class, 'stepEight'])->name('ppdbRegistration.stepTwo');
+    Route::post('/ppdb-registration/step-three', [ProspectiveStudentController::class, 'stepNine'])->name('ppdbRegistration.stepThree');
+});
 
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
