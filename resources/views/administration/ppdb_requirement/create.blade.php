@@ -61,7 +61,7 @@
 
                 <div class="mb-4">
                     <label class="form-label fw-semibold">Jenis Inputan <span class="text-danger">*</span></label>
-                    <select name="tcr_type" class="form-select @error('pdr_type') is-invalid @enderror">
+                    <select name="pdr_type" class="form-select @error('pdr_type') is-invalid @enderror">
                         <option value="" disabled selected>-- Pilih Jenis --</option>
                         <option value="text" {{ old('pdr_type') == 'text' ? 'selected' : '' }}>Text</option>
                         <option value="file" {{ old('pdr_type') == 'file' ? 'selected' : '' }}>File Upload</option>

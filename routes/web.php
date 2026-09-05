@@ -1,4 +1,4 @@
-\<?php
+<?php
 
 use App\Http\Controllers\Administration\AcademicYearController;
 use App\Http\Controllers\Administration\ClassController;
