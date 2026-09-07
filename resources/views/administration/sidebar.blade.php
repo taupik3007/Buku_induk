@@ -68,13 +68,22 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="/administration/schedule" aria-expanded="false">
                         <span>
-                            <i class="ti ti-users-group"></i>
+                            <!-- <i class="ti ti-users-group"></i> -->
                             <i class="ti ti-calendar-event"></i>
                         </span>
                         <span class="hide-menu">Jadwal Pelajaran</span>
                     </a>
                 </li>
 
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/administration/schedule/slot" aria-expanded="false">
+                        <span>
+                            <!-- <i class="ti ti-users-group"></i> -->
+                            <i class="ti ti-calendar-event"></i>
+                        </span>
+                        <span class="hide-menu">Slot Jadwal Pelajaran</span>
+                    </a>
+                </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="/administration/academic-years/" aria-expanded="false">
                         <span>
