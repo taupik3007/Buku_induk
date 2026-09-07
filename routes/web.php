@@ -88,9 +88,12 @@ Route::get('/dashboard', function () {
 
         // Masih draft
         // return redirect()->route('teacher.prospectiveTeacher.biodata');
+    }if($user->hasRole('prospectiveStudent')){
+        return redirect()->route('prospectiveStudent.index');
+
     }
 
-    abort(403);
+    // abort(403);
 })->middleware(['auth'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

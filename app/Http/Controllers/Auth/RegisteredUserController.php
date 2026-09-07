@@ -54,6 +54,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('prospective-student.biodata', absolute: false));
+        return redirect(route('prospectiveStudent.index', absolute: false));
     }
 }
