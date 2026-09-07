@@ -14,18 +14,19 @@ class StudentController extends Controller
         // dd($student);
         return view('administration.student.index', compact(['student']));
     }
-    
+
     public function studentWithLevel($level)
     {
         $student = User::role('student')
-        ->whereHas('student.classes', function ($query) use ($level) {
-            $query->where('cls_level', $level);
-        })
-        ->with([
-            'student.classes.cls_major'
-        ])
-        ->get();
+            ->whereHas('student.classes', function ($query) use ($level) {
+                $query->where('cls_level', $level);
+            })
+            ->with([
+                'student.classes.cls_major'
+            ])
+            ->get();
 
-    return view('administration.student.index', compact('student'));
+        return view('administration.student.index', compact('student'));
     }
+   
 }
