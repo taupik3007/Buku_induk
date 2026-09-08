@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Schedule extends Model
 {
-    use SoftDeletes;
+  
 
     protected $table = 'schedules';
 
@@ -18,13 +18,12 @@ class Schedule extends Model
         'sch_slot_id',
         'sch_created_by',
         'sch_updated_by',
-        'sch_deleted_by',
         'sch_sys_note',
     ];
 
     const CREATED_AT = 'sch_created_at';
     const UPDATED_AT = 'sch_updated_at';
-    const DELETED_AT = 'sch_deleted_at';
+   
 
     public function subjectTeacher()
     {

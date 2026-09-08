@@ -335,16 +335,57 @@
                                         @php
                                             $schedule = $schedules->get($slot->slt_id);
                                         @endphp
-
                                         @if ($schedule)
                                             <td class="schedule-cell">
 
-                                                <div class="subject">
-                                                    {{ $schedule->subjectTeacher?->subject?->sbj_name ?? '-' }}
-                                                </div>
+                                                <div class="position-relative">
 
-                                                <div class="teacher">
-                                                    {{ $schedule->subjectTeacher?->teacher?->user?->usr_name ?? '-' }}
+                                                    <div class="subject">
+                                                        {{ $schedule->subjectTeacher?->subject?->sbj_name ?? '-' }}
+                                                    </div>
+
+                                                    <div class="teacher">
+                                                        {{ $schedule->subjectTeacher?->teacher?->user?->usr_name ?? '-' }}
+                                                    </div>
+
+                                                    <div class="dropdown position-absolute top-0 end-0">
+
+                                                        <button type="button" class="btn btn-sm p-0"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
+
+                                                            <i class="ti ti-dots-vertical"></i>
+
+                                                        </button>
+
+                                                        <ul class="dropdown-menu dropdown-menu-end">
+
+                                                            
+
+                                                            <li>
+
+                                                                <form
+                                                                    action="{{ route('administration.schedule.destroy', $schedule->sch_id) }}"
+                                                                    method="POST">
+
+                                                                    @csrf
+                                                                    @method('DELETE')
+
+                                                                    <button type="submit" class="dropdown-item text-danger"
+                                                                        data-confirm-delete="true">
+
+                                                                        <i class="ti ti-trash me-2"></i>
+                                                                        Hapus
+
+                                                                    </button>
+
+                                                                </form>
+
+                                                            </li>
+
+                                                        </ul>
+
+                                                    </div>
+
                                                 </div>
 
                                             </td>
@@ -423,9 +464,12 @@
                                 <label for="subject_teacher_id" class="form-label fw-semibold">
                                     Mata Pelajaran / Guru
                                 </label>
+                                <input type="hidden" name="acy_id" value="{{ $academicYearId }}">
 
+                                <input type="hidden" name="class_id" value="{{ $classId }}">
                                 <select name="sch_subject_teacher_id" id="subject_teacher_id" class="form-select"
                                     required>
+
 
                                     <option value="">
                                         -- Pilih Pengampu --

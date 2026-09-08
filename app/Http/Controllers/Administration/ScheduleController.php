@@ -146,28 +146,121 @@ class ScheduleController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'acy_id' => 'required|exists:academic_years,acy_id',
+            'class_id' => 'required|exists:classes,cls_id',
             'sch_subject_teacher_id' => 'required|exists:subject_teachers,subt_id',
             'sch_slot_id' => 'required|exists:schedule_slots,slt_id',
         ], [
+            'acy_id.required' => 'Tahun ajaran wajib dipilih.',
+            'acy_id.exists' => 'Tahun ajaran tidak ditemukan.',
+
+            'class_id.required' => 'Kelas wajib dipilih.',
+            'class_id.exists' => 'Kelas tidak ditemukan.',
+
             'sch_subject_teacher_id.required' => 'Pengampu wajib dipilih.',
             'sch_subject_teacher_id.exists' => 'Pengampu tidak ditemukan.',
+
             'sch_slot_id.required' => 'Slot wajib dipilih.',
             'sch_slot_id.exists' => 'Slot tidak ditemukan.',
         ]);
 
+
+        /*
+    |--------------------------------------------------------------------------
+    | Ambil Pengampu
+    |--------------------------------------------------------------------------
+    | Pastikan pengampu benar-benar milik:
+    | - tahun ajaran yang dipilih
+    | - kelas yang dipilih
+    */
         $subjectTeacher = SubjectTeacher::with([
             'subject',
             'teacher',
-        ])->findOrFail($validated['sch_subject_teacher_id']);
+        ])
+            ->where('subt_id', $validated['sch_subject_teacher_id'])
+            ->where('subt_academic_year_id', $validated['acy_id'])
+            ->where('subt_class_id', $validated['class_id'])
+            ->first();
 
-        $slot = ScheduleSlot::findOrFail($validated['sch_slot_id']);
+        if (!$subjectTeacher) {
+
+            Alert::error(
+                'Gagal',
+                'Pengampu tidak sesuai dengan tahun ajaran atau kelas yang dipilih.'
+            );
+
+            return redirect()->back()->withInput();
+        }
+
 
         /*
-     * Cek apakah pengampu sudah mengajar pada slot yang sama.
-     */
-        $teacherConflict = Schedule::where('sch_slot_id', $slot->slt_id)
+    |--------------------------------------------------------------------------
+    | Ambil Slot
+    |--------------------------------------------------------------------------
+    */
+        $slot = ScheduleSlot::findOrFail(
+            $validated['sch_slot_id']
+        );
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | Jangan bisa memasukkan jadwal ke slot istirahat
+    |--------------------------------------------------------------------------
+    */
+        if ($slot->slt_type === 'break') {
+
+            Alert::error(
+                'Gagal',
+                'Slot tersebut merupakan jam istirahat.'
+            );
+
+            return redirect()->back()->withInput();
+        }
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | Cek apakah pengampu sudah dijadwalkan di slot tersebut
+    |--------------------------------------------------------------------------
+    */
+        $alreadyExists = Schedule::where(
+            'sch_subject_teacher_id',
+            $subjectTeacher->subt_id
+        )
+            ->where(
+                'sch_slot_id',
+                $slot->slt_id
+            )
+            ->exists();
+
+        if ($alreadyExists) {
+
+            Alert::error(
+                'Gagal',
+                'Pengampu tersebut sudah ditempatkan pada slot ini.'
+            );
+
+            return redirect()->back()->withInput();
+        }
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | Cek bentrok Guru
+    |--------------------------------------------------------------------------
+    | Guru tidak boleh mengajar dua kelas pada slot yang sama.
+    */
+        $teacherConflict = Schedule::where(
+            'sch_slot_id',
+            $slot->slt_id
+        )
             ->whereHas('subjectTeacher', function ($query) use ($subjectTeacher) {
-                $query->where('subt_teacher_id', $subjectTeacher->subt_teacher_id);
+
+                $query->where(
+                    'subt_teacher_id',
+                    $subjectTeacher->subt_teacher_id
+                );
             })
             ->exists();
 
@@ -181,12 +274,23 @@ class ScheduleController extends Controller
             return redirect()->back()->withInput();
         }
 
+
         /*
-     * Cek apakah kelas sudah memiliki jadwal pada slot yang sama.
-     */
-        $classConflict = Schedule::where('sch_slot_id', $slot->slt_id)
+    |--------------------------------------------------------------------------
+    | Cek bentrok Kelas
+    |--------------------------------------------------------------------------
+    | Satu kelas tidak boleh memiliki dua pelajaran pada slot yang sama.
+    */
+        $classConflict = Schedule::where(
+            'sch_slot_id',
+            $slot->slt_id
+        )
             ->whereHas('subjectTeacher', function ($query) use ($subjectTeacher) {
-                $query->where('subt_class_id', $subjectTeacher->subt_class_id);
+
+                $query->where(
+                    'subt_class_id',
+                    $subjectTeacher->subt_class_id
+                );
             })
             ->exists();
 
@@ -200,33 +304,75 @@ class ScheduleController extends Controller
             return redirect()->back()->withInput();
         }
 
-        /*
-     * Cegah assignment yang sama ditempatkan
-     * dua kali pada slot yang sama.
-     */
-        $alreadyExists = Schedule::where('sch_subject_teacher_id', $subjectTeacher->subt_id)
-            ->where('sch_slot_id', $slot->slt_id)
-            ->exists();
 
-        if ($alreadyExists) {
+        /*
+    |--------------------------------------------------------------------------
+    | Hitung JP yang sudah digunakan
+    |--------------------------------------------------------------------------
+    */
+        $usedHours = Schedule::where(
+            'sch_subject_teacher_id',
+            $subjectTeacher->subt_id
+        )->count();
+
+        $totalHours = $subjectTeacher->subt_total_hours;
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | Jangan melebihi jumlah JP pengampu
+    |--------------------------------------------------------------------------
+    */
+        if ($usedHours >= $totalHours) {
 
             Alert::error(
                 'Gagal',
-                'Pengampu tersebut sudah ditempatkan pada slot ini.'
+                'Jumlah JP pengampu tersebut sudah terpenuhi.'
             );
 
             return redirect()->back()->withInput();
         }
 
+
+        /*
+    |--------------------------------------------------------------------------
+    | Simpan Jadwal
+    |--------------------------------------------------------------------------
+    */
         Schedule::create([
             'sch_subject_teacher_id' => $subjectTeacher->subt_id,
             'sch_slot_id' => $slot->slt_id,
             'sch_created_by' => auth()->id(),
         ]);
 
+
+        /*
+    |--------------------------------------------------------------------------
+    | Berhasil
+    |--------------------------------------------------------------------------
+    */
         Alert::success(
             'Berhasil',
             'Jadwal berhasil ditambahkan.'
+        );
+
+        return redirect()->back();
+    }
+
+   
+    public function destroy($id)
+    {
+        $schedule = Schedule::findOrFail($id);
+
+        $schedule->update([
+            'sch_deleted_by' => auth()->id(),
+        ]);
+
+        $schedule->delete();
+
+        Alert::success(
+            'Berhasil',
+            'Jadwal berhasil dihapus.'
         );
 
         return redirect()->back();

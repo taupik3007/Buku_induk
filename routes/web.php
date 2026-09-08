@@ -252,6 +252,14 @@ Route::prefix('administration')->name('administration.')->group(function () {
             '/store',
             [ScheduleController::class, 'store']
         )->name('store');
+        Route::get('/{id}/edit', [ScheduleController::class, 'edit'])
+            ->name('edit');
+
+        Route::put('/{id}/edit', [ScheduleController::class, 'update'])
+            ->name('update');
+
+        Route::delete('/{id}/destroy', [ScheduleController::class, 'destroy'])
+            ->name('destroy');
     });
 
 
