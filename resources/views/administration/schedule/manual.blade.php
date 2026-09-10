@@ -187,13 +187,22 @@
 
                     <div class="d-flex gap-2">
 
-                        <button type="button" class="btn btn-primary">
+                        <form action="{{ route('administration.schedule.generate') }}" method="POST" class="d-inline">
 
-                            <i class="ti ti-device-floppy me-1"></i>
-                            Simpan Jadwal
+                            @csrf
 
-                        </button>
+                            <input type="hidden" name="acy_id" value="{{ $academicYearId }}">
 
+                            <input type="hidden" name="class_id" value="{{ $classId }}">
+
+                            <button type="submit" class="btn btn-primary">
+
+                                <i class="ti ti-wand me-1"></i>
+                                Generate Jadwal
+
+                            </button>
+
+                        </form>
                         <button type="button" class="btn btn-light">
 
                             <i class="ti ti-refresh me-1"></i>
@@ -359,7 +368,7 @@
 
                                                         <ul class="dropdown-menu dropdown-menu-end">
 
-                                                            
+
 
                                                             <li>
 

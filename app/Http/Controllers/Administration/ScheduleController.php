@@ -12,7 +12,7 @@ use App\Models\SubjectTeacher;
 use App\Models\Schedule;
 use App\Models\ScheduleSlot;
 use RealRashid\SweetAlert\Facades\Alert;
-
+use Illuminate\Support\Facades\DB;
 
 
 use Illuminate\Http\Request;
@@ -359,7 +359,7 @@ class ScheduleController extends Controller
         return redirect()->back();
     }
 
-   
+
     public function destroy($id)
     {
         $schedule = Schedule::findOrFail($id);
@@ -376,5 +376,607 @@ class ScheduleController extends Controller
         );
 
         return redirect()->back();
+    }
+
+
+
+
+
+
+
+
+
+    private function generateScheduleRecursive(
+        array $subjectTeachers,
+        int $index,
+        $lessonSlots,
+        array $teacherBusy,
+        array &$usedClassSlots,
+        array &$usedTeacherSlots,
+        array &$usedAssignmentDays,
+        array &$generatedSchedules
+    ) {
+        /*
+    |--------------------------------------------------------------------------
+    | Semua pengampu sudah berhasil ditempatkan
+    |--------------------------------------------------------------------------
+    */
+
+        if ($index >= count($subjectTeachers)) {
+            return true;
+        }
+
+
+        $subjectTeacher = $subjectTeachers[$index];
+
+        $teacherId = $subjectTeacher->subt_teacher_id;
+
+        $requiredHours = (int) $subjectTeacher->subt_total_hours;
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | Ubah total JP menjadi blok
+    |--------------------------------------------------------------------------
+    |
+    | 4 JP = 2 + 2
+    | 5 JP = 2 + 2 + 1
+    | 3 JP = 2 + 1
+    |
+    */
+
+        $sessionSizes = [];
+
+        while ($requiredHours >= 2) {
+            $sessionSizes[] = 2;
+            $requiredHours -= 2;
+        }
+
+        if ($requiredHours === 1) {
+            $sessionSizes[] = 1;
+        }
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | Tempatkan seluruh sesi pengampu
+    |--------------------------------------------------------------------------
+    */
+
+        return $this->placeSubjectSessions(
+            $subjectTeacher,
+            $sessionSizes,
+            0,
+            $lessonSlots,
+            $teacherBusy,
+            $usedClassSlots,
+            $usedTeacherSlots,
+            $usedAssignmentDays,
+            $generatedSchedules,
+            $subjectTeachers,
+            $index
+        );
+    }
+    private function placeSubjectSessions(
+        $subjectTeacher,
+        array $sessionSizes,
+        int $sessionIndex,
+        $lessonSlots,
+        array $teacherBusy,
+        array &$usedClassSlots,
+        array &$usedTeacherSlots,
+        array &$usedAssignmentDays,
+        array &$generatedSchedules,
+        array $subjectTeachers,
+        int $assignmentIndex
+    ) {
+        /*
+    |--------------------------------------------------------------------------
+    | Semua sesi pengampu berhasil ditempatkan
+    |--------------------------------------------------------------------------
+    */
+
+        if ($sessionIndex >= count($sessionSizes)) {
+
+            return $this->generateScheduleRecursive(
+                $subjectTeachers,
+                $assignmentIndex + 1,
+                $lessonSlots,
+                $teacherBusy,
+                $usedClassSlots,
+                $usedTeacherSlots,
+                $usedAssignmentDays,
+                $generatedSchedules
+            );
+        }
+
+
+        $sessionSize = $sessionSizes[$sessionIndex];
+
+        $teacherId = $subjectTeacher->subt_teacher_id;
+
+        $assignmentId = $subjectTeacher->subt_id;
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | Buat daftar kandidat slot
+    |--------------------------------------------------------------------------
+    */
+
+        $candidates = [];
+
+
+        foreach ($lessonSlots as $day => $daySlots) {
+
+            $daySlots = $daySlots->values();
+
+            $count = $daySlots->count();
+
+
+            /*
+        |--------------------------------------------------------------------------
+        | Satu pengampu maksimal satu sesi dalam satu hari
+        |--------------------------------------------------------------------------
+        */
+
+            if (isset($usedAssignmentDays[$assignmentId][$day])) {
+                continue;
+            }
+
+
+            /*
+        |--------------------------------------------------------------------------
+        | Cari blok
+        |--------------------------------------------------------------------------
+        */
+
+            for ($i = 0; $i <= $count - $sessionSize; $i++) {
+
+                $block = $daySlots
+                    ->slice($i, $sessionSize)
+                    ->values();
+
+
+                $canUse = true;
+
+
+                foreach ($block as $slot) {
+
+                    $slotId = $slot->slt_id;
+
+                    /*
+                | Kelas bentrok
+                */
+                    if (isset($usedClassSlots[$slotId])) {
+                        $canUse = false;
+                        break;
+                    }
+
+
+                    /*
+                | Guru bentrok dengan jadwal kelas lain
+                */
+                    if (isset($teacherBusy[$teacherId][$slotId])) {
+                        $canUse = false;
+                        break;
+                    }
+
+
+                    /*
+                | Guru bentrok dengan hasil generate saat ini
+                */
+                    $teacherSlotKey = $teacherId . ':' . $slotId;
+
+                    if (isset($usedTeacherSlots[$teacherSlotKey])) {
+                        $canUse = false;
+                        break;
+                    }
+                }
+
+
+                if ($canUse) {
+
+                    $candidates[] = [
+                        'day' => $day,
+                        'slots' => $block,
+                    ];
+                }
+            }
+        }
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | Randomisasi kandidat
+    |--------------------------------------------------------------------------
+    |
+    | Supaya hasil generate tidak selalu sama.
+    |
+    */
+
+        shuffle($candidates);
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | Coba setiap kandidat
+    |--------------------------------------------------------------------------
+    */
+
+        foreach ($candidates as $candidate) {
+
+            $day = $candidate['day'];
+            $slots = $candidate['slots'];
+
+            $addedSlots = [];
+
+
+            /*
+        |--------------------------------------------------------------------------
+        | Tandai penggunaan
+        |--------------------------------------------------------------------------
+        */
+
+            foreach ($slots as $slot) {
+
+                $slotId = $slot->slt_id;
+
+                $teacherSlotKey = $teacherId . ':' . $slotId;
+
+                $usedClassSlots[$slotId] = true;
+
+                $usedTeacherSlots[$teacherSlotKey] = true;
+
+                $generatedSchedules[] = [
+                    'subject_teacher_id' => $assignmentId,
+                    'slot_id' => $slotId,
+                ];
+
+                $addedSlots[] = [
+                    'slot_id' => $slotId,
+                    'teacher_key' => $teacherSlotKey,
+                ];
+            }
+
+
+            $usedAssignmentDays[$assignmentId][$day] = true;
+
+
+            /*
+        |--------------------------------------------------------------------------
+        | Lanjut ke sesi berikutnya
+        |--------------------------------------------------------------------------
+        */
+
+            $success = $this->placeSubjectSessions(
+                $subjectTeacher,
+                $sessionSizes,
+                $sessionIndex + 1,
+                $lessonSlots,
+                $teacherBusy,
+                $usedClassSlots,
+                $usedTeacherSlots,
+                $usedAssignmentDays,
+                $generatedSchedules,
+                $subjectTeachers,
+                $assignmentIndex
+            );
+
+
+            if ($success) {
+                return true;
+            }
+
+
+            /*
+        |--------------------------------------------------------------------------
+        | BACKTRACK
+        |--------------------------------------------------------------------------
+        |
+        | Kandidat ini gagal. Kembalikan state sebelumnya.
+        |
+        */
+
+            foreach ($addedSlots as $addedSlot) {
+
+                unset(
+                    $usedClassSlots[$addedSlot['slot_id']]
+                );
+
+                unset(
+                    $usedTeacherSlots[$addedSlot['teacher_key']]
+                );
+
+
+                foreach ($generatedSchedules as $key => $generated) {
+
+                    if (
+                        $generated['subject_teacher_id'] === $assignmentId &&
+                        $generated['slot_id'] === $addedSlot['slot_id']
+                    ) {
+                        unset($generatedSchedules[$key]);
+                    }
+                }
+            }
+
+
+            unset(
+                $usedAssignmentDays[$assignmentId][$day]
+            );
+
+            $generatedSchedules = array_values($generatedSchedules);
+        }
+
+
+        return false;
+    }
+
+    public function generate(Request $request)
+    {
+        $validated = $request->validate([
+            'acy_id' => 'required|exists:academic_years,acy_id',
+            'class_id' => 'required|exists:classes,cls_id',
+        ]);
+
+        $academicYearId = $validated['acy_id'];
+        $classId = $validated['class_id'];
+
+        // Jangan generate di atas jadwal yang sudah ada
+        $hasSchedule = Schedule::whereHas('subjectTeacher', function ($query) use ($academicYearId, $classId) {
+            $query->where('subt_academic_year_id', $academicYearId)
+                ->where('subt_class_id', $classId);
+        })->exists();
+
+        if ($hasSchedule) {
+            Alert::error(
+                'Gagal',
+                'Kelas ini sudah memiliki jadwal. Hapus jadwal terlebih dahulu.'
+            );
+
+            return redirect()->back();
+        }
+
+        // Ambil pengampu
+        $subjectTeachers = SubjectTeacher::where('subt_academic_year_id', $academicYearId)
+            ->where('subt_class_id', $classId)
+            ->where('subt_total_hours', '>', 0)
+            ->orderByDesc('subt_total_hours')
+            ->get();
+
+        if ($subjectTeachers->isEmpty()) {
+            Alert::error(
+                'Gagal',
+                'Belum ada pengampu untuk kelas tersebut.'
+            );
+
+            return redirect()->back();
+        }
+
+        // Slot pelajaran saja
+        $slots = ScheduleSlot::where('slt_type', 'lesson')
+            ->orderBy('slt_day')
+            ->orderBy('slt_start_time')
+            ->get();
+
+        if ($slots->isEmpty()) {
+            Alert::error(
+                'Gagal',
+                'Belum ada slot pelajaran.'
+            );
+
+            return redirect()->back();
+        }
+
+        // Ambil jadwal kelas lain pada tahun yang sama
+        $existingSchedules = Schedule::with('subjectTeacher')
+            ->whereHas('subjectTeacher', function ($query) use ($academicYearId) {
+                $query->where('subt_academic_year_id', $academicYearId);
+            })
+            ->get();
+
+        $teacherBusy = [];
+
+        foreach ($existingSchedules as $schedule) {
+            $teacherId = $schedule->subjectTeacher->subt_teacher_id;
+            $slotId = $schedule->sch_slot_id;
+
+            $teacherBusy[$teacherId][$slotId] = true;
+        }
+
+        $usedClassSlots = [];
+        $usedTeacherSlots = [];
+        $result = [];
+
+        foreach ($subjectTeachers as $subjectTeacher) {
+
+            $hours = (int) $subjectTeacher->subt_total_hours;
+
+            // Cari kombinasi blok dari terbesar ke terkecil
+            $blocks = $this->buildBlockOptions($hours);
+
+            $placed = false;
+
+            foreach ($blocks as $blockSizes) {
+
+                $backupClassSlots = $usedClassSlots;
+                $backupTeacherSlots = $usedTeacherSlots;
+                $backupResult = $result;
+
+                $success = true;
+
+                foreach ($blockSizes as $blockSize) {
+
+                    $block = $this->findAvailableBlock(
+                        $slots,
+                        $blockSize,
+                        $subjectTeacher,
+                        $teacherBusy,
+                        $usedClassSlots,
+                        $usedTeacherSlots
+                    );
+
+                    if (!$block) {
+                        $success = false;
+                        break;
+                    }
+
+                    foreach ($block as $slot) {
+
+                        $slotId = $slot->slt_id;
+                        $teacherId = $subjectTeacher->subt_teacher_id;
+
+                        $usedClassSlots[$slotId] = true;
+
+                        $usedTeacherSlots[$teacherId . ':' . $slotId] = true;
+
+                        $result[] = [
+                            'subject_teacher_id' => $subjectTeacher->subt_id,
+                            'slot_id' => $slotId,
+                        ];
+                    }
+                }
+
+                if ($success) {
+                    $placed = true;
+                    break;
+                }
+
+                // Gagal → rollback percobaan blok ini
+                $usedClassSlots = $backupClassSlots;
+                $usedTeacherSlots = $backupTeacherSlots;
+                $result = $backupResult;
+            }
+
+            if (!$placed) {
+
+                Alert::error(
+                    'Gagal Generate',
+                    'Tidak ditemukan kombinasi slot untuk memenuhi kebutuhan JP '
+                        . 'dari '
+                        . ($subjectTeacher->subject?->sbj_name ?? 'mata pelajaran')
+                );
+
+                return redirect()->back();
+            }
+        }
+
+        DB::transaction(function () use ($result) {
+
+            foreach ($result as $item) {
+
+                Schedule::create([
+                    'sch_subject_teacher_id' => $item['subject_teacher_id'],
+                    'sch_slot_id' => $item['slot_id'],
+                    'sch_created_by' => auth()->id(),
+                ]);
+            }
+        });
+
+        Alert::success(
+            'Berhasil',
+            'Jadwal otomatis berhasil dibuat.'
+        );
+
+        return redirect()->route(
+            'administration.schedule.manual',
+            [
+                'acy_id' => $academicYearId,
+                'class_id' => $classId,
+            ]
+        );
+    }
+
+    private function buildBlockOptions(int $hours): array
+    {
+        $options = [];
+
+        // Prioritas pertama: semua JP sekaligus
+        $options[] = [$hours];
+
+        // Coba pecah menjadi blok-blok yang lebih kecil
+        if ($hours > 2) {
+
+            for ($firstBlock = $hours - 1; $firstBlock >= 2; $firstBlock--) {
+
+                $remaining = $hours - $firstBlock;
+
+                if ($remaining === 1) {
+                    $options[] = [$firstBlock, 1];
+                } elseif ($remaining >= 2) {
+                    $options[] = [$firstBlock, $remaining];
+                }
+            }
+        }
+
+        // Hilangkan kombinasi duplikat
+        return collect($options)
+            ->map(fn($item) => array_values($item))
+            ->unique(fn($item) => implode('-', $item))
+            ->values()
+            ->toArray();
+    }
+
+
+
+    private function findAvailableBlock(
+        $slots,
+        int $blockSize,
+        $subjectTeacher,
+        array $teacherBusy,
+        array $usedClassSlots,
+        array $usedTeacherSlots
+    ) {
+        $teacherId = $subjectTeacher->subt_teacher_id;
+
+        $slotsByDay = $slots->groupBy('slt_day');
+
+        foreach ($slotsByDay as $day => $daySlots) {
+
+            $daySlots = $daySlots
+                ->sortBy('slt_start_time')
+                ->values();
+
+            $count = $daySlots->count();
+
+            for ($i = 0; $i <= $count - $blockSize; $i++) {
+
+                $candidate = $daySlots
+                    ->slice($i, $blockSize)
+                    ->values();
+
+                $valid = true;
+
+                foreach ($candidate as $slot) {
+
+                    $slotId = $slot->slt_id;
+                    $teacherKey = $teacherId . ':' . $slotId;
+
+                    // Bentrok kelas
+                    if (isset($usedClassSlots[$slotId])) {
+                        $valid = false;
+                        break;
+                    }
+
+                    // Bentrok guru dengan kelas lain
+                    if (isset($teacherBusy[$teacherId][$slotId])) {
+                        $valid = false;
+                        break;
+                    }
+
+                    // Bentrok guru dengan hasil generate sekarang
+                    if (isset($usedTeacherSlots[$teacherKey])) {
+                        $valid = false;
+                        break;
+                    }
+                }
+
+                if ($valid) {
+                    return $candidate;
+                }
+            }
+        }
+
+        return null;
     }
 }
