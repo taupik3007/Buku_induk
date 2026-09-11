@@ -29,41 +29,86 @@ class ScheduleController extends Controller
         $academicYearId = $request->acy_id
             ?? $activeAcademicYear->acy_id;
 
+        $day = (int) ($request->day ?? 1);
+
+        $days = [
+            1 => 'Senin',
+            2 => 'Selasa',
+            3 => 'Rabu',
+            4 => 'Kamis',
+            5 => 'Jumat',
+        ];
+
+        /*
+    |--------------------------------------------------------------------------
+    | Semua kelas
+    |--------------------------------------------------------------------------
+    */
+
         $classes = Classes::with('cls_major')
             ->orderBy('cls_level')
             ->orderBy('cls_number')
             ->get();
 
-        $classId = $request->class_id
-            ?? $classes->first()?->cls_id;
 
-        $slots = ScheduleSlot::orderBy('slt_day')
-            ->orderBy('slt_number')
-            ->get()
-            ->groupBy('slt_day');
+        /*
+    |--------------------------------------------------------------------------
+    | Slot pada hari yang dipilih
+    |--------------------------------------------------------------------------
+    */
+
+        $slots = ScheduleSlot::where('slt_day', $day)
+            ->orderBy('slt_start_time')
+            ->get();
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | Semua jadwal tahun ajaran yang dipilih
+    |--------------------------------------------------------------------------
+    */
 
         $schedules = Schedule::with([
             'subjectTeacher.subject',
             'subjectTeacher.teacher.user',
-            'subjectTeacher.class',
-            'slot',
+            'subjectTeacher.class.cls_major',
         ])
-            ->whereHas('subjectTeacher', function ($query) use ($academicYearId, $classId) {
-                $query->where('subt_academic_year_id', $academicYearId)
-                    ->where('subt_class_id', $classId);
+            ->whereHas('subjectTeacher', function ($query) use ($academicYearId) {
+                $query->where(
+                    'subt_academic_year_id',
+                    $academicYearId
+                );
             })
-            ->get()
-            ->keyBy('sch_slot_id');
+            ->whereHas('slot', function ($query) use ($day) {
+                $query->where('slt_day', $day);
+            })
+            ->get();
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | Jadikan key: slot_id-class_id
+    |--------------------------------------------------------------------------
+    */
+
+        $scheduleMap = $schedules->keyBy(function ($schedule) {
+
+            return $schedule->sch_slot_id
+                . '-' .
+                $schedule->subjectTeacher->subt_class_id;
+        });
+
 
         return view(
             'administration.schedule.index',
             compact(
                 'academicYears',
                 'academicYearId',
+                'day',
+                'days',
                 'classes',
-                'classId',
                 'slots',
-                'schedules'
+                'scheduleMap'
             )
         );
     }
