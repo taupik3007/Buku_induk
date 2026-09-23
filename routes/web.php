@@ -222,7 +222,8 @@ Route::prefix('administration')->name('administration.')->group(function () {
 
         Route::get('/', [ScheduleController::class, 'index'])
             ->name('index');
-
+        Route::get('/print', [ScheduleController::class, 'print'])
+            ->name('print');
 
         Route::prefix('slot')->name('slot.')->group(function () {
 
@@ -252,7 +253,7 @@ Route::prefix('administration')->name('administration.')->group(function () {
             '/store',
             [ScheduleController::class, 'store']
         )->name('store');
- 
+
         Route::post('/generate', [ScheduleController::class, 'generate'])
             ->name('generate');
 

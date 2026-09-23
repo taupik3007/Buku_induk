@@ -25,6 +25,7 @@ class ScheduleController extends Controller
 
         $activeAcademicYear = Academic_Year::where('acy_status', 1)
             ->firstOrFail();
+        // dd($academicYears);
 
         $academicYearId = $request->acy_id
             ?? $activeAcademicYear->acy_id;
@@ -1023,5 +1024,70 @@ class ScheduleController extends Controller
         }
 
         return null;
+    }
+
+    public function print(Request $request)
+    {
+        $academicYears = Academic_Year::orderByDesc('acy_id')->get();
+
+        $activeAcademicYear = Academic_Year::where('acy_status', 1)
+            ->firstOrFail();
+
+        $academicYearId = $request->acy_id
+            ?? $activeAcademicYear->acy_id;
+
+        $day = (int) ($request->day ?? 1);
+
+        $days = [
+            1 => 'Senin',
+            2 => 'Selasa',
+            3 => 'Rabu',
+            4 => 'Kamis',
+            5 => 'Jumat',
+        ];
+
+        $classes = Classes::with('cls_major')
+            ->orderBy('cls_level')
+            ->orderBy('cls_number')
+            ->get();
+
+        $slots = ScheduleSlot::where('slt_day', $day)
+            ->orderBy('slt_start_time')
+            ->get();
+
+        $schedules = Schedule::with([
+            'subjectTeacher.subject',
+            'subjectTeacher.teacher.user',
+            'subjectTeacher.class.cls_major',
+        ])
+            ->whereHas('subjectTeacher', function ($query) use ($academicYearId) {
+                $query->where(
+                    'subt_academic_year_id',
+                    $academicYearId
+                );
+            })
+            ->whereHas('slot', function ($query) use ($day) {
+                $query->where('slt_day', $day);
+            })
+            ->get();
+
+        $scheduleMap = $schedules->keyBy(function ($schedule) {
+            return $schedule->sch_slot_id
+                . '-'
+                . $schedule->subjectTeacher->subt_class_id;
+        });
+
+        return view(
+            'administration.schedule.print',
+            compact(
+                'academicYears',
+                'academicYearId',
+                'day',
+                'days',
+                'classes',
+                'slots',
+                'scheduleMap'
+            )
+        );
     }
 }
