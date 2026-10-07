@@ -89,7 +89,7 @@ public function rejected()
             'teacherBio.partner',
             'teacherBio.history',
             'teacherBio.education',
-        ])->findOrFail($id);;
+        ])->findOrFail($id);
 
         $documents = TeacherRequirement::with(['upload' => fn($q) => $q->where('usr_id', $id)])
                    ->get()

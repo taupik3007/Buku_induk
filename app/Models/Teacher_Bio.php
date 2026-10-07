@@ -33,11 +33,11 @@ class Teacher_Bio extends Model
 
     public function history()
     {
-        return $this->hasMany(Teach_History::class, 'tcs_bio_id');
+        return $this->hasMany(Teach_History::class, 'tcs_teacher_id');
     }
     public function education()
     {
-        return $this->hasMany(TeacherEducation::class, 'tce_bio_id');
+        return $this->hasMany(TeacherEducation::class, 'tce_teacher_id');
     }
     public function teacher()
 {

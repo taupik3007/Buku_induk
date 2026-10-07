@@ -68,7 +68,7 @@ public function address()
 }
 public function teacherBio()
 {
-    return $this->hasOne(Teacher_Bio::class, 'tcb_user_id', 'usr_id');
+    return $this->hasOne(Teacher_Bio::class, 'tcb_teacher_id', 'usr_id');
 }
 public function teacher()
 {
