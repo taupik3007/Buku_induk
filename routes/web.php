@@ -89,8 +89,11 @@ Route::get('/dashboard', function () {
         // Masih draft
         // return redirect()->route('teacher.prospectiveTeacher.biodata');
     }
+    if ($user->hasRole('prospectiveStudent')) {
+        return redirect()->route('prospectiveStudent.index');
+    }
 
-    abort(403);
+    // abort(403);
 })->middleware(['auth'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -219,7 +222,8 @@ Route::prefix('administration')->name('administration.')->group(function () {
 
         Route::get('/', [ScheduleController::class, 'index'])
             ->name('index');
-
+        Route::get('/print', [ScheduleController::class, 'print'])
+            ->name('print');
 
         Route::prefix('slot')->name('slot.')->group(function () {
 
@@ -231,7 +235,30 @@ Route::prefix('administration')->name('administration.')->group(function () {
 
             Route::post('/create', [ScheduleSlotController::class, 'store'])
                 ->name('store');
+
+            Route::get('/{id}/edit', [ScheduleSlotController::class, 'edit'])
+                ->name('edit');
+
+            Route::put('/{id}/edit', [ScheduleSlotController::class, 'update'])
+                ->name('update');
+            Route::delete(
+                '/{id}/destroy',
+                [ScheduleSlotController::class, 'destroy']
+            )->name('destroy');
         });
+
+        Route::get('/manual', [ScheduleController::class, 'manual'])
+            ->name('manual');
+        Route::post(
+            '/store',
+            [ScheduleController::class, 'store']
+        )->name('store');
+
+        Route::post('/generate', [ScheduleController::class, 'generate'])
+            ->name('generate');
+
+        Route::delete('/{id}/destroy', [ScheduleController::class, 'destroy'])
+            ->name('destroy');
     });
 
 

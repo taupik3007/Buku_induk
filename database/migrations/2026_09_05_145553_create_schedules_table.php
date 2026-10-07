@@ -29,17 +29,11 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->renameColumn('updated_at', 'sch_updated_at');
             $table->renameColumn('created_at', 'sch_created_at');
+            $table->renameColumn('updated_at', 'sch_updated_at');
 
             $table->unsignedBigInteger('sch_created_by')->nullable();
-            $table->unsignedBigInteger('sch_deleted_by')->nullable();
             $table->unsignedBigInteger('sch_updated_by')->nullable();
-
-            $table->softDeletes();
-            $table->renameColumn('deleted_at', 'sch_deleted_at');
-
-            $table->string('sch_sys_note')->nullable();
 
             $table->foreign('sch_created_by')
                 ->references('usr_id')
@@ -51,16 +45,10 @@ return new class extends Migration
                 ->on('users')
                 ->nullOnDelete();
 
-            $table->foreign('sch_deleted_by')
-                ->references('usr_id')
-                ->on('users')
-                ->nullOnDelete();
+            $table->string('sch_sys_note')->nullable();
 
             $table->unique(
-                [
-                    'sch_subject_teacher_id',
-                    'sch_slot_id',
-                ],
+                ['sch_subject_teacher_id', 'sch_slot_id'],
                 'sch_subject_teacher_slot_unique'
             );
         });

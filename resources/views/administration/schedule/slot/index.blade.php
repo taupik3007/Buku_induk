@@ -10,7 +10,6 @@
 @endsection
 
 @section('content')
-
     <div class="datatables">
 
         {{-- Header --}}
@@ -30,7 +29,7 @@
 
                                 <li class="breadcrumb-item">
                                     <a href="{{ route('administration.schedule.index') }}"
-                                       class="text-muted text-decoration-none">
+                                        class="text-muted text-decoration-none">
                                         Jadwal Pelajaran
                                     </a>
                                 </li>
@@ -48,9 +47,8 @@
 
                         <div class="text-center mb-n5">
 
-                            <img src="{{ asset('assets/images/breadcrumb/ChatBc.png') }}"
-                                 alt="modernize-img"
-                                 class="img-fluid mb-n4">
+                            <img src="{{ asset('assets/images/breadcrumb/ChatBc.png') }}" alt="modernize-img"
+                                class="img-fluid mb-n4">
 
                         </div>
 
@@ -74,7 +72,7 @@
                     </h4>
 
                     <a href="{{ route('administration.schedule.slot.create') }}"
-                       class="btn btn-primary position-absolute top-0 end-0">
+                        class="btn btn-primary position-absolute top-0 end-0">
 
                         <i class="ti ti-plus me-1"></i>
                         Tambah Jam
@@ -86,8 +84,7 @@
 
                 <div class="table-responsive">
 
-                    <table id="file_export"
-                           class="table w-100 table-striped table-bordered display text-nowrap">
+                    <table id="file_export" class="table w-100 table-striped table-bordered display text-nowrap">
 
                         <thead>
 
@@ -106,7 +103,6 @@
                         <tbody>
 
                             @foreach ($scheduleSlots as $no => $slot)
-
                                 <tr>
 
                                     <td>
@@ -144,23 +140,17 @@
                                     <td>
 
                                         @if ($slot->slt_type === 'lesson')
-
                                             <span class="badge bg-primary-subtle text-primary">
                                                 Pelajaran
                                             </span>
-
                                         @elseif ($slot->slt_type === 'break')
-
                                             <span class="badge bg-warning-subtle text-warning">
                                                 Istirahat
                                             </span>
-
                                         @else
-
                                             <span class="badge bg-secondary-subtle text-secondary">
                                                 {{ $slot->slt_type }}
                                             </span>
-
                                         @endif
 
                                     </td>
@@ -169,13 +159,13 @@
 
                                         <div class="d-flex gap-1">
 
-                                            <a href="#"
-                                               class="btn btn-primary btn-sm">
+                                            <a href="{{ route('administration.schedule.slot.edit', $slot->slt_id) }}"
+                                                class="btn btn-primary btn-sm">
                                                 <i class="ti ti-edit"></i>
                                             </a>
 
-                                            <a href="#"
-                                               class="btn btn-danger btn-sm">
+                                            <a href="{{ route('administration.schedule.slot.destroy', $slot->slt_id) }}" class="btn btn-danger btn-sm" data-confirm-delete="true"
+                                                data-id="{{ $slot->slt_id }}">
                                                 <i class="ti ti-trash"></i>
                                             </a>
 
@@ -184,7 +174,6 @@
                                     </td>
 
                                 </tr>
-
                             @endforeach
 
                         </tbody>
@@ -212,12 +201,10 @@
         </div>
 
     </div>
-
 @endsection
 
 
 @push('script')
-
     <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
 
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
@@ -233,5 +220,4 @@
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 
     <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
-
 @endpush

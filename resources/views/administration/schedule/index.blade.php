@@ -6,7 +6,7 @@
             font-size: 12px;
         }
 
-        .schedule-table th {
+        ``` .schedule-table th {
             font-size: 12px;
             padding: 8px 6px !important;
             white-space: nowrap;
@@ -14,28 +14,45 @@
 
         .schedule-table td {
             padding: 7px 5px !important;
+            vertical-align: middle;
         }
 
-        .schedule-table .subject-name {
+        .schedule-time {
+            width: 120px;
+            min-width: 120px;
+            font-size: 10px;
+            white-space: nowrap;
+        }
+
+        .schedule-cell {
+            min-width: 150px;
+            height: 62px;
+        }
+
+        .schedule-cell .subject {
             font-size: 12px;
             font-weight: 600;
             line-height: 1.3;
         }
 
-        .schedule-table .teacher-name {
+        .schedule-cell .teacher {
             font-size: 10px;
+            color: #6c757d;
             line-height: 1.3;
         }
 
-        .schedule-table .time {
-            font-size: 10px;
-            line-height: 1.3;
+        .schedule-break {
+            background-color: #f8f9fa !important;
+            color: #6c757d;
+            font-size: 11px;
+            font-weight: 600;
         }
 
-        .schedule-table .break-row td {
-            padding: 6px !important;
+        .day-button {
+            min-width: 85px;
         }
     </style>
+    ```
 @endpush
 
 @section('title')
@@ -43,10 +60,13 @@
 @endsection
 
 @section('content')
+
+    ```
     <div class="datatables">
 
         {{-- Header --}}
         <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
+
             <div class="card-body px-4 py-3">
 
                 <div class="row align-items-center">
@@ -58,6 +78,7 @@
                         </h4>
 
                         <nav aria-label="breadcrumb">
+
                             <ol class="breadcrumb mb-0">
 
                                 <li class="breadcrumb-item" aria-current="page">
@@ -65,9 +86,11 @@
                                 </li>
 
                             </ol>
+
                         </nav>
 
                     </div>
+
 
                     <div class="col-3">
 
@@ -83,6 +106,7 @@
                 </div>
 
             </div>
+
         </div>
 
 
@@ -91,11 +115,13 @@
 
             <div class="card-body">
 
-                <form method="GET" action="{{ route('administration.schedule.index') }}">
+                <div class="row align-items-end">
 
-                    <div class="row align-items-end">
+                    {{-- Tahun Ajaran --}}
+                    <div class="col-md-4">
 
-                        <div class="col-md-4">
+                        <form method="GET" action="{{ route('administration.schedule.index') }}">
+
                             <label for="academic_year" class="form-label fw-semibold">
                                 Tahun Ajaran
                             </label>
@@ -105,75 +131,97 @@
                                 @foreach ($academicYears as $academicYear)
                                     <option value="{{ $academicYear->acy_id }}"
                                         {{ $academicYearId == $academicYear->acy_id ? 'selected' : '' }}>
-                                        {{ $academicYear->acy_year }}/{{ $academicYear->acy_year + 1 }}
+
+                                        {{ $academicYear->acy_year }}/{{ $academicYear->acy_year }}
+
                                     </option>
                                 @endforeach
 
                             </select>
-                        </div>
 
-                        <div class="col-md-4">
-                            <label for="class" class="form-label fw-semibold">
-                                Kelas
-                            </label>
-
-                            <select name="class_id" id="class" class="form-select" onchange="this.form.submit()">
-
-                                @foreach ($classes as $class)
-                                    <option value="{{ $class->cls_id }}" {{ $classId == $class->cls_id ? 'selected' : '' }}>
-                                        {{ $class->cls_level }}
-                                        {{ $class->cls_major?->mjr_abbr ?? '' }}
-                                        {{ $class->cls_number }}
-                                    </option>
-                                @endforeach
-
-                            </select>
-                        </div>
+                        </form>
 
                     </div>
+                    <div class="col-md-4">
 
-                </form>
+                        <a href="/administration/schedule/manual" class="btn btn-primary">
+                            <i class="ti ti-calendar-week me-1"></i>
+                            Atur Jadwal
+                        </a>
+                        <a href="{{ route('administration.schedule.print', [
+                            'acy_id' => $academicYearId,
+                            'day' => $day,
+                        ]) }}"
+                            target="_blank" class="btn btn-outline-primary ">
+
+                            <i class="ti ti-printer me-1"></i>
+                            Cetak Jadwal
+
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+
+                        
+                    </div>
+
+                </div>
 
             </div>
 
         </div>
 
 
-        {{-- Informasi --}}
+        {{-- Pilihan Hari --}}
+        <div class="d-flex flex-wrap gap-2 mb-4">
+
+            @foreach ($days as $dayNumber => $dayName)
+                <a href="{{ route('administration.schedule.index', [
+                    'acy_id' => $academicYearId,
+                    'day' => $dayNumber,
+                ]) }}"
+                    class="btn day-button
+               {{ $day == $dayNumber ? 'btn-primary' : 'btn-light' }}">
+
+                    {{ $dayName }}
+
+                </a>
+            @endforeach
+
+        </div>
+
+
+        {{-- Judul --}}
         <div class="d-flex justify-content-between align-items-center mb-3">
 
             <div>
 
                 <h4 class="fw-semibold mb-1">
-                    Jadwal X RPL 1
+                    Jadwal Hari {{ $days[$day] ?? '-' }}
                 </h4>
 
                 <p class="text-muted mb-0">
-                    Tahun Ajaran 2026 / 2027
+
+                    Tahun Ajaran:
+                    {{ $academicYears->firstWhere('acy_id', $academicYearId)?->acy_year
+                        ? $academicYears->firstWhere('acy_id', $academicYearId)->acy_year .
+                            '/' .
+                            ($academicYears->firstWhere('acy_id', $academicYearId)->acy_year + 1)
+                        : '-' }}
+
                 </p>
 
             </div>
 
-            <div class="d-flex gap-2">
-
-                <span class="badge bg-success-subtle text-success">
-                    Jadwal Tersedia
-                </span>
-
-                <button type="button" class="btn btn-outline-primary btn-sm">
-
-                    <i class="ti ti-printer me-1"></i>
-                    Cetak
-
-                </button>
-
-            </div>
+            <span class="badge bg-success-subtle text-success">
+                Jadwal Pelajaran
+            </span>
 
         </div>
 
 
-        {{-- Jadwal --}}
+        {{-- Tabel --}}
         <div class="card">
+
             <div class="card-body">
 
                 <div class="table-responsive">
@@ -181,40 +229,37 @@
                     <table class="table table-bordered text-center align-middle schedule-table">
 
                         <thead>
+
                             <tr>
-                                <th style="width: 120px;">
+
+                                <th class="schedule-time">
                                     Jam
                                 </th>
 
-                                <th>Senin</th>
-                                <th>Selasa</th>
-                                <th>Rabu</th>
-                                <th>Kamis</th>
-                                <th>Jumat</th>
-                               
+                                @foreach ($classes as $class)
+                                    <th style="min-width: 150px;">
+
+                                        {{ $class->cls_level }}
+
+                                        {{ $class->cls_major?->mjr_abbr ?? '' }}
+
+                                        {{ $class->cls_number }}
+
+                                    </th>
+                                @endforeach
+
                             </tr>
+
                         </thead>
+
 
                         <tbody>
 
-                            @php
-                                $days = [
-                                    1 => 'Senin',
-                                    2 => 'Selasa',
-                                    3 => 'Rabu',
-                                    4 => 'Kamis',
-                                    5 => 'Jumat',
-                                 
-                                ];
-
-                                $allSlots = $slots->flatten()->unique('slt_id');
-                            @endphp
-
-                            @foreach ($allSlots as $slot)
+                            @forelse ($slots as $slot)
                                 <tr>
 
                                     {{-- Jam --}}
-                                    <td>
+                                    <td class="schedule-time">
 
                                         @if ($slot->slt_type === 'break')
                                             <span class="fw-semibold text-muted">
@@ -228,60 +273,88 @@
 
                                         <br>
 
-                                        <span class="text-muted time">
+                                        <small class="text-muted">
+
                                             {{ \Carbon\Carbon::parse($slot->slt_start_time)->format('H:i') }}
+
                                             -
+
                                             {{ \Carbon\Carbon::parse($slot->slt_end_time)->format('H:i') }}
-                                        </span>
+
+                                        </small>
 
                                     </td>
 
 
-                                    {{-- Hari --}}
-                                    @foreach ($days as $dayNumber => $dayName)
-                                        @php
-                                            $daySlot = $slots
-                                                ->get($dayNumber, collect())
-                                                ->firstWhere('slt_id', $slot->slt_id);
-                                        @endphp
+                                    {{-- Kelas --}}
+                                    @foreach ($classes as $class)
+                                        @if ($slot->slt_type === 'break')
+                                            <td class="schedule-break">
 
-                                        <td>
+                                                ISTIRAHAT
 
-                                            @if ($daySlot)
-                                                @if ($daySlot->slt_type === 'break')
-                                                    <span class="fw-semibold text-muted">
-                                                        ISTIRAHAT
-                                                    </span>
-                                                @else
-                                                    @php
-                                                        $schedule = $schedules->get($daySlot->slt_id);
-                                                    @endphp
+                                            </td>
+                                        @else
+                                            @php
 
-                                                    @if ($schedule)
-                                                        <div class="subject-name">
-                                                            {{ $schedule->subjectTeacher?->subject?->sbj_name ?? '-' }}
-                                                        </div>
+                                                $key = $slot->slt_id . '-' . $class->cls_id;
 
-                                                        <div class="text-muted teacher-name">
-                                                            {{ $schedule->subjectTeacher?->teacher?->user?->usr_name ?? '-' }}
-                                                        </div>
-                                                    @else
-                                                        <span class="text-muted">
-                                                            -
-                                                        </span>
-                                                    @endif
-                                                @endif
+                                                $schedule = $scheduleMap->get($key);
+
+                                            @endphp
+
+
+                                            @if ($schedule)
+                                                <td class="schedule-cell">
+
+                                                    <div class="subject">
+
+                                                        {{ $schedule->subjectTeacher?->subject?->sbj_name ?? '-' }}
+
+                                                    </div>
+
+                                                    <div class="teacher">
+
+                                                        {{ $schedule->subjectTeacher?->teacher?->user?->usr_name ?? '-' }}
+
+                                                    </div>
+
+                                                </td>
                                             @else
-                                                <span class="text-muted">
-                                                    -
-                                                </span>
-                                            @endif
+                                                <td class="schedule-cell">
 
-                                        </td>
+                                                    <span class="text-muted">
+                                                        -
+                                                    </span>
+
+                                                </td>
+                                            @endif
+                                        @endif
                                     @endforeach
 
                                 </tr>
-                            @endforeach
+
+                            @empty
+
+                                <tr>
+
+                                    <td colspan="{{ $classes->count() + 1 }}" class="text-center py-5">
+
+                                        <i class="ti ti-calendar-off fs-8 text-muted"></i>
+
+                                        <h5 class="mt-3">
+                                            Belum ada slot jadwal
+                                        </h5>
+
+                                        <p class="text-muted mb-0">
+                                            Belum ada slot waktu untuk hari
+                                            {{ $days[$day] ?? '-' }}.
+                                        </p>
+
+                                    </td>
+
+                                </tr>
+                            @endforelse
 
                         </tbody>
 
@@ -290,7 +363,10 @@
                 </div>
 
             </div>
+
         </div>
 
     </div>
+    ```
+
 @endsection
