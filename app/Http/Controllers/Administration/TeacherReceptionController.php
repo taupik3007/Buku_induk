@@ -85,18 +85,18 @@ public function rejected()
     public function show(string $id)
     {
         $teacher   = User::with([
-            'teacherBio.address',
-            'teacherBio.partner',
-            'teacherBio.history',
-            'teacherBio.education',
+            'teacher.teacherBio.address',
+            'teacher.teacherBio.partner',
+            'teacher.teacherBio.history',
+            'teacher.teacherBio.education',
         ])->findOrFail($id);
 
-        $documents = TeacherRequirement::with(['upload' => fn($q) => $q->where('usr_id', $id)])
-                   ->get()
-                   ->map(function ($req) {
-                       $req->file_path = $req->upload->file_path ?? null;
-                       return $req;
-                   });
+        $documents = TeacherRequirement::with([
+    'upload' => fn ($q) => $q->where('tsb_teacher_id', $teacher->teacher->tcr_id),
+])->get();
+// dd($teacher->usr_photo);
+
+                //    dd($documents);
        return view('administration.teacher_reception.show', compact('teacher', 'documents'));
     }
 

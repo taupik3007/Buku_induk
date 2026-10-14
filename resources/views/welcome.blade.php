@@ -674,7 +674,7 @@
 
         /* ── TESTIMONI ── */
         .testimoni {
-            background: var(--gray-soft);
+            /* background: var(--gray-soft); */
         }
 
         .testi-grid {
@@ -1325,7 +1325,7 @@ p {
             <li><a href="#fasilitas">Fasilitas</a></li>
             <li><a href="#kontak">Kontak</a></li>
         </ul>
-        <a class="nav-cta" href="#pendaftaran">Daftar Sekarang</a>
+        <a class="nav-cta" href="/login">Login</a>
     </nav>
 
     <!-- HERO -->
@@ -1384,7 +1384,7 @@ p {
 
             <div class="register-grid">
                 <!-- Siswa -->
-                <a href="/ppdb/register" class="register-card">
+                <a href="/register" class="register-card">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24">
                             <path d="M12 14c-4 0-8 2-8 4v1h16v-1c0-2-4-4-8-4z" />
@@ -1406,7 +1406,7 @@ p {
                 </a>
 
                 <!-- Guru -->
-                <a href="/recruitment/guru" class="register-card">
+                <a href="/register-teacher" class="register-card">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24">
                             <rect x="2" y="7" width="20" height="14" rx="1" />
@@ -1430,7 +1430,7 @@ p {
                 </a>
 
                 <!-- Pegawai -->
-                <a href="/recruitment/pegawai" class="register-card">
+                <a href="register-employee" class="register-card">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24">
                             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
@@ -1713,7 +1713,7 @@ p {
     </section>
 
     <!-- PENDAFTARAN -->
-    <section class="pendaftaran" id="pendaftaran">
+    <!-- <section class="pendaftaran" id="pendaftaran">
         <div class="section-label" style="color:var(--accent);">PSB 2025/2026</div>
         <div class="section-title">Daftar Sekarang</div>
         <p class="section-sub">Jangan lewatkan kesempatan emas bergabung dengan keluarga besar SMA Nusantara Unggul.
@@ -1752,7 +1752,7 @@ p {
             Atau hubungi kami via WhatsApp: <a href="https://wa.me/6281234567890"
                 style="color:rgba(255,255,255,0.7);">+62 812-3456-7890</a>
         </p>
-    </section>
+    </section> -->
 
     <!-- KONTAK -->
     <section class="kontak" id="kontak">

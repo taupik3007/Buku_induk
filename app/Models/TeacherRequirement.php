@@ -16,4 +16,9 @@ class TeacherRequirement extends Model
     const CREATED_AT = 'tcq_created_at';
     const UPDATED_AT = 'tcq_updated_at';
     const DELETED_AT = 'tcq_deleted_at';
+
+    public function upload()
+    {
+        return $this->hasMany(TeacherSubmission::class,  'tsb_requirement_id');
+    }
 }

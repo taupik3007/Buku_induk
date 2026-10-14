@@ -43,12 +43,23 @@
         <div class="card mb-4">
             <div class="card-body">
                 <div class="d-flex align-items-center gap-3 flex-wrap">
-                    <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0"
-                        style="width:60px;height:60px;font-size:20px;font-weight:500;color:#185FA5;">
-                        {{-- {{ strtoupper(substr($teacher->user->usr_name, 0, 1)) }}{{ strtoupper(substr(strrchr($teacher->user->usr_name, ' ') ?: $teacher->user->usr_name, 1, 1)) }} --}}
-                    </div>
+                 
+<div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0 overflow-hidden"
+    style="width:60px;height:60px;">
+
+    <img
+        src="{{ $teacher?->usr_photo
+            ? asset('storage/' . $teacher->usr_photo)
+            : asset('assets/images/profile/user-1.jpg') }}"
+        alt="Foto profil"
+        class="w-100 h-100"
+        style="object-fit: cover;"
+    >
+
+</div>
+
                     <div class="flex-grow-1">
-                        <h5 class="fw-semibold mb-1">{{ $teacher->teacherBio->tcb_user_name ?? '-' }}</h5>
+                        <h5 class="fw-semibold mb-1">{{ $teacher->usr_name ?? '-' }}</h5>
                         <div class="d-flex flex-wrap gap-2 align-items-center">
                             <span class="badge bg-primary-subtle text-primary">
                                 No. Daftar: {{--  {{ $teacher->user->usr_name ?? '-' }} --}}
@@ -112,29 +123,29 @@
                 <tbody>
                     <tr>
                         <td class="text-muted ps-0" style="width:45%">Jenis Kelamin</td>
-                        <td class="fw-medium">{{ $teacher->teacherBio->tcb_user_name ?? '-' }}</td>
+                        <td class="fw-medium">{{ $teacher->teacher->teacherBio->tcb_user_name ?? '-' }}</td>
                     </tr>
                     <tr>
                         <td class="text-muted ps-0">Tempat Lahir</td>
-                        <td class="fw-medium">{{ $teacher->teacherBio->tcb_birth_place ?? '-' }}</td>
+                        <td class="fw-medium">{{ $teacher->teacher->teacherBio->tcb_birth_place ?? '-' }}</td>
                     </tr>
                     <tr>
                         <td class="text-muted ps-0">Tanggal Lahir</td>
                         <td class="fw-medium">
-                            {{  $teacher->teacherBio->tcb_birth_date ? \Carbon\Carbon::parse($teacher->teacherBio->tcb_birth_date)->translatedFormat('d F Y') : '-' }}
+                            {{  $teacher->teacher->teacherBio->tcb_birth_date ? \Carbon\Carbon::parse($teacher->teacher->teacherBio->tcb_birth_date)->translatedFormat('d F Y') : '-' }}
                         </td>
                     </tr>
                     <tr>
                         <td class="text-muted ps-0">Agama</td>
-                        <td class="fw-medium">{{ $teacher->teacherBio->tcb_religion ?? '-' }}</td>
+                        <td class="fw-medium">{{ $teacher->teacher->teacherBio->tcb_religion ?? '-' }}</td>
                     </tr>
                     <tr>
                         <td class="text-muted ps-0">Status Pernikahan</td>
-                        <td class="fw-medium">{{ $teacher->teacherBio->tcb_mary_status  == 1 ? 'Menikah' : 'Belum Menikah' }}</td>
+                        <td class="fw-medium">{{ $teacher->teacher->teacherBio->tcb_mary_status  == 1 ? 'Menikah' : 'Belum Menikah' }}</td>
                     </tr>
                     <tr>
                         <td class="text-muted ps-0">No Telepon</td>
-                        <td class="fw-medium">(+62) {{ $teacher->teacherBio->tcb_telp ?? '-' }}</td>
+                        <td class="fw-medium">(+62) {{ $teacher->teacher->teacherBio->tcb_telp ?? '-' }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -189,7 +200,7 @@
                         <h6 class="card-title text-uppercase text-muted fw-semibold mb-3" style="font-size:11px;letter-spacing:.06em;">
                             Riwayat Pendidikan
                         </h6>
-                        @foreach($teacher->teacherBio->education as $edu)
+                        @foreach($teacher->teacher->teacherBio->education as $edu)
                         <table class="table table-sm table-borderless mb-0">
                             <tbody>
                                 <tr>
@@ -225,7 +236,7 @@
                         <h6 class="card-title text-uppercase text-muted fw-semibold mb-3" style="font-size:11px;letter-spacing:.06em;">
                             Riwayat Mengajar
                         </h6>
-                        @foreach( $teacher->teacherBio->history as $history)
+                        @foreach( $teacher->teacher->teacherBio->history as $history)
                         <table class="table table-sm table-borderless mb-0">
                             <tbody>
                                 <tr>
@@ -343,39 +354,48 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse($documents as $no => $doc)
-                                        <tr>
-                                            <td>{{ $no + 1 }}</td>
-                                            <td>{{ $doc->pdr_name }}</td>
-                                            <td>
-                                                <span class="badge bg-secondary-subtle text-secondary">
-                                                    {{ $doc->pdr_type }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                @if($doc->file_path)
-                                                    <span class="badge bg-success-subtle text-success">Diunggah</span>
-                                                @else
-                                                    <span class="badge bg-danger-subtle text-danger">Belum Diunggah</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if($doc->file_path)
-                                                    <a href="{{ asset('storage/' . $doc->file_path) }}"
-                                                        target="_blank"
-                                                        class="btn btn-outline-primary btn-sm">
-                                                        <i class="ti ti-eye me-1"></i>Lihat
-                                                    </a>
-                                                @else
-                                                    <span class="text-muted small">-</span>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="5" class="text-center text-muted py-4">Tidak ada dokumen</td>
-                                        </tr>
-                                    @endforelse
+                                
+@forelse($documents as $no => $doc)
+    <tr>
+        <td>{{ $no + 1 }}</td>
+        <td>{{ $doc->tcq_name }}</td>
+        <td>
+            <span class="badge bg-secondary-subtle text-secondary">
+                {{ $doc->tcq_type }}
+            </span>
+        </td>
+        <td>
+            @if($doc->upload->isNotEmpty())
+                <span class="badge bg-success-subtle text-success">
+                    {{ $doc->upload->count() }} File Diunggah
+                </span>
+            @else
+                <span class="badge bg-danger-subtle text-danger">
+                    Belum Diunggah
+                </span>
+            @endif
+        </td>
+        <td>
+            @forelse($doc->upload as $file)
+                <a href="{{ asset('storage/' . $file->tsb_value) }}"
+                   target="_blank"
+                   class="btn btn-outline-primary btn-sm mb-1">
+                    <i class="ti ti-eye me-1"></i>
+                    Lihat {{ $loop->iteration }}
+                </a>
+            @empty
+                <span class="text-muted small">-</span>
+            @endforelse
+        </td>
+    </tr>
+@empty
+    <tr>
+        <td colspan="5" class="text-center text-muted py-4">
+            Tidak ada dokumen
+        </td>
+    </tr>
+@endforelse
+
                                 </tbody>
                             </table>
                         </div>
