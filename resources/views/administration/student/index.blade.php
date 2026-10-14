@@ -96,7 +96,7 @@
                                     </td>
 
                                     <td>
-                                        <a href="/administration/students/{{ $item->usr_id }}/show"
+                                        <a href="/administration/student/{{ $item->usr_id }}/show"
                                            class="btn btn-primary btn-sm">
                                             Detail
                                         </a>

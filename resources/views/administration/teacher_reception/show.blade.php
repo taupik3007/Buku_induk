@@ -43,20 +43,14 @@
         <div class="card mb-4">
             <div class="card-body">
                 <div class="d-flex align-items-center gap-3 flex-wrap">
-                 
-<div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0 overflow-hidden"
-    style="width:60px;height:60px;">
 
-    <img
-        src="{{ $teacher?->usr_photo
-            ? asset('storage/' . $teacher->usr_photo)
-            : asset('assets/images/profile/user-1.jpg') }}"
-        alt="Foto profil"
-        class="w-100 h-100"
-        style="object-fit: cover;"
-    >
+                    <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0 overflow-hidden"
+                        style="width:60px;height:60px;">
 
-</div>
+                        <img src="{{ $teacher?->usr_photo ? asset('storage/' . $teacher->usr_photo) : asset('assets/images/profile/user-1.jpg') }}"
+                            alt="Foto profil" class="w-100 h-100" style="object-fit: cover;">
+
+                    </div>
 
                     <div class="flex-grow-1">
                         <h5 class="fw-semibold mb-1">{{ $teacher->usr_name ?? '-' }}</h5>
@@ -66,10 +60,10 @@
                             </span>
                             @php
                                 $statusMap = [
-                                    'pending'    => ['bg-warning-subtle text-warning', 'Menunggu Verifikasi'],
-                                    'verified'   => ['bg-success-subtle text-success', 'Terverifikasi'],
-                                    'rejected'   => ['bg-danger-subtle text-danger', 'Ditolak'],
-                                    'accepted'   => ['bg-info-subtle text-info', 'Diterima'],
+                                    'pending' => ['bg-warning-subtle text-warning', 'Menunggu Verifikasi'],
+                                    'verified' => ['bg-success-subtle text-success', 'Terverifikasi'],
+                                    'rejected' => ['bg-danger-subtle text-danger', 'Ditolak'],
+                                    'accepted' => ['bg-info-subtle text-info', 'Diterima'],
                                 ];
                                 // $statusKey   = $student->reg_status ?? 'pending';
                                 // [$badgeClass, $badgeLabel] = $statusMap[$statusKey] ?? ['bg-secondary-subtle text-secondary', ucfirst($statusKey)];
@@ -78,16 +72,17 @@
                         </div>
                     </div>
                     <div class="d-flex gap-2 flex-wrap">
-                        <a href=""
-                            class="btn btn-outline-secondary btn-sm">
+                        <a href="" class="btn btn-outline-secondary btn-sm">
                             <i class="ti ti-arrow-left me-1"></i>Kembali
                         </a>
-                        <form action="{{ route('administration.teacherReception.accept', $teacher->usr_id) }}" method="POST" style="display:inline;">
+                        <form action="{{ route('administration.teacherReception.accept', $teacher->usr_id) }}"
+                            method="POST" style="display:inline;">
                             @csrf
                             <button class="btn btn-success btn-sm">Terima</button>
                         </form>
-                        <a href="/administration/teacher-reception/{{ $teacher->usr_id}}/reject" class="btn btn-danger btn-sm"  onclick="confirmDelete('{{ $teacher->usr_name }}')">Tolak</a>
-                        {{-- @if(($student->reg_status ?? 'pending') === 'pending')
+                        <a href="/administration/teacher-reception/{{ $teacher->usr_id }}/reject"
+                            class="btn btn-danger btn-sm" onclick="confirmDelete('{{ $teacher->usr_name }}')">Tolak</a>
+                        {{-- @if (($student->reg_status ?? 'pending') === 'pending')
                             <form action="" method="POST" class="d-inline">
                                 @csrf
                                 @method('PATCH')
@@ -111,59 +106,63 @@
 
         <div class="row">
 
-         {{-- Data Pribadi --}}
-<div class="col-md-6 mb-4">
-    <div class="card h-100">
-        <div class="card-body">
-            <h6 class="card-title text-uppercase text-muted fw-semibold mb-3"
-                style="font-size:11px;letter-spacing:.06em;">
-                Data Pribadi
-            </h6>
-            <table class="table table-sm table-borderless mb-0">
-                <tbody>
-                    <tr>
-                        <td class="text-muted ps-0" style="width:45%">Jenis Kelamin</td>
-                        <td class="fw-medium">{{ $teacher->teacher->teacherBio->tcb_user_name ?? '-' }}</td>
-                    </tr>
-                    <tr>
-                        <td class="text-muted ps-0">Tempat Lahir</td>
-                        <td class="fw-medium">{{ $teacher->teacher->teacherBio->tcb_birth_place ?? '-' }}</td>
-                    </tr>
-                    <tr>
-                        <td class="text-muted ps-0">Tanggal Lahir</td>
-                        <td class="fw-medium">
-                            {{  $teacher->teacher->teacherBio->tcb_birth_date ? \Carbon\Carbon::parse($teacher->teacher->teacherBio->tcb_birth_date)->translatedFormat('d F Y') : '-' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-muted ps-0">Agama</td>
-                        <td class="fw-medium">{{ $teacher->teacher->teacherBio->tcb_religion ?? '-' }}</td>
-                    </tr>
-                    <tr>
-                        <td class="text-muted ps-0">Status Pernikahan</td>
-                        <td class="fw-medium">{{ $teacher->teacher->teacherBio->tcb_mary_status  == 1 ? 'Menikah' : 'Belum Menikah' }}</td>
-                    </tr>
-                    <tr>
-                        <td class="text-muted ps-0">No Telepon</td>
-                        <td class="fw-medium">(+62) {{ $teacher->teacher->teacherBio->tcb_telp ?? '-' }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-  {{-- Alamat--}}
+            {{-- Data Pribadi --}}
             <div class="col-md-6 mb-4">
                 <div class="card h-100">
                     <div class="card-body">
-                        <h6 class="card-title text-uppercase text-muted fw-semibold mb-3" style="font-size:11px;letter-spacing:.06em;">
+                        <h6 class="card-title text-uppercase text-muted fw-semibold mb-3"
+                            style="font-size:11px;letter-spacing:.06em;">
+                            Data Pribadi
+                        </h6>
+                        <table class="table table-sm table-borderless mb-0">
+                            <tbody>
+                                <tr>
+                                    <td class="text-muted ps-0" style="width:45%">Jenis Kelamin</td>
+                                    <td class="fw-medium">{{ $teacher->teacher->teacherBio->tcb_user_name ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Tempat Lahir</td>
+                                    <td class="fw-medium">{{ $teacher->teacher->teacherBio->tcb_birth_place ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Tanggal Lahir</td>
+                                    <td class="fw-medium">
+                                        {{ $teacher->teacher->teacherBio->tcb_birth_date ? \Carbon\Carbon::parse($teacher->teacher->teacherBio->tcb_birth_date)->translatedFormat('d F Y') : '-' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Agama</td>
+                                    <td class="fw-medium">{{ $teacher->teacher->teacherBio->tcb_religion ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">Status Pernikahan</td>
+                                    <td class="fw-medium">
+                                        {{ $teacher->teacher->teacherBio->tcb_mary_status == 1 ? 'Menikah' : 'Belum Menikah' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">No Telepon</td>
+                                    <td class="fw-medium">(+62) {{ $teacher->teacher->teacherBio->tcb_telp ?? '-' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {{-- Alamat --}}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h6 class="card-title text-uppercase text-muted fw-semibold mb-3"
+                            style="font-size:11px;letter-spacing:.06em;">
                             Data Alamat
                         </h6>
                         <table class="table table-sm table-borderless mb-0">
                             <tbody>
                                 <tr>
                                     <td class="text-muted ps-0" style="width:45%">Provinsi</td>
-                                    <td class="fw-medium">{{ $teacher->teacherBio->address->tca_province_value ?? '' }}</td>
+                                    <td class="fw-medium">{{ $teacher->teacherBio->address->tca_province_value ?? '' }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Kabupaten/Kota</td>
@@ -171,7 +170,8 @@
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Kecamatan</td>
-                                    <td class="fw-medium">{{ $teacher->teacherBio->address->tca_district_value ?? '' }}</td>
+                                    <td class="fw-medium">{{ $teacher->teacherBio->address->tca_district_value ?? '' }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="text-muted ps-0">Desa</td>
@@ -197,74 +197,76 @@
             <div class="col-md-6 mb-4">
                 <div class="card h-100">
                     <div class="card-body">
-                        <h6 class="card-title text-uppercase text-muted fw-semibold mb-3" style="font-size:11px;letter-spacing:.06em;">
+                        <h6 class="card-title text-uppercase text-muted fw-semibold mb-3"
+                            style="font-size:11px;letter-spacing:.06em;">
                             Riwayat Pendidikan
                         </h6>
-                        @foreach($teacher->teacher->teacherBio->education as $edu)
-                        <table class="table table-sm table-borderless mb-0">
-                            <tbody>
-                                <tr>
-                                    <td class="fw-bold" style="width:45%">{{ $edu->tce_level }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted ps-0">Nama Institusi</td>
-                                    <td class="fw-medium">{{ $edu->tce_institution }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted ps-0">Tahun Lulus</td>
-                                    <td class="fw-medium">{{ $edu->tce_graduation_year }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted ps-0">Jurusan</td>
-                                    <td class="fw-medium">{{ $edu->tce_major }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted ps-0">Gelar</td>
-                                    <td class="fw-medium">{{ $edu->tce_degree ?? '-' }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        @foreach ($teacher->teacher->teacherBio->education as $edu)
+                            <table class="table table-sm table-borderless mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-bold" style="width:45%">{{ $edu->tce_level }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted ps-0">Nama Institusi</td>
+                                        <td class="fw-medium">{{ $edu->tce_institution }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted ps-0">Tahun Lulus</td>
+                                        <td class="fw-medium">{{ $edu->tce_graduation_year }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted ps-0">Jurusan</td>
+                                        <td class="fw-medium">{{ $edu->tce_major }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted ps-0">Gelar</td>
+                                        <td class="fw-medium">{{ $edu->tce_degree ?? '-' }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         @endforeach
                     </div>
                 </div>
             </div>
-           
+
             {{-- Data Orang Tua / Wali --}}
             <div class="col-md-6 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <h6 class="card-title text-uppercase text-muted fw-semibold mb-3" style="font-size:11px;letter-spacing:.06em;">
+                        <h6 class="card-title text-uppercase text-muted fw-semibold mb-3"
+                            style="font-size:11px;letter-spacing:.06em;">
                             Riwayat Mengajar
                         </h6>
-                        @foreach( $teacher->teacher->teacherBio->history as $history)
-                        <table class="table table-sm table-borderless mb-0">
-                            <tbody>
-                                <tr>
-                                    <td class="text-muted ps-0" style="width:45%">Nama Mata Pelajaran</td>
-                                    <td class="fw-medium">{{ $history->tcs_subject_name ?? '' }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted ps-0">Nama Sekolah</td>
-                                    <td class="fw-medium">{{ $history->tcs_name_school ?? '' }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted ps-0">Kelas</td>
-                                    <td class="fw-medium">{{ $history->tcs_class ?? '' }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted ps-0">Jam Pelajaran</td>
-                                    <td class="fw-medium">{{ $history->tcs_jp ?? '' }} Jam</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted ps-0">Tahun</td>
-                                    <td class="fw-medium">{{ $history->tcs_year ?? '' }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted ps-0">Status Mengajar</td>
-                                    <td class="fw-medium">{{ $history->tcs_status ?? '' }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        @foreach ($teacher->teacher->teacherBio->history as $history)
+                            <table class="table table-sm table-borderless mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-muted ps-0" style="width:45%">Nama Mata Pelajaran</td>
+                                        <td class="fw-medium">{{ $history->tcs_subject_name ?? '' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted ps-0">Nama Sekolah</td>
+                                        <td class="fw-medium">{{ $history->tcs_name_school ?? '' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted ps-0">Kelas</td>
+                                        <td class="fw-medium">{{ $history->tcs_class ?? '' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted ps-0">Jam Pelajaran</td>
+                                        <td class="fw-medium">{{ $history->tcs_jp ?? '' }} Jam</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted ps-0">Tahun</td>
+                                        <td class="fw-medium">{{ $history->tcs_year ?? '' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted ps-0">Status Mengajar</td>
+                                        <td class="fw-medium">{{ $history->tcs_status ?? '' }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         @endforeach
                     </div>
                 </div>
@@ -272,7 +274,8 @@
             <div class="col-md-6 mb-4">
                 <div class="card h-100">
                     <div class="card-body">
-                        <h6 class="card-title text-uppercase text-muted fw-semibold mb-3" style="font-size:11px;letter-spacing:.06em;">
+                        <h6 class="card-title text-uppercase text-muted fw-semibold mb-3"
+                            style="font-size:11px;letter-spacing:.06em;">
                             Pasangan
                         </h6>
                         <table class="table table-sm table-borderless mb-0">
@@ -293,7 +296,7 @@
                                     <td class="text-muted ps-0">NIP</td>
                                     <td class="fw-medium">{{ $teacher->teacherBio->partner->tcp_nip ?? '-' }}</td>
                                 </tr>
-                               
+
                             </tbody>
                         </table>
                     </div>
@@ -302,7 +305,8 @@
             <div class="col-md-6 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <h6 class="card-title text-uppercase text-muted fw-semibold mb-3" style="font-size:11px;letter-spacing:.06em;">
+                        <h6 class="card-title text-uppercase text-muted fw-semibold mb-3"
+                            style="font-size:11px;letter-spacing:.06em;">
                             Status Pendaftaran
                         </h6>
                         <table class="table table-sm table-borderless mb-0">
@@ -316,13 +320,13 @@
                                 <tr>
                                     <td class="text-muted ps-0">Status Pendaftaran</td>
                                     <td class="fw-medium">
-                                        @if($teacher->usr_status == 0)
-                                        Pending
-                                    @elseif($teacher->usr_status == 1)
-                                        Diterima
-                                    @elseif($teacher->usr_status == 2)
-                                        Ditolak
-                                    @endif
+                                        @if ($teacher->usr_status == 0)
+                                            Pending
+                                        @elseif($teacher->usr_status == 1)
+                                            Diterima
+                                        @elseif($teacher->usr_status == 2)
+                                            Ditolak
+                                        @endif
                                     </td>
                                 </tr>
                                 {{-- <tr>
@@ -339,7 +343,8 @@
             <div class="col-12 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <h6 class="card-title text-uppercase text-muted fw-semibold mb-3" style="font-size:11px;letter-spacing:.06em;">
+                        <h6 class="card-title text-uppercase text-muted fw-semibold mb-3"
+                            style="font-size:11px;letter-spacing:.06em;">
                             Berkas &amp; Dokumen
                         </h6>
                         <div class="table-responsive">
@@ -354,47 +359,46 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                
-@forelse($documents as $no => $doc)
-    <tr>
-        <td>{{ $no + 1 }}</td>
-        <td>{{ $doc->tcq_name }}</td>
-        <td>
-            <span class="badge bg-secondary-subtle text-secondary">
-                {{ $doc->tcq_type }}
-            </span>
-        </td>
-        <td>
-            @if($doc->upload->isNotEmpty())
-                <span class="badge bg-success-subtle text-success">
-                    {{ $doc->upload->count() }} File Diunggah
-                </span>
-            @else
-                <span class="badge bg-danger-subtle text-danger">
-                    Belum Diunggah
-                </span>
-            @endif
-        </td>
-        <td>
-            @forelse($doc->upload as $file)
-                <a href="{{ asset('storage/' . $file->tsb_value) }}"
-                   target="_blank"
-                   class="btn btn-outline-primary btn-sm mb-1">
-                    <i class="ti ti-eye me-1"></i>
-                    Lihat {{ $loop->iteration }}
-                </a>
-            @empty
-                <span class="text-muted small">-</span>
-            @endforelse
-        </td>
-    </tr>
-@empty
-    <tr>
-        <td colspan="5" class="text-center text-muted py-4">
-            Tidak ada dokumen
-        </td>
-    </tr>
-@endforelse
+
+                                    @forelse($documents as $no => $doc)
+                                        <tr>
+                                            <td>{{ $no + 1 }}</td>
+                                            <td>{{ $doc->tcq_name }}</td>
+                                            <td>
+                                                <span class="badge bg-secondary-subtle text-secondary">
+                                                    {{ $doc->tcq_type }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                @if ($doc->upload->isNotEmpty())
+                                                    <span class="badge bg-success-subtle text-success">
+                                                        {{ $doc->upload->count() }} File Diunggah
+                                                    </span>
+                                                @else
+                                                    <span class="badge bg-danger-subtle text-danger">
+                                                        Belum Diunggah
+                                                    </span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @forelse($doc->upload as $file)
+                                                    <a href="{{ asset('storage/' . $file->tsb_value) }}" target="_blank"
+                                                        class="btn btn-outline-primary btn-sm mb-1">
+                                                        <i class="ti ti-eye me-1"></i>
+                                                        Lihat {{ $loop->iteration }}
+                                                    </a>
+                                                @empty
+                                                    <span class="text-muted small">-</span>
+                                                @endforelse
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center text-muted py-4">
+                                                Tidak ada dokumen
+                                            </td>
+                                        </tr>
+                                    @endforelse
 
                                 </tbody>
                             </table>
@@ -408,25 +412,25 @@
 @endsection
 
 @push('script')
-<script>
-    document.addEventListener("DOMContentLoaded", async function () {
-    
-        const provinceId = "{{ $teacher->teacherBio->address->tca_province ?? '' }}";
-    
-        let el = document.getElementById("provinsiText");
+    <script>
+        document.addEventListener("DOMContentLoaded", async function() {
 
-        if (!provinceId) return;
-    
-        let provinces = await fetch("https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json")
-            .then(res => res.json());
-    
-        let province = provinces.find(p => p.id == provinceId);
-    
-        if (province) {
-            document.getElementById("provinsiText").innerText = province.name;
-        }
-    
-    });
+            const provinceId = "{{ $teacher->teacherBio->address->tca_province ?? '' }}";
+
+            let el = document.getElementById("provinsiText");
+
+            if (!provinceId) return;
+
+            let provinces = await fetch("https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json")
+                .then(res => res.json());
+
+            let province = provinces.find(p => p.id == provinceId);
+
+            if (province) {
+                document.getElementById("provinsiText").innerText = province.name;
+            }
+
+        });
     </script>
     {{-- Tidak ada script tambahan untuk halaman ini --}}
 @endpush

@@ -15,7 +15,7 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $teacher = User::role('teacher')->get();
+        $teacher = User::role('teacher')->where('usr_status',1)->get();
         // dd($teacher);
         return view('administration.teacher.index',compact(['teacher']));
     }

@@ -289,8 +289,9 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::get('/{id}/rejected-list', [TeacherReceptionController::class, 'rejectedList'])->name('rejecttedList');
     });
 
-    Route::prefix('student')->name('teacherReception.')->group(function () {
+    Route::prefix('student')->name('student.')->group(function () {
         Route::get('/', [StudentController::class, 'index'])->name('index');
+        Route::get('/{id}/show', [StudentController::class, 'show'])->name('show');
         Route::get('/{level}', [StudentController::class, 'studentWithLevel'])->name('level');
     });
 });
